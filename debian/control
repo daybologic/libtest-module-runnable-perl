@@ -1,0 +1,16 @@
+Source: dl-libconfreader-perl
+Section: utils
+Priority: extra
+Maintainer: David Palmer <palmer@overchat.org>
+Build-Depends: debhelper (>= 7), perl
+Standards-Version: 3.7.3
+Homepage: http://www.daybologic.co.uk/
+Vcs-Browser: http://svn.daybologic.co.uk/trac/dlconfreader/
+
+Package: dl-libconfreader-perl
+Architecture: all
+Depends: ${shlibs:Depends}, ${misc:Depends}, ${perl:Depends}, perl, liberror-perl
+Description: Code for quickly reading configuration files from Perl scripts
+ Due to a wide range of fairly broken modules on CPAN which don't keep options
+ within their sections, Palmer wrote this handle little package for easily
+ reading configuration in a few number of lines.
