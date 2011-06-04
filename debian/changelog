@@ -1,8 +1,12 @@
-dl-libconfreader-perl (1.1.0-1) stable; urgency=low
+dl-libconfreader-perl (2.0.0) stable; urgency=low
 
   * Palmer: Update Debian build system and provide general make for non-Debian boxes.
+  * Palmer: Add BSD license information
+  * Palmer: Incompatible backward change to Daybo::ConfReader, standard install
+  * Palmer: /opt/daybo deprecated / not relevant
+  * Palmer: Move test-bed to Test::More and using during Debian package build.
 
- -- David Duncan Ross Palmer <palmer@overchat.org>  Sat, 04 Jun 2011 18:19:40 +0100
+ -- David Duncan Ross Palmer <palmer@overchat.org>  Sat, 04 Jun 2011 23:48:33 +0100
 
 dl-libconfreader-perl (1.1.0) stable; urgency=low
 
