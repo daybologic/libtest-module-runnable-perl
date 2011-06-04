@@ -2,7 +2,7 @@ Source: dl-libconfreader-perl
 Section: utils
 Priority: extra
 Maintainer: David Palmer <palmer@overchat.org>
-Build-Depends: debhelper (>= 7), perl
+Build-Depends: debhelper (>= 7), perl, liberror-perl
 Standards-Version: 3.7.3
 Homepage: http://www.daybologic.co.uk/
 Vcs-Browser: http://svn.daybologic.co.uk/trac/dlconfreader/

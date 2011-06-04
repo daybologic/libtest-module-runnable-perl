@@ -28,6 +28,7 @@ build-stamp: configure-stamp
 	#$(MAKE)
 	mkdir obj/
 	pod2man src/DlConfReader.pm | gzip -c > obj/DlConfReader.3pm.gz
+	cd t/ && perl -w *.t
 
 	touch $@
 
