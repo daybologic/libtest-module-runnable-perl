@@ -1,5 +1,4 @@
 #!/usr/bin/make -f
-	cd t/ && perl -w *.t
 
 %:
 	dh $@
