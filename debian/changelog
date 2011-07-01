@@ -1,3 +1,10 @@
+dl-libconfreader-perl (2.0.1) stable; urgency=low
+
+  * Palmer: 4088246ec4eb hotfix applied: Allow reading section names with trailing
+    remarks.
+
+ -- David Duncan Ross Palmer <palmer@overchat.org>  Fri, 01 Jul 2011 20:41:11 +0100
+
 dl-libconfreader-perl (2.0.0) stable; urgency=low
 
   * Palmer: Update Debian build system and provide general make for non-Debian boxes.
