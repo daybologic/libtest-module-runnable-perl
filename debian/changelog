@@ -1,3 +1,18 @@
+dl-libconfreader-perl (2.1.0) stable; urgency=low
+
+  * a3db8cc11cfd: Update all license notices to 2012
+  * c852773e2d6d: Support VERSION for package.
+  * 7ccdaff53475: Retab everything
+  * 79e116f7af2b: Support empty section names
+  * 907e6ec56559: Fix warning; undefined shlibs
+  * 5093ce44e373: Add support for non-key/value data.
+  * 6e40c87f99c9: Correct tab/space inconsistency in documentation for GetLines
+    and GetLine functions.
+  * 3f825f19c4e8: Issue #1: Config files cannot handle LDAP DN
+  * 5040d3c7d351: Issue #2: Allow quoted strings containing comment symbols
+
+ -- David Duncan Ross Palmer <palmer@overchat.org>  Sat, 27 Oct 2012 13:38:43 +0100
+
 dl-libconfreader-perl (2.0.1) stable; urgency=low
 
   * Palmer: 4088246ec4eb hotfix applied: Allow reading section names with trailing
