@@ -9,7 +9,7 @@ Vcs-Browser: https://bitbucket.org/daybologic/dlconfreader
 
 Package: dl-libconfreader-perl
 Architecture: all
-Depends: ${shlibs:Depends}, ${misc:Depends}, ${perl:Depends}, perl, liberror-perl
+Depends: ${misc:Depends}, ${perl:Depends}, perl, liberror-perl
 Description: Code for quickly reading configuration files from Perl scripts
  Due to a wide range of fairly broken modules on CPAN which don't keep options
  within their sections, Palmer wrote this handle little package for easily
