@@ -1,5 +1,5 @@
-#!/ur/bin/perl
-
+#!/usr/bin/perl
+#
 # Daybo Logic Shared Library
 # Copyright (c) 2015, David Duncan Ross Palmer (M6KVM), Daybo Logic
 # All rights reserved.
@@ -30,20 +30,11 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-package main;
+package Daybo::Shared;
 
-use ExtUtils::MakeMaker;
+use Moose;
+
 use strict;
 use warnings;
 
-sub main {
-	WriteMakefile(
-		NAME         => 'Daybo::Shared::Internal::Base',
-		VERSION_FROM => 'lib/Daybo/Shared/Internal/Base.pm', # finds $VERSION
-		AUTHOR       => 'David Duncan Ross Palmer (palmer@overchat.org)',
-		ABSTRACT     => 'Shared libraries for all Perl code hosted at http://www.daybologic.co.uk/',
-	);
-}
-
-exit(main());
 1;
