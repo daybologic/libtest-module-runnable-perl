@@ -1,3 +1,4 @@
   * Logging
   * Caching
   * Config management
+  * Shared common regular expressions
