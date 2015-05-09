@@ -1,0 +1,32 @@
+Source: dlpodget
+Section: net
+Priority: extra
+Maintainer: David Duncan Ross Palmer <palmer@overchat.org>
+Build-Depends: debhelper (>= 7), lynx
+Build-Depends-Indep: libwww-perl,
+ libxml-feed-perl,
+ libio-interactive-perl,
+ libxml-feed-perl,
+ libdevel-cover-perl,
+ libconfig-inifiles-perl,
+ libdbd-sqlite3-perl,
+ libpod-coverage-perl,
+ libtest-output-perl,
+ libmoose-perl
+Standards-Version: 3.7.3
+Homepage: http://www.daybologic.co.uk/
+
+Package: dlpodget
+Architecture: all
+Depends: ${shlibs:Depends}, ${misc:Depends},
+ libwww-perl,
+ libxml-feed-perl,
+ libconfig-inifiles-perl,
+ liburi-perl,
+ libio-interactive-perl,
+ libdbd-sqlite3-perl,
+ libmoose-perl
+Description: Podcast downloader and management system
+ Daybo Logic's podcast system keeps track of new podcasts posted on an RSS
+ feed and downloads whatever you do not yet have, checking file lengths
+ and caching XML.  It is user-configurable with a trivial config file.
