@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 
 # Daybo Logic Shared Library
-# Copyright (c) 2015, David Duncan Ross Palmer (M6KVM), Daybo Logic
+# Copyright (c) 2015, David Duncan Ross Palmer (2E0EOL), Daybo Logic
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
