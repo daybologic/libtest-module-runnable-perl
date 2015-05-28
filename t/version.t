@@ -28,18 +28,18 @@
 # OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 # SUCH DAMAGE.
 #
-# This is a testbed for the Daybo::ConfReader component
+# This is a testbed for the Daybo::Config::Reader component
 #
-#----------------------------------------------------------------------------
-use Daybo::ConfReader;
+
+use Daybo::Config::Reader;
 package main;
 use Test::More tests => 1;
 
-use constant CHECK_PKG => 'Daybo::ConfReader';
-use constant CHECK_VER => '2.1.0';
+use constant CHECK_PKG => 'Daybo::Config::Reader';
+use constant CHECK_VER => '3.0.0';
 
 is(
-	$Daybo::ConfReader::VERSION,
+	$Daybo::Config::Reader::VERSION,
 	CHECK_VER(),
 	sprintf(
 		'%s::VERSION is \'%s\'',

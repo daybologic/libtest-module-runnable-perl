@@ -1,3 +1,9 @@
+libdaybo-config-reader-perl (3.0.0) stable; urgency=low
+
+  * PENDING RELEASE, FIX THIS NOTICE; FIXME
+
+ -- David Duncan Ross Palmer <palmer@overchat.org>  Thu, 28 May 2015 18:32:15 +0100
+
 dl-libconfreader-perl (2.1.0) stable; urgency=low
 
   * a3db8cc11cfd: Update all license notices to 2012
