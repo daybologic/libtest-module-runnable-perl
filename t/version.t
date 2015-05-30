@@ -1,4 +1,4 @@
-#!/usr/bin/perl -w
+#!/usr/bin/perl
 #
 # Daybo Logic Configuration Reader
 # Copyright (C) 2010 - 2015 Daybo Logic
@@ -40,10 +40,10 @@ use constant CHECK_VER => '3.0.0';
 
 is(
 	$Daybo::Config::Reader::VERSION,
-	CHECK_VER(),
+	CHECK_VER,
 	sprintf(
 		'%s::VERSION is \'%s\'',
-		CHECK_PKG(),
-		CHECK_VER()
+		CHECK_PKG,
+		CHECK_VER
 	)
 );
