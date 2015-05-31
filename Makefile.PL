@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 #
 # Daybo Logic Configuration Reader
-# Copyright (C) 2010,2011 Daybo Logic
+# Copyright (C) 2010 - 2015 Daybo Logic
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -29,12 +29,12 @@
 # SUCH DAMAGE.
 #
 
+package main;
 use strict;
 use warnings;
-use diagnostics;
 
 use ExtUtils::MakeMaker;
 
 WriteMakefile(
-	NAME => 'Daybo::ConfReader',
+	NAME => 'Daybo::Config::Reader',
 );
