@@ -1,3 +1,9 @@
+libdaybo-config-reader-perl (3.0.0) stable; urgency=low
+
+  * Re-write based on Perl Moose framework
+
+ -- David Duncan Ross Palmer <palmer@overchat.org>  Sun, 31 May 2015 09:32:42 +0100
+
 dl-libconfreader-perl (2.1.0) stable; urgency=low
 
   * a3db8cc11cfd: Update all license notices to 2012
