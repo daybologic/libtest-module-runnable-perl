@@ -1,5 +1,11 @@
 libdaybo-shared-perl (0.0.3) stable; urgency=low
 
+  * Added logging support
+
+ -- David Duncan Ross Palmer <palmer@overchat.org>  Mon, 11 May 2015 22:21:35 +0000
+
+libdaybo-shared-perl (0.0.1) stable; urgency=low
+
   * Development version
 
  -- David Duncan Ross Palmer <palmer@overchat.org>  Sat, 09 May 2015 16:35:52 +0100
