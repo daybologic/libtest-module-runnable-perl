@@ -3,6 +3,7 @@ Section: perl
 Priority: extra
 Maintainer: David Duncan Ross Palmer, 2E0EOL <palmer@overchat.org>
 Build-Depends: debhelper (>= 7.0.15), perl, liberror-perl
+Build-Depends-Indep: libdaybo-shared-perl (>= 0.0.3), libdaybo-shared-perl (<< 1.0.0)
 Standards-Version: 3.7.3
 Homepage: http://www.daybologic.co.uk/
 Vcs-Browser: https://bitbucket.org/daybologic/dlconfreader
@@ -10,7 +11,8 @@ Vcs-Browser: https://bitbucket.org/daybologic/dlconfreader
 Package: libdaybo-config-reader-perl
 Architecture: all
 Provides: dl-libconfreader-perl
-Depends: ${misc:Depends}, ${perl:Depends}, perl, liberror-perl
+Depends: ${misc:Depends}, ${perl:Depends}, perl, liberror-perl,
+ libdaybo-shared-perl (>= 0.0.3), libdaybo-shared-perl (<< 1.0.0)
 Description: Code for quickly reading configuration files from Perl scripts
  Due to a wide range of fairly broken modules on CPAN which don't keep options
  within their sections, 2E0EOL wrote this handle little package for easily
