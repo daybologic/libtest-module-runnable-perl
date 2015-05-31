@@ -1,4 +1,4 @@
-libdaybo-shared-perl (0.0.2) stable; urgency=low
+libdaybo-shared-perl (0.0.3) stable; urgency=low
 
   * Added logging support
 
@@ -6,6 +6,6 @@ libdaybo-shared-perl (0.0.2) stable; urgency=low
 
 libdaybo-shared-perl (0.0.1) stable; urgency=low
 
-  * Intitial version
+  * Development version
 
  -- David Duncan Ross Palmer <palmer@overchat.org>  Sat, 09 May 2015 16:35:52 +0100
