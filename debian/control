@@ -5,7 +5,7 @@ Maintainer: David Duncan Ross Palmer <palmer@overchat.org>
 Build-Depends: debhelper (>= 9), lynx
 Build-Depends-Indep: libwww-perl,
  libdevel-cover-perl,
- libconfig-inifiles-perl,
+ libdaybo-config-reader-perl (>= 3.0.0), libdaybo-config-reader-perl (<< 4.0.0),
  libpod-coverage-perl,
  libtest-output-perl,
  libmoose-perl,
@@ -16,7 +16,7 @@ Homepage: http://www.daybologic.co.uk/
 Package: libdaybo-shared-perl
 Architecture: all
 Depends: ${shlibs:Depends}, ${misc:Depends},
- libconfig-inifiles-perl,
+ libdaybo-config-reader-perl (>= 3.0.0), libdaybo-config-reader-perl (<< 4.0.0),
  libmoose-perl,
  libcache-cache-perl
 Description: Daybo Logic shared library
