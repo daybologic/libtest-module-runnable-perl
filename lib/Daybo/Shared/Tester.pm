@@ -66,6 +66,9 @@ package Daybo::Shared::Tester;
 use Moose;
 use Daybo::Shared::Log;
 use Daybo::Shared::Internal::Cache;
+use List::MoreUtils qw/none/;
+use Test::More 0.96;
+use POSIX qw/EXIT_SUCCESS/;
 
 extends 'Daybo::Shared::Internal::Base';
 
@@ -109,6 +112,47 @@ Returns the number of tests to pass to C<plan>
 sub testCount {
         my $self = shift;
         return scalar($self->testMethods());
+}
+
+=item C<run>
+
+Executes all of the tests, in a random order
+An optional override may be passed with the tests parameter.
+
+  * tests
+    An ARRAY ref which contains the inclusive list of all tests
+    to run.  If not passed, all tests are run. If an empty list
+    is passed, no tests are run.  If a test does not exist, C<confess>
+    is called.
+
+Returns:
+    The return value is always EXIT_SUCCESS, which you can pass straight
+    to C<exit>
+
+=cut
+
+sub run {
+	my ($self, %params) = @_;
+	my @tests;
+
+	if (ref($params{tests}) eq 'ARRAY') { # User specified
+		@tests = @{ $params{tests} };
+	} else {
+		@tests = $self->testMethods();
+	}
+
+	plan tests => scalar(@tests);
+
+	foreach my $method (@tests) {
+		# Check if user specified just one test, and this isn't it
+		#next if (scalar(@tests) && none { $_ eq $method } @tests);
+		confess(sprintf('Test \'%s\' does not exist', $method))
+			unless $self->can($method);
+
+		subtest $method => sub { $self->$method() }; # Correct test (or all)
+	}
+
+	return EXIT_SUCCESS;
 }
 
 =back
