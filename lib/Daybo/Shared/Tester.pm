@@ -81,20 +81,6 @@ our $VERSION = '0.0.4'; # Copy of master version number (TODO: Get from Base)
 
 =over 12
 
-=item C<setUp>
-
-Routine called afore each individual method which represents a subtest.
-This is an opportunity to create object in virgin states.
-
-=item C<tearDown>
-
-CODE reference called after each individual method which represents a subtest
-This is an opportunity to clear shared loggers or free memory.
-
-=cut
-
-has ['setUp', 'tearDown'] => (required => 0, is => 'ro', default => sub { });
-
 =item C<sut>
 
 System under test - a generic slot for an object you are testing, which
@@ -174,9 +160,9 @@ sub run {
 		confess(sprintf('Test \'%s\' does not exist', $method))
 			unless $self->can($method);
 
-		$self->setUp->() if ($self->setUp); # Call any registered pre-test routine
+		$self->setUp() if ($self->can('setUp')); # Call any registered pre-test routine
 		subtest $method => sub { $self->$method() }; # Correct test (or all)
-		$self->tearDown->() if ($self->tearDown); # Call any registered post-test routine
+		$self->tearDown() if ($self->can('tearDown')); # Call any registered post-test routine
 	}
 
 	return EXIT_SUCCESS;
