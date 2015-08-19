@@ -81,6 +81,30 @@ our $VERSION = '0.0.4'; # Copy of master version number (TODO: Get from Base)
 
 =over 12
 
+=item C<setUp>
+
+Routine called afore each individual method which represents a subtest.
+This is an opportunity to create object in virgin states.
+
+=item C<tearDown>
+
+CODE reference called after each individual method which represents a subtest
+This is an opportunity to clear shared loggers or free memory.
+
+=cut
+
+has ['setUp', 'tearDown'] => (required => 0, is => 'ro', default => sub { });
+
+=item C<sut>
+
+System under test - a generic slot for an object you are testing, which
+could be re-initialized under the C<setUp> routine, but this entry may be
+ignored.
+
+=cut
+
+has 'sut' => (is => 'rw', required => 0);
+
 =item C<testMethods>
 
 Returns the names of all test methods which should be called by C<subtest>
@@ -94,6 +118,7 @@ sub testMethods {
 
         foreach my $method (@methodList) {
                 next unless ($self->can($method)); # Skip stuff we cannot do
+		next if ($method eq 'sut' or $method eq 'setUp' or $method eq 'tearDown'); # Reserved routines
                 next if ($method eq 'meta'); # Skip Moose internals
                 next if ($method =~ m/^test/); # Skip our own helpers
                 next if ($method =~ m/^[A-Z_]+$/o); # Skip constants
@@ -149,7 +174,9 @@ sub run {
 		confess(sprintf('Test \'%s\' does not exist', $method))
 			unless $self->can($method);
 
+		$self->setUp->() if ($self->setUp); # Call any registered pre-test routine
 		subtest $method => sub { $self->$method() }; # Correct test (or all)
+		$self->tearDown->() if ($self->tearDown); # Call any registered post-test routine
 	}
 
 	return EXIT_SUCCESS;
