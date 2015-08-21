@@ -81,6 +81,16 @@ our $VERSION = '0.0.4'; # Copy of master version number (TODO: Get from Base)
 
 =over 12
 
+=item C<sut>
+
+System under test - a generic slot for an object you are testing, which
+could be re-initialized under the C<setUp> routine, but this entry may be
+ignored.
+
+=cut
+
+has 'sut' => (is => 'rw', required => 0);
+
 =item C<testMethods>
 
 Returns the names of all test methods which should be called by C<subtest>
@@ -94,6 +104,7 @@ sub testMethods {
 
         foreach my $method (@methodList) {
                 next unless ($self->can($method)); # Skip stuff we cannot do
+		next if ($method eq 'sut' or $method eq 'setUp' or $method eq 'tearDown'); # Reserved routines
                 next if ($method eq 'meta'); # Skip Moose internals
                 next if ($method =~ m/^test/); # Skip our own helpers
                 next if ($method =~ m/^[A-Z_]+$/o); # Skip constants
@@ -112,6 +123,12 @@ Returns the number of tests to pass to C<plan>
 sub testCount {
         my $self = shift;
         return scalar($self->testMethods());
+}
+
+sub __wrapFail {
+	my ($self, $type, $method, $returnValue) = @_;
+	return if (defined($returnValue) && $returnValue eq '0');
+	BAIL_OUT($type . ' returned non-zero for ' . $method);
 }
 
 =item C<run>
@@ -144,12 +161,18 @@ sub run {
 	plan tests => scalar(@tests);
 
 	foreach my $method (@tests) {
+		my $fail = 0;
+
 		# Check if user specified just one test, and this isn't it
-		#next if (scalar(@tests) && none { $_ eq $method } @tests);
 		confess(sprintf('Test \'%s\' does not exist', $method))
 			unless $self->can($method);
 
+		$fail = $self->setUp() if ($self->can('setUp')); # Call any registered pre-test routine
+		$self->__wrapFail('setUp', $method, $fail);
 		subtest $method => sub { $self->$method() }; # Correct test (or all)
+		$fail = 0;
+		$fail = $self->tearDown() if ($self->can('tearDown')); # Call any registered post-test routine
+		$self->__wrapFail('tearDown', $method, $fail);
 	}
 
 	return EXIT_SUCCESS;
