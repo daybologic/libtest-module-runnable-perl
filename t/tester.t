@@ -74,8 +74,9 @@ use warnings;
 sub main {
 	my $tester;
 	my $ret;
+	my @methodNames;
 
-	plan tests => 7;
+	plan tests => 9;
 
 	$tester = new_ok('ExampleTest');
 	isa_ok($tester, 'Daybo::Shared::Tester');
@@ -85,6 +86,10 @@ sub main {
 	subtest 'run' => sub { $ret = $tester->run() };
 	is($ret, EXIT_SUCCESS, 'Success returned');
 	is($tester->dummyRunCount, 1, 'One test run');
+
+	@methodNames = $tester->methodNames;
+	is_deeply(\@methodNames, ['testFuncIsCalled'], 'methodNames return value');
+	is($tester->methodCount, 1, 'Method count correct');
 
 	return $ret;
 }
