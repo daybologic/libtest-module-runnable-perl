@@ -43,8 +43,8 @@ use strict;
 
 extends 'Daybo::Shared::Tester';
 
-sub myTest { }
-sub testHelperFunction { }
+sub helper { } # Not called
+sub testExample { } # Called due to 'test' prefix.
 
 package main;
 
@@ -53,7 +53,11 @@ plan tests => $tester->testCount;
 foreach my $name ($tester->testMethods) {
 	subtest $name => $tester->$name;
 }
-...
+
+alternatively...
+
+my $tester = new YourTestSuite;
+return $tester->run;
 
 =head1 DESCRIPTION
 
@@ -91,38 +95,38 @@ ignored.
 
 has 'sut' => (is => 'rw', required => 0);
 
-=item C<testMethods>
+=item C<methodNames>
 
-Returns the names of all test methods which should be called by C<subtest>
+Returns a list of all names of test methods which should be called by C<subtest>,
+ie. all method names beginning with 'test'.
+
+If you use C<run>, this is handled automagically.
 
 =cut
 
-sub testMethods {
+sub methodNames {
         my @ret = ( );
         my $self = shift;
         my @methodList = $self->meta->get_method_list();
 
         foreach my $method (@methodList) {
                 next unless ($self->can($method)); # Skip stuff we cannot do
-		next if ($method eq 'sut' or $method eq 'setUp' or $method eq 'tearDown'); # Reserved routines
-                next if ($method eq 'meta'); # Skip Moose internals
-                next if ($method =~ m/^test/); # Skip our own helpers
-                next if ($method =~ m/^[A-Z_]+$/o); # Skip constants
+                next if ($method !~ m/^test/); # Skip our own helpers
                 push(@ret, $method);
         }
 
         return @ret;
 }
 
-=item C<testCount>
+=item C<methodCount>
 
 Returns the number of tests to pass to C<plan>
 
 =cut
 
-sub testCount {
+sub methodCount {
         my $self = shift;
-        return scalar($self->testMethods());
+        return scalar($self->methodNames());
 }
 
 sub __wrapFail {
@@ -155,7 +159,7 @@ sub run {
 	if (ref($params{tests}) eq 'ARRAY') { # User specified
 		@tests = @{ $params{tests} };
 	} else {
-		@tests = $self->testMethods();
+		@tests = $self->methodNames();
 	}
 
 	plan tests => scalar(@tests);
