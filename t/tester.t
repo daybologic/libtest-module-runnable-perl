@@ -40,31 +40,28 @@ extends 'Daybo::Shared::Tester';
 use strict;
 use warnings;
 
-has 'testDummyRunCount' => (isa => 'Int', is => 'rw', default => 0);
+has 'dummyRunCount' => (isa => 'Int', is => 'rw', default => 0);
 
-sub dummy {
+sub increment {
 	my $self = shift;
-	plan tests => 1;
-
-	$self->testDummyRunCount(1 + $self->testDummyRunCount);
-	cmp_ok($self->testDummyRunCount, '>', 0, 'dummy');
+	$self->dummyRunCount(1 + $self->dummyRunCount);
 }
 
-sub testFuncNeverCalled {
+sub funcNeverCalled {
 	my $self = shift;
 	plan tests => 1;
 
-	$self->testDummyRunCount(1 + $self->testDummyRunCount);
-	cmp_ok($self->testDummyRunCount, '>', 0, 'testFuncNeverCalled'); # Won't happen
+	$self->increment();
+	cmp_ok($self->dummyRunCount, '>', 0, 'testFuncNeverCalled'); # Won't happen
 	BAIL_OUT('Funcion never called, due to name');
 }
 
-sub funcIsCalled {
+sub testFuncIsCalled {
 	my $self = shift;
 	plan tests => 1;
 
-	$self->testDummyRunCount(1 + $self->testDummyRunCount);
-	cmp_ok($self->testDummyRunCount, '>', 0, 'funcIsCalled');
+	$self->increment();
+	cmp_ok($self->dummyRunCount, '>', 0, 'funcIsCalled');
 }
 
 package main;
@@ -82,12 +79,12 @@ sub main {
 
 	$tester = new_ok('ExampleTest');
 	isa_ok($tester, 'Daybo::Shared::Tester');
-	can_ok($tester, qw/testMethods testCount run/);
+	can_ok($tester, qw/run methodCount sut methodNames/);
 
-	is($tester->testDummyRunCount, 0, 'No tests yet run');
+	is($tester->dummyRunCount, 0, 'No tests yet run');
 	subtest 'run' => sub { $ret = $tester->run() };
 	is($ret, EXIT_SUCCESS, 'Success returned');
-	is($tester->testDummyRunCount, 2, 'One test run');
+	is($tester->dummyRunCount, 1, 'One test run');
 
 	return $ret;
 }
