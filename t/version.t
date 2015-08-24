@@ -38,12 +38,17 @@ use Test::More tests => 1;
 use constant CHECK_PKG => 'Daybo::Config::Reader';
 use constant CHECK_VER => '3.0.0';
 
-is(
-	$Daybo::Config::Reader::VERSION,
-	CHECK_VER,
-	sprintf(
-		'%s::VERSION is \'%s\'',
-		CHECK_PKG,
-		CHECK_VER
-	)
-);
+sub main {
+	is(
+		$Daybo::Config::Reader::VERSION,
+		CHECK_VER,
+		sprintf(
+			'%s::VERSION is \'%s\'',
+			CHECK_PKG,
+			CHECK_VER
+		)
+	);
+	return 0;
+}
+
+exit(main());
