@@ -64,10 +64,19 @@ sub testFuncIsCalled {
 	cmp_ok($self->dummyRunCount, '>', 0, 'funcIsCalled');
 }
 
+sub testFuncAnotherIsCalled {
+	my $self = shift;
+	plan tests => 1;
+
+	$self->increment();
+	cmp_ok($self->dummyRunCount, '>', 0, 'testFuncAnotherIsCalled');
+}
+
 package main;
 use Test::More;
 use POSIX qw/EXIT_SUCCESS/;
 use Moose;
+use List::MoreUtils qw/all/;
 use strict;
 use warnings;
 
@@ -75,8 +84,10 @@ sub main {
 	my $tester;
 	my $ret;
 	my @methodNames;
+	my %expectMethodNames = map { $_ => 1 } qw/testFuncIsCalled testFuncAnotherIsCalled/;
+	my $allResult;
 
-	plan tests => 9;
+	plan tests => 10;
 
 	$tester = new_ok('ExampleTest');
 	isa_ok($tester, 'Daybo::Shared::Tester');
@@ -85,11 +96,13 @@ sub main {
 	is($tester->dummyRunCount, 0, 'No tests yet run');
 	subtest 'run' => sub { $ret = $tester->run() };
 	is($ret, EXIT_SUCCESS, 'Success returned');
-	is($tester->dummyRunCount, 1, 'One test run');
+	is($tester->dummyRunCount, 2, 'Two tests run');
 
 	@methodNames = $tester->methodNames;
-	is_deeply(\@methodNames, ['testFuncIsCalled'], 'methodNames return value');
-	is($tester->methodCount, 1, 'Method count correct');
+	$allResult = all { $expectMethodNames{$_} } @methodNames;
+	isnt($allResult, undef, 'methodNames contains all expected names');
+	is($tester->methodCount, 2, 'Method count correct');
+	is(scalar(@methodNames), $tester->methodCount, 'methodNames returns same as methodCount');
 
 	return $ret;
 }

@@ -70,7 +70,6 @@ package Daybo::Shared::Tester;
 use Moose;
 use Daybo::Shared::Log;
 use Daybo::Shared::Internal::Cache;
-use List::MoreUtils qw/none/;
 use Test::More 0.96;
 use POSIX qw/EXIT_SUCCESS/;
 
@@ -226,7 +225,7 @@ https://bitbucket.org/daybologic/libdaybo-shared-perl
 
 =head1 CAVEATS
 
-TODO: I have not unit tested the tester ;)
+None known.
 
 =cut
 
