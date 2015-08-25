@@ -73,7 +73,7 @@ sub testFuncAnotherIsCalled {
 }
 
 package main;
-use Test::More;
+use Test::More 0.96;
 use POSIX qw/EXIT_SUCCESS/;
 use Moose;
 use List::MoreUtils qw/all/;
@@ -86,6 +86,7 @@ sub main {
 	my @methodNames;
 	my %expectMethodNames = map { $_ => 1 } qw/testFuncIsCalled testFuncAnotherIsCalled/;
 	my $allResult;
+	my $n = 2;
 
 	plan tests => 10;
 
@@ -94,9 +95,9 @@ sub main {
 	can_ok($tester, qw/run methodCount sut methodNames/);
 
 	is($tester->dummyRunCount, 0, 'No tests yet run');
-	subtest 'run' => sub { $ret = $tester->run() };
+	subtest 'run' => sub { $ret = $tester->run(n => $n) };
 	is($ret, EXIT_SUCCESS, 'Success returned');
-	is($tester->dummyRunCount, 2, 'Two tests run');
+	is($tester->dummyRunCount, 2 * $n, 'count methods run');
 
 	@methodNames = $tester->methodNames;
 	$allResult = all { $expectMethodNames{$_} } @methodNames;

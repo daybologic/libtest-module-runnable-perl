@@ -145,6 +145,12 @@ An optional override may be passed with the tests parameter.
     is passed, no tests are run.  If a test does not exist, C<confess>
     is called.
 
+  * n
+    Number of times to iterate through the tests.
+    Defaults to 1.  Setting to a higher level is useful if you want to
+    prove that the random ordering of tests does not break, but you do
+    no want to type 'make test' many times.
+
 Returns:
     The return value is always EXIT_SUCCESS, which you can pass straight
     to C<exit>
@@ -155,27 +161,31 @@ sub run {
 	my ($self, %params) = @_;
 	my @tests;
 
+	$params{n} = 1 unless ($params{n});
+
 	if (ref($params{tests}) eq 'ARRAY') { # User specified
 		@tests = @{ $params{tests} };
 	} else {
 		@tests = $self->methodNames();
 	}
 
-	plan tests => scalar(@tests);
+	plan tests => scalar(@tests) * $params{n};
 
-	foreach my $method (@tests) {
-		my $fail = 0;
+	for (my $i = 0; $i < $params{n}; $i++) {
+		foreach my $method (@tests) {
+			my $fail = 0;
 
-		# Check if user specified just one test, and this isn't it
-		confess(sprintf('Test \'%s\' does not exist', $method))
-			unless $self->can($method);
+			# Check if user specified just one test, and this isn't it
+			confess(sprintf('Test \'%s\' does not exist', $method))
+				unless $self->can($method);
 
-		$fail = $self->setUp() if ($self->can('setUp')); # Call any registered pre-test routine
-		$self->__wrapFail('setUp', $method, $fail);
-		subtest $method => sub { $self->$method() }; # Correct test (or all)
-		$fail = 0;
-		$fail = $self->tearDown() if ($self->can('tearDown')); # Call any registered post-test routine
-		$self->__wrapFail('tearDown', $method, $fail);
+			$fail = $self->setUp() if ($self->can('setUp')); # Call any registered pre-test routine
+			$self->__wrapFail('setUp', $method, $fail);
+			subtest $method => sub { $self->$method() }; # Correct test (or all)
+			$fail = 0;
+			$fail = $self->tearDown() if ($self->can('tearDown')); # Call any registered post-test routine
+			$self->__wrapFail('tearDown', $method, $fail);
+		}
 	}
 
 	return EXIT_SUCCESS;
