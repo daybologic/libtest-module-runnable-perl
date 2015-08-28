@@ -1,2 +1,2 @@
-FreeBSD dependencies:
-p5-Error
+This is an object-orientated shared library on which all Daybo Logic Perl code should be based,
+providing caching, logging, and other basic functionality.

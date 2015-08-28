@@ -1,19 +1,26 @@
-Source: libdaybo-config-reader-perl
+Source: libdaybo-shared-perl
 Section: perl
 Priority: extra
-Maintainer: David Duncan Ross Palmer, 2E0EOL <palmer@overchat.org>
-Build-Depends: debhelper (>= 7.0.15), perl, liberror-perl
-Build-Depends-Indep: libdaybo-shared-perl (>= 0.0.3), libdaybo-shared-perl (<< 1.0.0)
+Maintainer: David Duncan Ross Palmer <palmer@overchat.org>
+Build-Depends: debhelper (>= 9), lynx
+Build-Depends-Indep: libwww-perl,
+ libdevel-cover-perl,
+ libpod-coverage-perl,
+ libtest-output-perl,
+ libmoose-perl,
+ libcache-cache-perl,
+ libfile-util-perl
 Standards-Version: 3.7.3
 Homepage: http://www.daybologic.co.uk/
-Vcs-Browser: https://bitbucket.org/daybologic/dlconfreader
 
-Package: libdaybo-config-reader-perl
+Package: libdaybo-shared-perl
 Architecture: all
-Provides: dl-libconfreader-perl
-Depends: ${misc:Depends}, ${perl:Depends}, perl, liberror-perl,
- libdaybo-shared-perl (>= 0.0.3), libdaybo-shared-perl (<< 1.0.0)
-Description: Code for quickly reading configuration files from Perl scripts
- Due to a wide range of fairly broken modules on CPAN which don't keep options
- within their sections, 2E0EOL wrote this handle little package for easily
- reading configuration in a few number of lines.
+Depends: ${shlibs:Depends}, ${misc:Depends},
+ libmoose-perl,
+ libcache-cache-perl,
+ libfile-util-perl
+Replaces: libdaybo-config-reader-perl
+Description: Daybo Logic shared library
+ This is an object-orientated shared library on which all
+ Daybo Logic Perl code should be based, providing caching,
+ logging, and other basic functionality.
