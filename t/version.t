@@ -31,16 +31,16 @@
 # This is a testbed for the Daybo::Config::Reader component
 #
 
-use Daybo::Config::Reader;
+use Daybo::Shared::Config::Reader;
 package main;
 use Test::More tests => 1;
 
-use constant CHECK_PKG => 'Daybo::Config::Reader';
-use constant CHECK_VER => '3.0.0';
+use constant CHECK_PKG => 'Daybo::Shared::Config::Reader';
+use constant CHECK_VER => '0.1.0';
 
 sub main {
 	is(
-		$Daybo::Config::Reader::VERSION,
+		$Daybo::Shared::Config::Reader::VERSION,
 		CHECK_VER,
 		sprintf(
 			'%s::VERSION is \'%s\'',

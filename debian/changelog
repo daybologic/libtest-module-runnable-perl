@@ -1,3 +1,16 @@
+libdaybo-shared-perl (0.1.0) stable; urgency=low
+
+  * The Daybo::Config::Reader has been made obsolete, and we have subsumed it.
+  * A tester object; Daybo::Shared::Tester is now available.
+
+ -- David Duncan Ross Palmer <palmer@overchat.org>  Fri, 28 Aug 2015 20:57:00 +0100
+
+libdaybo-shared-perl (0.0.5) stable; urgency=low
+
+  * Mockability
+
+ -- David Duncan Ross Palmer <palmer@overchat.org>  Sun, 02 Aug 2015 01:19:55 +0100
+
 libdaybo-shared-perl (0.0.4) stable; urgency=low
 
   * Added config file support
