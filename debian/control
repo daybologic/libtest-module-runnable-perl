@@ -19,8 +19,6 @@ Depends: ${shlibs:Depends}, ${misc:Depends},
  libmoose-perl,
  libcache-cache-perl,
  libfile-util-perl
-Provides: libdaybo-config-reader-perl
-Conflicts: libdaybo-config-reader-perl
 Replaces: libdaybo-config-reader-perl
 Description: Daybo Logic shared library
  This is an object-orientated shared library on which all
