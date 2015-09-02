@@ -38,6 +38,7 @@ use Test::More tests => 1;
 use constant CHECK_PKG => 'Daybo::Shared::Config::Reader';
 use constant CHECK_VER => '0.1.1';
 
+# FIXME: We are not checking all modules
 sub main {
 	is(
 		$Daybo::Shared::Config::Reader::VERSION,
