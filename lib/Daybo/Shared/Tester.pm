@@ -106,9 +106,10 @@ If you use C<run>, this is handled automagically.
 sub methodNames {
         my @ret = ( );
         my $self = shift;
-        my @methodList = $self->meta->get_method_list();
+        my @methodList = $self->meta->get_all_methods();
 
         foreach my $method (@methodList) {
+		$method = $method->name;
                 next unless ($self->can($method)); # Skip stuff we cannot do
                 next if ($method !~ m/^test/); # Skip our own helpers
                 push(@ret, $method);
