@@ -9,7 +9,8 @@ Build-Depends-Indep: libwww-perl,
  libtest-output-perl,
  libmoose-perl,
  libcache-cache-perl,
- libfile-util-perl
+ libfile-util-perl,
+ libdatetime-perl,
 Standards-Version: 3.7.3
 Homepage: http://www.daybologic.co.uk/
 
@@ -18,7 +19,8 @@ Architecture: all
 Depends: ${shlibs:Depends}, ${misc:Depends},
  libmoose-perl,
  libcache-cache-perl,
- libfile-util-perl
+ libfile-util-perl,
+ libdatetime-perl,
 Replaces: libdaybo-config-reader-perl
 Description: Daybo Logic shared library
  This is an object-orientated shared library on which all
