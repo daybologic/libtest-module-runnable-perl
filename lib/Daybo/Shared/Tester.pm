@@ -192,6 +192,12 @@ sub run {
 	return EXIT_SUCCESS;
 }
 
+sub debug {
+	my (undef, $msg) = @_;
+	return unless ($ENV{'TEST_VERBOSE'});
+	diag($msg);
+}
+
 =back
 
 =head1 AUTHOR
