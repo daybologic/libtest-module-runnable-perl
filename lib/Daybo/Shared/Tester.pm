@@ -180,11 +180,11 @@ sub run {
 			confess(sprintf('Test \'%s\' does not exist', $method))
 				unless $self->can($method);
 
-			$fail = $self->setUp() if ($self->can('setUp')); # Call any registered pre-test routine
+			$fail = $self->setUp(method => $method) if ($self->can('setUp')); # Call any registered pre-test routine
 			$self->__wrapFail('setUp', $method, $fail);
 			subtest $method => sub { $self->$method() }; # Correct test (or all)
 			$fail = 0;
-			$fail = $self->tearDown() if ($self->can('tearDown')); # Call any registered post-test routine
+			$fail = $self->tearDown(method => $method) if ($self->can('tearDown')); # Call any registered post-test routine
 			$self->__wrapFail('tearDown', $method, $fail);
 		}
 	}
