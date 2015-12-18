@@ -1,4 +1,4 @@
-libdaybo-shared-perl (0.2.0) stable; urgency=low
+libdaybo-shared-perl (0.2.1) stable; urgency=low
 
   * Added clone and UUID support
 
