@@ -11,6 +11,9 @@ Build-Depends-Indep: libwww-perl,
  libcache-cache-perl,
  libfile-util-perl,
  libdatetime-perl,
+ libclone-perl,
+ libuuid-tiny-perl,
+ libtest-exception-perl,
 Standards-Version: 3.7.3
 Homepage: http://www.daybologic.co.uk/
 
@@ -21,6 +24,8 @@ Depends: ${shlibs:Depends}, ${misc:Depends},
  libcache-cache-perl,
  libfile-util-perl,
  libdatetime-perl,
+ libclone-perl,
+ libuuid-tiny-perl,
 Replaces: libdaybo-config-reader-perl
 Description: Daybo Logic shared library
  This is an object-orientated shared library on which all
