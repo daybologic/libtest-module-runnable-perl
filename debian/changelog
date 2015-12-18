@@ -1,3 +1,9 @@
+libdaybo-shared-perl (0.2.1) stable; urgency=low
+
+  * Added clone and UUID support
+
+ -- David Duncan Ross Palmer <palmer@overchat.org>  Fri, 18 Dec 2015 19:47:01 +0000
+
 libdaybo-shared-perl (0.1.1) stable; urgency=low
 
   * c3f282e7cf7f: BUGFIX: Need to ensure ancestor test methods are called
