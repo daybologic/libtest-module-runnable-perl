@@ -13,6 +13,7 @@ Build-Depends-Indep: libwww-perl,
  libdatetime-perl,
  libclone-perl,
  libuuid-tiny-perl,
+ libtest-exception-perl,
 Standards-Version: 3.7.3
 Homepage: http://www.daybologic.co.uk/
 
