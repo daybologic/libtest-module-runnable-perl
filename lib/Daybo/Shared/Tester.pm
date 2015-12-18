@@ -193,9 +193,9 @@ sub run {
 }
 
 sub debug {
-	my (undef, $msg) = @_;
+	my (undef, $format, @params) = @_;
 	return unless ($ENV{'TEST_VERBOSE'});
-	diag($msg);
+	diag(sprintf($format, @params));
 }
 
 =back
