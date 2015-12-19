@@ -31,6 +31,7 @@
 # POSSIBILITY OF SUCH DAMAGE.
 
 package ExampleTest;
+use POSIX qw/EXIT_SUCCESS EXIT_FAILURE/;
 use Moose;
 use Daybo::Shared::Tester;
 use Test::More 0.96;
@@ -41,6 +42,29 @@ use strict;
 use warnings;
 
 has 'dummyRunCount' => (isa => 'Int', is => 'rw', default => 0);
+has [qw(methodsSetUp methodsTornDown)] => (
+	isa => 'HashRef', is => 'ro', default => sub {{}}
+);
+
+sub setUp {
+	my ($self, %args) = @_;
+	my $name = $args{method};
+
+	return EXIT_FAILURE unless ($name);
+	$self->methodsSetUp->{$name}++;
+
+	return EXIT_SUCCESS;
+}
+
+sub tearDown {
+	my ($self, %args) = @_;
+	my $name = $args{method};
+
+	return EXIT_FAILURE unless ($name);
+	$self->methodsTornDown->{$name}++;
+
+	return EXIT_SUCCESS;
+}
 
 sub increment {
 	my $self = shift;
@@ -84,11 +108,11 @@ sub main {
 	my $tester;
 	my $ret;
 	my @methodNames;
-	my %expectMethodNames = map { $_ => 1 } qw/testFuncIsCalled testFuncAnotherIsCalled/;
+	my $n = 16;
+	my %expectMethodNames = map { $_ => $n } qw/testFuncIsCalled testFuncAnotherIsCalled/;
 	my $allResult;
-	my $n = 2;
 
-	plan tests => 10;
+	plan tests => 11;
 
 	$tester = new_ok('ExampleTest');
 	isa_ok($tester, 'Daybo::Shared::Tester');
@@ -104,6 +128,15 @@ sub main {
 	isnt($allResult, undef, 'methodNames contains all expected names');
 	is($tester->methodCount, 2, 'Method count correct');
 	is(scalar(@methodNames), $tester->methodCount, 'methodNames returns same as methodCount');
+
+	subtest 'setUp and tearDown calls' => sub {
+		my @types = (qw(methodsSetUp methodsTornDown));
+		plan tests => scalar(@types);
+
+		foreach my $type (@types) {
+			is_deeply($tester->$type, \%expectMethodNames, $type);
+		}
+	};
 
 	return $ret;
 }
