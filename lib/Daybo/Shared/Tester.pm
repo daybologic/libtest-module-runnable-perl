@@ -94,6 +94,16 @@ ignored.
 
 has 'sut' => (is => 'rw', required => 0);
 
+=item C<pattern>
+
+The pattern which defines which user-methods are considered tests.
+Defaults to ^test
+Methods matching this pattern will be returned from C<methodNames>
+
+=cut
+
+has 'pattern' => (is => 'ro', isa => 'Regexp', default => sub { qr/^test/ });
+
 =item C<methodNames>
 
 Returns a list of all names of test methods which should be called by C<subtest>,
@@ -111,7 +121,7 @@ sub methodNames {
         foreach my $method (@methodList) {
 		$method = $method->name;
                 next unless ($self->can($method)); # Skip stuff we cannot do
-                next if ($method !~ m/^test/); # Skip our own helpers
+                next if ($method !~ $self->pattern); # Skip our own helpers
                 push(@ret, $method);
         }
 
@@ -168,6 +178,16 @@ sub run {
 		@tests = @{ $params{tests} };
 	} else {
 		@tests = $self->methodNames();
+		if (@ARGV) {
+			my @userRunTests = ( );
+			foreach my $testName (@tests) {
+				foreach my $arg (@ARGV) {
+					next if ($arg ne $testName);
+					push(@userRunTests, $testName);
+				}
+			}
+			@tests = @userRunTests;
+		}
 	}
 
 	plan tests => scalar(@tests) * $params{n};
