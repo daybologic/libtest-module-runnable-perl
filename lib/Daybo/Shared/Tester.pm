@@ -80,9 +80,9 @@ use warnings;
 
 our $VERSION = '0.2.1'; # Copy of master version number (TODO: Get from Base)
 
-=head2 Methods
+=head2 Attributes
 
-=over 12
+=over
 
 =item C<sut>
 
@@ -93,6 +93,32 @@ ignored.
 =cut
 
 has 'sut' => (is => 'rw', required => 0);
+
+=item C<__unique>
+
+Tracks the counter returned by C<unique>.
+Always contains the previous value returned, or zero before any calls.
+
+=back
+
+=cut
+
+has '__unique' => (is => 'rw', isa => 'Int', default => 0);
+
+=head2 Methods
+
+=over
+
+=item <unique>
+
+Returns a unique ID, which is predictable.
+
+=cut
+
+sub unique {
+	my ($self) = @_;
+	return $self->__unique(1 + $self->__unique);
+}
 
 =item C<methodNames>
 
