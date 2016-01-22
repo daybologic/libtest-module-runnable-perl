@@ -94,6 +94,19 @@ ignored.
 
 has 'sut' => (is => 'rw', required => 0);
 
+=item C<__unique_default_domain>
+
+The internal default domain value.  This is used when C<unique>
+is called without a domain, because a key cannot be C<undef> in Perl.
+
+=cut
+
+has '__unique_default_domain' => (
+	isa => 'Str',
+	is => 'ro',
+	default => 'db3eb5cf-a597-4038-aea8-fd06faea6eed'
+);
+
 =item C<__unique>
 
 Tracks the counter returned by C<unique>.
@@ -103,7 +116,13 @@ Always contains the previous value returned, or zero before any calls.
 
 =cut
 
-has '__unique' => (is => 'rw', isa => 'Int', default => 0);
+has '__unique' => (
+	is => 'ro',
+	isa => 'HashRef[Int]',
+	default => sub {
+		{ }
+	},
+);
 
 =head2 Methods
 
@@ -116,8 +135,9 @@ Returns a unique ID, which is predictable.
 =cut
 
 sub unique {
-	my ($self) = @_;
-	return $self->__unique(1 + $self->__unique);
+	my ($self, $domain) = @_;
+	$domain = (defined($domain) && length($domain)) ? ($domain) : ($self->__unique_default_domain);
+	return ++($self->__unique->{$domain});
 }
 
 =item C<methodNames>
