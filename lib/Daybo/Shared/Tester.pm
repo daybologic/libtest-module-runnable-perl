@@ -68,7 +68,7 @@ offered gratis to the community.
 
 package Daybo::Shared::Tester;
 use Moose;
-use Daybo::Shared::Log;
+use Daybo::Shared::Log::Mock;
 use Daybo::Shared::Internal::Cache;
 use Test::More 0.96;
 use POSIX qw/EXIT_SUCCESS/;
@@ -103,6 +103,25 @@ Methods matching this pattern will be returned from C<methodNames>
 =cut
 
 has 'pattern' => (is => 'ro', isa => 'Regexp', default => sub { qr/^test/ });
+
+=item C<logger>
+
+The mock logger, should be passed on to sut->logger during C<setUp>.
+Will be cleared just after every C<tearDown>.  It will be set at
+C<DEBUG> level to ensure everything can be checked via <isLogged>.
+You should never test to C<TRACE> level in a unit test.
+
+=cut
+
+has 'logger' => (
+	is => 'rw',
+	isa => 'Daybo::Shared::Log::Mock',
+	default => sub {
+		Daybo::Shared::Log::Mock->new(
+			level => Daybo::Shared::Log::DEBUG
+		);
+	},
+);
 
 =item C<methodNames>
 
@@ -206,6 +225,7 @@ sub run {
 			$fail = 0;
 			$fail = $self->tearDown(method => $method) if ($self->can('tearDown')); # Call any registered post-test routine
 			$self->__wrapFail('tearDown', $method, $fail);
+			$self->logger->clear();
 		}
 	}
 
