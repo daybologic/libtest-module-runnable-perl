@@ -180,6 +180,12 @@ sub methodCount {
 sub __wrapFail {
 	my ($self, $type, $method, $returnValue) = @_;
 	return if (defined($returnValue) && $returnValue eq '0');
+	if (!defined($method)) { # Not method-specific
+		BAIL_OUT('Must specify type when evaluating result from method hooks')
+			if ('setUpBeforeClass' ne $type && 'tearDownAfterClass' ne $type);
+
+		$method = 'N/A';
+	}
 	BAIL_OUT($type . ' returned non-zero for ' . $method);
 }
 
