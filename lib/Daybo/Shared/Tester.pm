@@ -248,7 +248,8 @@ sub run {
 
 			$fail = $self->setUp(method => $method) if ($self->can('setUp')); # Call any registered pre-test routine
 			$self->__wrapFail('setUp', $method, $fail);
-			subtest $method => sub { $self->$method() }; # Correct test (or all)
+			subtest $method => sub { $fail = $self->$method() }; # Correct test (or all)
+			$self->__wrapFail('method', $method, $fail);
 			$self->mocker->unmock_all() if ($self->mocker);
 			$fail = 0;
 			$fail = $self->tearDown(method => $method) if ($self->can('tearDown')); # Call any registered post-test routine

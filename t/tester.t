@@ -86,6 +86,8 @@ sub testFuncIsCalled {
 
 	$self->increment();
 	cmp_ok($self->dummyRunCount, '>', 0, 'funcIsCalled');
+
+	return EXIT_SUCCESS;
 }
 
 sub testFuncAnotherIsCalled {
@@ -94,6 +96,8 @@ sub testFuncAnotherIsCalled {
 
 	$self->increment();
 	cmp_ok($self->dummyRunCount, '>', 0, 'testFuncAnotherIsCalled');
+
+	return EXIT_SUCCESS;
 }
 
 package main;
