@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 #
-# Daybo Logic Configuration Reader
-# Copyright (C) 2010 - 2015 Daybo Logic
+# Daybo Logic Shared Library
+# Copyright (c) 2016, David Duncan Ross Palmer (2E0EOL), Daybo Logic
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -28,28 +28,18 @@
 # OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 # SUCH DAMAGE.
 #
-# This is a testbed for the Daybo::Config::Reader component
-#
 
-use Daybo::Shared::Config::Reader;
 package main;
-use Test::More tests => 1;
+use lib 't/lib';
+use Daybo::Test::Shared::Tester::unique;
+use Test::More 0.96;
 
-use constant CHECK_PKG => 'Daybo::Shared::Config::Reader';
-use constant CHECK_VER => '0.3.0';
+use strict;
+use warnings;
 
-# FIXME: We are not checking all modules
 sub main {
-	is(
-		$Daybo::Shared::Config::Reader::VERSION,
-		CHECK_VER,
-		sprintf(
-			'%s::VERSION is \'%s\'',
-			CHECK_PKG,
-			CHECK_VER
-		)
-	);
-	return 0;
+	$SIG{__WARN__} = sub { BAIL_OUT("@_") } unless ($ENV{TEST_VERBOSE});
+	return Daybo::Test::Shared::Tester::unique->new()->run();
 }
 
 exit(main());

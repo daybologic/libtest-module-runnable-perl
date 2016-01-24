@@ -68,7 +68,7 @@ offered gratis to the community.
 
 package Daybo::Shared::Tester;
 use Moose;
-use Daybo::Shared::Log;
+use Daybo::Shared::Log::Mock;
 use Daybo::Shared::Internal::Cache;
 use Test::More 0.96;
 use POSIX qw/EXIT_SUCCESS/;
@@ -78,11 +78,11 @@ extends 'Daybo::Shared::Internal::Base';
 use strict;
 use warnings;
 
-our $VERSION = '0.2.1'; # Copy of master version number (TODO: Get from Base)
+our $VERSION = '0.3.0'; # Copy of master version number (TODO: Get from Base)
 
-=head2 Methods
+=head2 Attributes
 
-=over 12
+=over
 
 =item C<sut>
 
@@ -93,6 +93,100 @@ ignored.
 =cut
 
 has 'sut' => (is => 'rw', required => 0);
+
+=item C<__unique_default_domain>
+
+The internal default domain value.  This is used when C<unique>
+is called without a domain, because a key cannot be C<undef> in Perl.
+
+=cut
+
+has '__unique_default_domain' => (
+	isa => 'Str',
+	is => 'ro',
+	default => 'db3eb5cf-a597-4038-aea8-fd06faea6eed'
+);
+
+=item C<__unique>
+
+Tracks the counter returned by C<unique>.
+Always contains the previous value returned, or zero before any calls.
+
+=back
+
+=cut
+
+has '__unique' => (
+	is => 'ro',
+	isa => 'HashRef[Int]',
+	default => sub {
+		{ }
+	},
+);
+
+=head2 Methods
+
+=over
+
+=item <unique>
+
+Returns a unique ID, which is predictable.
+
+=cut
+
+sub unique {
+	my ($self, $domain) = @_;
+	$domain = (defined($domain) && length($domain)) ? ($domain) : ($self->__unique_default_domain);
+	return ++($self->__unique->{$domain});
+}
+
+=item C<pattern>
+
+The pattern which defines which user-methods are considered tests.
+Defaults to ^test
+Methods matching this pattern will be returned from C<methodNames>
+
+=cut
+
+has 'pattern' => (is => 'ro', isa => 'Regexp', default => sub { qr/^test/ });
+
+=item C<logger>
+
+The mock logger, should be passed on to sut->logger during C<setUp>.
+Will be cleared just after every C<tearDown>.  It will be set at
+C<DEBUG> level to ensure everything can be checked via <isLogged>.
+You should never test to C<TRACE> level in a unit test.
+
+=cut
+
+has 'logger' => (
+	is => 'rw',
+	isa => 'Daybo::Shared::Log::Mock',
+	default => sub {
+		Daybo::Shared::Log::Mock->new(
+			level => Daybo::Shared::Log::DEBUG
+		);
+	},
+);
+
+=item C<mocker>
+
+This slot can be used during C<setUpBeforeClass> to set up a C<Test::MockModule>
+for the C<sut> class being tested.  If set, C<mocker->unmock_all()> will be
+called automagically, just after each test method is executed.
+This will allow different methods to to be mocked, which are no directly relevant
+to the test method being executed.
+
+By default, this slot is C<undef>
+
+=cut
+
+has 'mocker' => (
+	is => 'rw',
+	isa => 'Maybe[Test::MockModule]',
+	required => 0,
+	default => undef,
+);
 
 =item C<methodNames>
 
@@ -111,7 +205,7 @@ sub methodNames {
         foreach my $method (@methodList) {
 		$method = $method->name;
                 next unless ($self->can($method)); # Skip stuff we cannot do
-                next if ($method !~ m/^test/); # Skip our own helpers
+                next if ($method !~ $self->pattern); # Skip our own helpers
                 push(@ret, $method);
         }
 
@@ -132,6 +226,12 @@ sub methodCount {
 sub __wrapFail {
 	my ($self, $type, $method, $returnValue) = @_;
 	return if (defined($returnValue) && $returnValue eq '0');
+	if (!defined($method)) { # Not method-specific
+		BAIL_OUT('Must specify type when evaluating result from method hooks')
+			if ('setUpBeforeClass' ne $type && 'tearDownAfterClass' ne $type);
+
+		$method = 'N/A';
+	}
 	BAIL_OUT($type . ' returned non-zero for ' . $method);
 }
 
@@ -160,7 +260,7 @@ Returns:
 
 sub run {
 	my ($self, %params) = @_;
-	my @tests;
+	my ($fail, @tests) = (0);
 
 	$params{n} = 1 unless ($params{n});
 
@@ -168,28 +268,51 @@ sub run {
 		@tests = @{ $params{tests} };
 	} else {
 		@tests = $self->methodNames();
+		if (@ARGV) {
+			my @userRunTests = ( );
+			foreach my $testName (@tests) {
+				foreach my $arg (@ARGV) {
+					next if ($arg ne $testName);
+					push(@userRunTests, $testName);
+				}
+			}
+			@tests = @userRunTests;
+		}
 	}
 
 	plan tests => scalar(@tests) * $params{n};
 
+	$fail = $self->setUpBeforeClass() if ($self->can('setUpBeforeClass')); # Call any registered pre-suite routine
+	$self->__wrapFail('setUpBeforeClass', undef, $fail);
 	for (my $i = 0; $i < $params{n}; $i++) {
 		foreach my $method (@tests) {
-			my $fail = 0;
+			$fail = 0;
 
 			# Check if user specified just one test, and this isn't it
 			confess(sprintf('Test \'%s\' does not exist', $method))
 				unless $self->can($method);
 
-			$fail = $self->setUp() if ($self->can('setUp')); # Call any registered pre-test routine
+			$fail = $self->setUp(method => $method) if ($self->can('setUp')); # Call any registered pre-test routine
 			$self->__wrapFail('setUp', $method, $fail);
-			subtest $method => sub { $self->$method() }; # Correct test (or all)
+			subtest $method => sub { $fail = $self->$method() }; # Correct test (or all)
+			$self->__wrapFail('method', $method, $fail);
+			$self->mocker->unmock_all() if ($self->mocker);
 			$fail = 0;
-			$fail = $self->tearDown() if ($self->can('tearDown')); # Call any registered post-test routine
+			$fail = $self->tearDown(method => $method) if ($self->can('tearDown')); # Call any registered post-test routine
 			$self->__wrapFail('tearDown', $method, $fail);
+			$self->logger->clear();
 		}
 	}
+	$fail = $self->tearDownAfterClass() if ($self->can('tearDownAfterClass')); # Call any registered post-suite routine
+	$self->__wrapFail('tearDownAfterClass', undef, $fail);
 
 	return EXIT_SUCCESS;
+}
+
+sub debug {
+	my (undef, $format, @params) = @_;
+	return unless ($ENV{'TEST_VERBOSE'});
+	diag(sprintf($format, @params));
 }
 
 =back

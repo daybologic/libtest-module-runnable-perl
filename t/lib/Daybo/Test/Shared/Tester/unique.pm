@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 #
-# Daybo Logic Configuration Reader
-# Copyright (C) 2010 - 2015 Daybo Logic
+# Daybo Logic Shared Library
+# Copyright (c) 2016, David Duncan Ross Palmer (2E0EOL), Daybo Logic
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -28,28 +28,44 @@
 # OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 # SUCH DAMAGE.
 #
-# This is a testbed for the Daybo::Config::Reader component
-#
 
-use Daybo::Shared::Config::Reader;
-package main;
-use Test::More tests => 1;
+package Daybo::Test::Shared::Tester::unique;
+use lib 't/lib';
+use Moose;
+use Daybo::Test::Shared::Tester::unique;
+use Test::More 0.96;
+use Test::Exception;
+use POSIX qw/EXIT_SUCCESS EXIT_FAILURE/;
+use strict;
+use warnings;
 
-use constant CHECK_PKG => 'Daybo::Shared::Config::Reader';
-use constant CHECK_VER => '0.3.0';
+extends 'Daybo::Shared::Tester';
 
-# FIXME: We are not checking all modules
-sub main {
-	is(
-		$Daybo::Shared::Config::Reader::VERSION,
-		CHECK_VER,
-		sprintf(
-			'%s::VERSION is \'%s\'',
-			CHECK_PKG,
-			CHECK_VER
-		)
-	);
-	return 0;
+sub setUp {
+	my $self = shift;
+
+	$self->sut(Daybo::Test::Shared::Tester::unique->new());
+	return EXIT_SUCCESS if ($self->sut);
+	return EXIT_FAILURE;
 }
 
-exit(main());
+sub testUnique {
+	my $self = shift;
+	my ($default, $other1, $other2) = (0, 0, 0);
+
+	plan tests => 8;
+
+	can_ok($self->sut, 'unique');
+
+	is($self->sut->unique(), ++$default, 'Initial returned value');
+	is($self->sut->unique(), ++$default, 'Next value');
+	is($self->sut->unique(undef), ++$default, 'Default domain if undef');
+	is($self->sut->unique(''), ++$default, 'Default domain if empty string');
+	is($self->sut->unique(0), ++$other1, 'Zero is not the default domain');
+	is($self->sut->unique('db3eb5cf-a597-4038-aea8-fd06faea6eed'), ++$default, 'Internal default domain UUID');
+	is($self->sut->unique('5349b4de-c0e1-11e5-9912-ba0be0483c18'), ++$other2, 'Other domain UUID');
+
+	return EXIT_SUCCESS;
+}
+
+1;
