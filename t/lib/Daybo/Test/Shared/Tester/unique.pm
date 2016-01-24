@@ -64,6 +64,8 @@ sub testUnique {
 	is($self->sut->unique(0), ++$other1, 'Zero is not the default domain');
 	is($self->sut->unique('db3eb5cf-a597-4038-aea8-fd06faea6eed'), ++$default, 'Internal default domain UUID');
 	is($self->sut->unique('5349b4de-c0e1-11e5-9912-ba0be0483c18'), ++$other2, 'Other domain UUID');
+
+	return EXIT_SUCCESS;
 }
 
 1;
