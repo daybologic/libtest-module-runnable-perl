@@ -78,7 +78,7 @@ extends 'Daybo::Shared::Internal::Base';
 use strict;
 use warnings;
 
-our $VERSION = '0.2.1'; # Copy of master version number (TODO: Get from Base)
+our $VERSION = '0.3.0'; # Copy of master version number (TODO: Get from Base)
 
 =head2 Attributes
 
