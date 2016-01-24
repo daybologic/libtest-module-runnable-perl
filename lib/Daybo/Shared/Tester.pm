@@ -208,7 +208,7 @@ Returns:
 
 sub run {
 	my ($self, %params) = @_;
-	my @tests;
+	my ($fail, @tests) = (0);
 
 	$params{n} = 1 unless ($params{n});
 
@@ -230,9 +230,11 @@ sub run {
 
 	plan tests => scalar(@tests) * $params{n};
 
+	$fail = $self->setUpBeforeClass() if ($self->can('setUpBeforeClass')); # Call any registered pre-suite routine
+	$self->__wrapFail('setUpBeforeClass', undef, $fail);
 	for (my $i = 0; $i < $params{n}; $i++) {
 		foreach my $method (@tests) {
-			my $fail = 0;
+			$fail = 0;
 
 			# Check if user specified just one test, and this isn't it
 			confess(sprintf('Test \'%s\' does not exist', $method))
@@ -248,6 +250,8 @@ sub run {
 			$self->logger->clear();
 		}
 	}
+	$fail = $self->tearDownAfterClass() if ($self->can('tearDownAfterClass')); # Call any registered post-suite routine
+	$self->__wrapFail('tearDownAfterClass', undef, $fail);
 
 	return EXIT_SUCCESS;
 }
