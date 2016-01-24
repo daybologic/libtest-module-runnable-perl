@@ -123,6 +123,25 @@ has 'logger' => (
 	},
 );
 
+=item C<mocker>
+
+This slot can be used during C<setUpBeforeClass> to set up a C<Test::MockModule>
+for the C<sut> class being tested.  If set, C<mocker->unmock_all()> will be
+called automagically, just after each test method is executed.
+This will allow different methods to to be mocked, which are no directly relevant
+to the test method being executed.
+
+By default, this slot is C<undef>
+
+=cut
+
+has 'mocker' => (
+	is => 'rw',
+	isa => 'Maybe[Test::MockModule]',
+	required => 0,
+	default => undef,
+);
+
 =item C<methodNames>
 
 Returns a list of all names of test methods which should be called by C<subtest>,
@@ -222,6 +241,7 @@ sub run {
 			$fail = $self->setUp(method => $method) if ($self->can('setUp')); # Call any registered pre-test routine
 			$self->__wrapFail('setUp', $method, $fail);
 			subtest $method => sub { $self->$method() }; # Correct test (or all)
+			$self->mocker->unmock_all() if ($self->mocker);
 			$fail = 0;
 			$fail = $self->tearDown(method => $method) if ($self->can('tearDown')); # Call any registered post-test routine
 			$self->__wrapFail('tearDown', $method, $fail);
