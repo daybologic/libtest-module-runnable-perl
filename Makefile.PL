@@ -41,4 +41,18 @@ WriteMakefile(
 	VERSION_FROM => 'lib/Daybo/Shared/Internal/Base.pm', # finds $VERSION
 	AUTHOR       => 'David Duncan Ross Palmer (palmer@overchat.org)',
 	ABSTRACT     => 'Shared libraries for all Perl code hosted at http://www.daybologic.co.uk/',
+
+	PREREQ_PM => {
+		'LWP'          => 0,
+		'Moose'        => 0,
+		'Cache::Cache' => 0,
+		'DateTime'     => 0,
+		'Clone'        => 0,
+		'UUID::Tiny'   => 0,
+	}, BUILD_REQUIRES => {
+		'Test::Output'    => 0,
+		'Test::Exception' => 0,
+		'File::Util'      => 0,
+		'Test::TempDir'   => 0,
+	},
 );
