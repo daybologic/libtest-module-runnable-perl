@@ -36,7 +36,7 @@ package main;
 use Test::More tests => 1;
 
 use constant CHECK_PKG => 'Daybo::Shared::Config::Reader';
-use constant CHECK_VER => '0.2.1';
+use constant CHECK_VER => '0.3.0';
 
 # FIXME: We are not checking all modules
 sub main {
