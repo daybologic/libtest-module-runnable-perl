@@ -31,7 +31,7 @@
 
 package main;
 use lib 't/lib';
-use Daybo::Test::Shared::Tester::unique;
+use Private::Test::Module::Runnable::unique;
 use Test::More 0.96;
 
 use strict;
@@ -39,7 +39,7 @@ use warnings;
 
 sub main {
 	$SIG{__WARN__} = sub { BAIL_OUT("@_") } unless ($ENV{TEST_VERBOSE});
-	return Daybo::Test::Shared::Tester::unique->new()->run();
+	return Private::Test::Module::Runnable::unique->new()->run();
 }
 
 exit(main());
