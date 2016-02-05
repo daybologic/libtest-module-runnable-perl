@@ -36,7 +36,7 @@ use Moose;
 use Daybo::Shared::Tester;
 use Test::More 0.96;
 
-extends 'Daybo::Shared::Tester';
+extends 'Test::Module::Runnable';
 
 use strict;
 use warnings;
@@ -119,7 +119,7 @@ sub main {
 	plan tests => 11;
 
 	$tester = new_ok('ExampleTest');
-	isa_ok($tester, 'Daybo::Shared::Tester');
+	isa_ok($tester, 'Test::Module::Runnable');
 	can_ok($tester, qw/run methodCount sut methodNames/);
 
 	is($tester->dummyRunCount, 0, 'No tests yet run');

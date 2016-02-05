@@ -31,17 +31,18 @@
 # This is a testbed for the Daybo::Config::Reader component
 #
 
-use Daybo::Shared::Config::Reader;
+use Test::Module::Runnable;
 package main;
 use Test::More tests => 1;
+use strict;
+use warnings;
 
-use constant CHECK_PKG => 'Daybo::Shared::Config::Reader';
-use constant CHECK_VER => '0.3.0';
+use constant CHECK_PKG => 'Test::Module::Runnable';
+use constant CHECK_VER => '0.1.0';
 
-# FIXME: We are not checking all modules
 sub main {
 	is(
-		$Daybo::Shared::Config::Reader::VERSION,
+		$Test::Module::Runnable::VERSION,
 		CHECK_VER,
 		sprintf(
 			'%s::VERSION is \'%s\'',

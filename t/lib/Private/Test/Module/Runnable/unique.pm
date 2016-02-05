@@ -29,22 +29,22 @@
 # SUCH DAMAGE.
 #
 
-package Daybo::Test::Shared::Tester::unique;
+package Private::Test::Module::Runnable::unique;
 use lib 't/lib';
 use Moose;
-use Daybo::Test::Shared::Tester::unique;
+use Private::Test::Module::Runnable::unique;
 use Test::More 0.96;
 use Test::Exception;
 use POSIX qw/EXIT_SUCCESS EXIT_FAILURE/;
 use strict;
 use warnings;
 
-extends 'Daybo::Shared::Tester';
+extends 'Test::Module::Runnable';
 
 sub setUp {
 	my $self = shift;
 
-	$self->sut(Daybo::Test::Shared::Tester::unique->new());
+	$self->sut(Private::Test::Module::Runnable::unique->new());
 	return EXIT_SUCCESS if ($self->sut);
 	return EXIT_FAILURE;
 }
