@@ -1,42 +1,5 @@
-libdaybo-shared-perl (0.2.1) stable; urgency=low
+libtest-module-runnable-perl (0.1.0) stable; urgency=low
 
-  * Added clone and UUID support
+  * Pre-release beta
 
- -- David Duncan Ross Palmer <palmer@overchat.org>  Fri, 18 Dec 2015 19:47:01 +0000
-
-libdaybo-shared-perl (0.1.1) stable; urgency=low
-
-  * c3f282e7cf7f: BUGFIX: Need to ensure ancestor test methods are called
-
- -- David Duncan Ross Palmer <palmer@overchat.org>  Wed, 02 Sep 2015 19:52:08 +0100
-
-libdaybo-shared-perl (0.1.0) stable; urgency=low
-
-  * The Daybo::Config::Reader has been made obsolete, and we have subsumed it.
-  * A tester object; Daybo::Shared::Tester is now available.
-
- -- David Duncan Ross Palmer <palmer@overchat.org>  Fri, 28 Aug 2015 20:57:00 +0100
-
-libdaybo-shared-perl (0.0.5) stable; urgency=low
-
-  * Mockability
-
- -- David Duncan Ross Palmer <palmer@overchat.org>  Sun, 02 Aug 2015 01:19:55 +0100
-
-libdaybo-shared-perl (0.0.4) stable; urgency=low
-
-  * Added config file support
-
- -- David Duncan Ross Palmer <palmer@overchat.org>  Tue, 02 Jun 2015 07:56:15 +0100
-
-libdaybo-shared-perl (0.0.3) stable; urgency=low
-
-  * Added logging support
-
- -- David Duncan Ross Palmer <palmer@overchat.org>  Mon, 11 May 2015 22:21:35 +0000
-
-libdaybo-shared-perl (0.0.1) stable; urgency=low
-
-  * Development version
-
- -- David Duncan Ross Palmer <palmer@overchat.org>  Sat, 09 May 2015 16:35:52 +0100
+ -- David Duncan Ross Palmer <palmer@overchat.org>  Fri, 05 Feb 2016 23:09:26 +0000

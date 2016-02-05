@@ -1,7 +1,7 @@
 #!/usr/bin/perl
-
-# Daybo Logic Shared Library
-# Copyright (c) 2015, David Duncan Ross Palmer (2E0EOL), Daybo Logic
+#
+# Module test framework
+# Copyright (c) 2015-2016, David Duncan Ross Palmer (2E0EOL) and others,
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -37,22 +37,16 @@ use strict;
 use warnings;
 
 WriteMakefile(
-	NAME         => 'Daybo::Shared::Internal::Base',
-	VERSION_FROM => 'lib/Daybo/Shared/Internal/Base.pm', # finds $VERSION
-	AUTHOR       => 'David Duncan Ross Palmer (palmer@overchat.org)',
-	ABSTRACT     => 'Shared libraries for all Perl code hosted at http://www.daybologic.co.uk/',
+	NAME         => 'Test::Module::Runnable',
+	VERSION_FROM => 'lib/Test/Module/Runnable.pm', # finds $VERSION
+	AUTHOR       => 'David Duncan Ross Palmer, 2E0EOL (palmer@overchat.org)',
+	ABSTRACT     => 'Base class for runnable unit tests using Moose introspection',
 
 	PREREQ_PM => {
-		'LWP'          => 0,
 		'Moose'        => 0,
-		'Cache::Cache' => 0,
-		'DateTime'     => 0,
-		'Clone'        => 0,
-		'UUID::Tiny'   => 0,
+		'Test::More'   => 0,
 	}, BUILD_REQUIRES => {
-		'Test::Output'    => 0,
-		'Test::Exception' => 0,
-		'File::Util'      => 0,
-		'Test::TempDir'   => 0,
+		'Moose'        => 0,
+		'Test::More'   => 0,
 	},
 );

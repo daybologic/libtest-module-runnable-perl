@@ -1,34 +1,17 @@
-Source: libdaybo-shared-perl
-Section: perl
+Source: libtest-module-runnable-perl
+Section: devel
 Priority: extra
 Maintainer: David Duncan Ross Palmer <palmer@overchat.org>
-Build-Depends: debhelper (>= 9), lynx
-Build-Depends-Indep: libwww-perl,
- libdevel-cover-perl,
- libpod-coverage-perl,
- libtest-output-perl,
+Build-Depends: debhelper (>= 9),
+Build-Depends-Indep:
  libmoose-perl,
- libcache-cache-perl,
- libfile-util-perl,
- libdatetime-perl,
- libclone-perl,
- libuuid-tiny-perl,
- libtest-exception-perl,
- libtest-tempdir-perl,
 Standards-Version: 3.7.3
-Homepage: http://www.daybologic.co.uk/
+Homepage: https://bitbucket.org/2E0EOL/libtest-module-runnable-perl
 
-Package: libdaybo-shared-perl
+Package: libtest-module-runnable-perl
 Architecture: all
 Depends: ${shlibs:Depends}, ${misc:Depends},
  libmoose-perl,
- libcache-cache-perl,
- libfile-util-perl,
- libdatetime-perl,
- libclone-perl,
- libuuid-tiny-perl,
-Replaces: libdaybo-config-reader-perl
-Description: Daybo Logic shared library
- This is an object-orientated shared library on which all
- Daybo Logic Perl code should be based, providing caching,
- logging, and other basic functionality.
+Description: Test::Module::Runnable
+ Base class for runnable unit tests using Moose introspection
+ and a user-defined pattern for subtest routines.
