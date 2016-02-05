@@ -32,7 +32,7 @@
 
 =head1 NAME
 
-Daybo::Shared::Tester - An OOP extension on top of Test::More
+Test::Module::Runnable - A runnable framework on Moose for running tests
 
 =head1 SYNOPSIS
 
@@ -41,10 +41,10 @@ use Moose;
 use Test::More 0.96;
 use strict;
 
-extends 'Daybo::Shared::Tester';
+extends 'Test::Module::Runnable';
 
 sub helper { } # Not called
-sub testExample { } # Called due to 'test' prefix.
+sub testExample { } # Automagically called due to 'test' prefix.
 
 package main;
 
@@ -61,26 +61,25 @@ return $tester->run;
 
 =head1 DESCRIPTION
 
-A test framework used by Daybo Logic and associated coders;
-offered gratis to the community.
+A test framework based on Moose introspection to automagically
+call all methods matching a user-defined pattern.  Supports per-test
+setup and tear-down routines and easy early C<BAIL_OUT> using
+C<Test::More>.
 
 =cut
 
-package Daybo::Shared::Tester;
+package Test::Module::Runnable;
+
 use Moose;
-use Daybo::Shared::Log::Mock;
-use Daybo::Shared::Internal::Cache;
 use Test::More 0.96;
 use POSIX qw/EXIT_SUCCESS/;
-
-extends 'Daybo::Shared::Internal::Base';
 
 use strict;
 use warnings;
 
-our $VERSION = '0.3.0'; # Copy of master version number (TODO: Get from Base)
+our $VERSION = '0.1.0';
 
-=head2 Attributes
+=head2 ATTRIBUTES
 
 =over
 
@@ -124,7 +123,7 @@ has '__unique' => (
 	},
 );
 
-=head2 Methods
+=head2 METHODS
 
 =over
 
@@ -152,29 +151,23 @@ has 'pattern' => (is => 'ro', isa => 'Regexp', default => sub { qr/^test/ });
 
 =item C<logger>
 
-The mock logger, should be passed on to sut->logger during C<setUp>.
-Will be cleared just after every C<tearDown>.  It will be set at
-C<DEBUG> level to ensure everything can be checked via <isLogged>.
-You should never test to C<TRACE> level in a unit test.
+A generic slot for a loggger, to be initialized with your logging framework,
+or a mock logging system.
+
+This slot is not touched by this package, but might be passed on to
+your C<sut>, or you may wish to clear it between tests by sub-classing
+this package.
 
 =cut
 
-has 'logger' => (
-	is => 'rw',
-	isa => 'Daybo::Shared::Log::Mock',
-	default => sub {
-		Daybo::Shared::Log::Mock->new(
-			level => Daybo::Shared::Log::DEBUG
-		);
-	},
-);
+has 'logger' => (is => 'rw', required => 0);
 
 =item C<mocker>
 
 This slot can be used during C<setUpBeforeClass> to set up a C<Test::MockModule>
 for the C<sut> class being tested.  If set, C<mocker->unmock_all()> will be
 called automagically, just after each test method is executed.
-This will allow different methods to to be mocked, which are no directly relevant
+This will allow different methods to to be mocked, which are not directly relevant
 to the test method being executed.
 
 By default, this slot is C<undef>
@@ -191,7 +184,7 @@ has 'mocker' => (
 =item C<methodNames>
 
 Returns a list of all names of test methods which should be called by C<subtest>,
-ie. all method names beginning with 'test'.
+ie. all method names beginning with 'test', or the user-defined C<pattern>.
 
 If you use C<run>, this is handled automagically.
 
@@ -215,6 +208,7 @@ sub methodNames {
 =item C<methodCount>
 
 Returns the number of tests to pass to C<plan>
+If you use C<run>, this is handled automagically.
 
 =cut
 
@@ -250,10 +244,10 @@ An optional override may be passed with the tests parameter.
     Number of times to iterate through the tests.
     Defaults to 1.  Setting to a higher level is useful if you want to
     prove that the random ordering of tests does not break, but you do
-    no want to type 'make test' many times.
+    not want to type 'make test' many times.
 
 Returns:
-    The return value is always EXIT_SUCCESS, which you can pass straight
+    The return value is always C<EXIT_SUCCESS>, which you can pass straight
     to C<exit>
 
 =cut
@@ -300,7 +294,6 @@ sub run {
 			$fail = 0;
 			$fail = $self->tearDown(method => $method) if ($self->can('tearDown')); # Call any registered post-test routine
 			$self->__wrapFail('tearDown', $method, $fail);
-			$self->logger->clear();
 		}
 	}
 	$fail = $self->tearDownAfterClass() if ($self->can('tearDownAfterClass')); # Call any registered post-suite routine
@@ -309,10 +302,18 @@ sub run {
 	return EXIT_SUCCESS;
 }
 
+=item C<debug>
+
+Call C<Test::Builder::diag> with a user-defined message,
+if and only if the C<TEST_VERBOSE> environment variable is set.
+
+=cut
+
 sub debug {
 	my (undef, $format, @params) = @_;
 	return unless ($ENV{'TEST_VERBOSE'});
 	diag(sprintf($format, @params));
+	return;
 }
 
 =back
@@ -355,7 +356,7 @@ POSSIBILITY OF SUCH DAMAGE.
 
 =head1 AVAILABILITY
 
-https://bitbucket.org/daybologic/libdaybo-shared-perl
+https://bitbucket.org/2E0EOL/libtest-module-runnable-perl
 
 =head1 CAVEATS
 
