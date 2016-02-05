@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 #
-# Daybo Logic Shared Library
-# Copyright (c) 2015, David Duncan Ross Palmer (2E0EOL), Daybo Logic
+# Module test framework
+# Copyright (c) 2015-2016, David Duncan Ross Palmer (2E0EOL) and others,
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
