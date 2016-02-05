@@ -28,8 +28,6 @@
 # OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 # SUCH DAMAGE.
 #
-# This is a testbed for the Daybo::Config::Reader component
-#
 
 use Test::Module::Runnable;
 package main;

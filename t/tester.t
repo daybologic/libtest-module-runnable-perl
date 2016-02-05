@@ -33,7 +33,7 @@
 package ExampleTest;
 use POSIX qw/EXIT_SUCCESS EXIT_FAILURE/;
 use Moose;
-use Daybo::Shared::Tester;
+use Test::Module::Runnable;
 use Test::More 0.96;
 
 extends 'Test::Module::Runnable';
