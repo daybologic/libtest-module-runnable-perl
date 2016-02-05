@@ -34,7 +34,6 @@ use lib 't/lib';
 use Moose;
 use Private::Test::Module::Runnable::unique;
 use Test::More 0.96;
-use Test::Exception;
 use POSIX qw/EXIT_SUCCESS EXIT_FAILURE/;
 use strict;
 use warnings;
