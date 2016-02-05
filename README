@@ -1,2 +1,2 @@
-This is an object-orientated shared library on which all Daybo Logic Perl code should be based,
-providing caching, logging, and other basic functionality.
+Base class for runnable unit tests using Moose introspection
+and a user-defined pattern for subtest routines.
