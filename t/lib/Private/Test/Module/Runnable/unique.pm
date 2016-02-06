@@ -97,7 +97,7 @@ sub testRandom {
 		);
 
 		subtest $iter => sub {
-			plan tests => 3;
+			plan tests => 4;
 
 			cmp_ok($result, '>', 0, 'unique rand > 0');
 
@@ -112,6 +112,9 @@ sub testRandom {
 				'%u items in spend list',
 				$i + 1
 			));
+
+			# Check random result is an integer
+			like($result, qr/^\d+$/, 'positive integer');
 		};
 	}
 
