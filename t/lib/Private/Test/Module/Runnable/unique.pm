@@ -97,24 +97,22 @@ sub testRandom {
 		);
 
 		subtest $iter => sub {
-			plan tests => 2;
+			plan tests => 3;
 
-			cmp_ok(
-				$result,
-				'>', 0,
-				'unique rand > 0'
-			);
+			cmp_ok($result, '>', 0, 'unique rand > 0');
 
-			is(
-				$spent{$result},
-				undef, sprintf(
-					'result %d not seen previously',
-					$result
-				)
-			);
+			is($spent{$result}, undef, sprintf(
+				'result %d not seen previously',
+				$result
+			));
+
+			# Record result seen and do sanity check
+			$spent{$result} = 1;
+			is(scalar(keys(%spent)), $i + 1, sprintf(
+				'%u items in spend list',
+				$i + 1
+			));
 		};
-
-		$spent{$result} = 1;
 	}
 
 	return EXIT_SUCCESS;
