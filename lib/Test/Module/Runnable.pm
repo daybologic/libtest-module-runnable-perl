@@ -110,6 +110,7 @@ has '__unique_default_domain' => (
 
 Tracks the counter returned by C<unique>.
 Always contains the previous value returned, or zero before any calls.
+A hash is used to support multiple domains.
 
 =back
 
@@ -123,20 +124,58 @@ has '__unique' => (
 	},
 );
 
+=item C<__random>
+
+Hash of random numbers already given out.
+
+=cut
+
+has '__random' => (
+	is => 'ro',
+	isa => 'HashRef[Int]',
+	default => sub {
+		{ }
+	},
+);
+
 =head2 METHODS
 
 =over
 
 =item <unique>
 
-Returns a unique ID, which is predictable.
+Returns a unique, integer ID, which is predictable.
+
+An optional C<domain> can be specified, which is a discrete sequence,
+isolated from anhy other domain.  If not specified, a default domain is used.
+The actual name for this domain is opaque, and is specified by
+C<__unique_default_domain>.
+
+A special domain; C<rand> can be used for random numbers which will not repeat.
 
 =cut
 
 sub unique {
 	my ($self, $domain) = @_;
-	$domain = (defined($domain) && length($domain)) ? ($domain) : ($self->__unique_default_domain);
-	return ++($self->__unique->{$domain});
+	my $rand = 0;
+	my $result;
+
+	if (defined($domain) && length($domain)) {
+		$rand++ if ('rand' eq $domain);
+	} else {
+		$domain = $self->__unique_default_domain;
+	}
+
+	if ($rand) {
+		do {
+			$result = int(rand(999_999_999));
+		} while ($self->__random->{$result});
+		$self->__random->{$result}++;
+	} else {
+		$result = ++($self->__unique->{$domain});
+	}
+
+	return $result;
 }
 
 =item C<pattern>
