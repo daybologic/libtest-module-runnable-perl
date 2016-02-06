@@ -93,7 +93,7 @@ sub testRandom {
 
 		my $iter = sprintf(
 			'trial iteration %u/%u',
-			$i, $self->trials,
+			$i + 1, $self->trials,
 		);
 
 		subtest $iter => sub {
