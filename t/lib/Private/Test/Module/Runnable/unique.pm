@@ -42,6 +42,18 @@ use warnings;
 
 extends 'Test::Module::Runnable';
 
+=item C<trials>
+
+The number of iteration to stress the unique 'rand' domain
+
+=cut
+
+has 'trials' => (
+	isa     => 'Int',
+	is      => 'ro',
+	default => 10_000,
+);
+
 sub setUp {
 	my $self = shift;
 
@@ -65,6 +77,29 @@ sub testUnique {
 	is($self->sut->unique(0), ++$other1, 'Zero is not the default domain');
 	is($self->sut->unique('db3eb5cf-a597-4038-aea8-fd06faea6eed'), ++$default, 'Internal default domain UUID');
 	is($self->sut->unique('5349b4de-c0e1-11e5-9912-ba0be0483c18'), ++$other2, 'Other domain UUID');
+
+	return EXIT_SUCCESS;
+}
+
+sub testRandom {
+	my $self = shift;
+
+	plan tests => 1;
+
+	subtest 'unique rand > 0' => sub {
+		plan tests => $self->trials;
+
+		for (my $i = 0; $i < $self->trials; $i++) {
+			cmp_ok(
+				$self->sut->unique('rand'),
+				'>', 0,
+				sprintf(
+					'trial iteration %u/%u',
+					$i, $self->trials
+				)
+			);
+		}
+	};
 
 	return EXIT_SUCCESS;
 }
