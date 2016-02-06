@@ -84,22 +84,24 @@ sub testUnique {
 sub testRandom {
 	my $self = shift;
 
-	plan tests => 1;
+	plan tests => $self->trials;
 
-	subtest 'unique rand > 0' => sub {
-		plan tests => $self->trials;
+	for (my $i = 0; $i < $self->trials; $i++) {
+		my $iter = sprintf(
+			'trial iteration %u/%u',
+			$i, $self->trials,
+		);
 
-		for (my $i = 0; $i < $self->trials; $i++) {
+		subtest $iter => sub {
+			plan tests => 1;
+
 			cmp_ok(
 				$self->sut->unique('rand'),
 				'>', 0,
-				sprintf(
-					'trial iteration %u/%u',
-					$i, $self->trials
-				)
+				'unique rand > 0'
 			);
-		}
-	};
+		};
+	}
 
 	return EXIT_SUCCESS;
 }
