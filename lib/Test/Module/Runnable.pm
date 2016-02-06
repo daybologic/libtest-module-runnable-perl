@@ -181,6 +181,20 @@ has 'mocker' => (
 	default => undef,
 );
 
+=item C<author>
+
+Tests which should only be run when the C<TEST_AUTHOR> environment
+variable is set.
+
+=cut
+
+has 'author' => (
+	is => 'ro',
+	isa => 'HashRef[Str]',
+	required => 1,
+	default => sub {{}},
+);
+
 =item C<methodNames>
 
 Returns a list of all names of test methods which should be called by C<subtest>,
@@ -286,6 +300,7 @@ sub run {
 			confess(sprintf('Test \'%s\' does not exist', $method))
 				unless $self->can($method);
 
+			next if ($self->author->{$method});
 			$fail = $self->setUp(method => $method) if ($self->can('setUp')); # Call any registered pre-test routine
 			$self->__wrapFail('setUp', $method, $fail);
 			subtest $method => sub { $fail = $self->$method(method => $method) }; # Correct test (or all)
