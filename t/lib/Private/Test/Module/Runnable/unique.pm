@@ -37,6 +37,7 @@ use Moose;
 use Private::Test::Module::Runnable::unique;
 use Test::More 0.96;
 use POSIX qw/EXIT_SUCCESS EXIT_FAILURE/;
+use List::MoreUtils qw(any);
 use strict;
 use warnings;
 
@@ -83,7 +84,7 @@ sub testUnique {
 
 sub testRandom {
 	my $self = shift;
-	my %spent; # Random numbers seen previously
+	my @spent; # Random numbers seen previously
 
 	plan tests => $self->trials;
 
@@ -97,28 +98,45 @@ sub testRandom {
 		);
 
 		subtest $iter => sub {
-			plan tests => 4;
+			my $match;
+			plan tests => 5;
 
 			cmp_ok($result, '>', 0, 'unique rand > 0');
 
-			is($spent{$result}, undef, sprintf(
+			$match = any { $result == $_ } @spent;
+			is($match, '', sprintf(
 				'result %d not seen previously',
 				$result
 			));
 
 			# Record result seen and do sanity check
-			$spent{$result} = 1;
-			is(scalar(keys(%spent)), $i + 1, sprintf(
-				'%u items in spend list',
+			push(@spent, $result);
+			is(scalar(@spent), $i + 1, sprintf(
+				'%u items in spent list',
 				$i + 1
 			));
 
 			# Check random result is an integer
 			like($result, qr/^\d+$/, 'positive integer');
+
+			# Check this is not simply the previous numbers incremented
+			is($self->isIncreasing(\@spent, $result), 0, 'Not sequential');
 		};
 	}
 
 	return EXIT_SUCCESS;
+}
+
+sub isIncreasing {
+	my ($self, $previous, $value) = @_;
+	my $n = scalar(@$previous);
+	my $inSeq = 0;
+
+	return 0 if ($n < 10); # Too few values collected
+	for (my $i = 1; $i < $n; $i++) {
+		$inSeq++ if ($value > $previous->[$i-1]-1)
+	}
+	return ($inSeq > 7) ? (1) : (0);
 }
 
 1;
