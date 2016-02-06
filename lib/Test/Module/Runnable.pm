@@ -157,16 +157,16 @@ A special domain; C<rand> can be used for random numbers which will not repeat.
 
 sub unique {
 	my ($self, $domain) = @_;
-	my $rand = 0;
+	my $useRandomDomain = 0;
 	my $result;
 
 	if (defined($domain) && length($domain)) {
-		$rand++ if ('rand' eq $domain);
+		$useRandomDomain++ if ('rand' eq $domain);
 	} else {
 		$domain = $self->__unique_default_domain;
 	}
 
-	if ($rand) {
+	if ($useRandomDomain) {
 		do {
 			$result = int(rand(999_999_999));
 		} while ($self->__random->{$result});
