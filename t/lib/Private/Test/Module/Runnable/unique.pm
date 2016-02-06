@@ -83,24 +83,38 @@ sub testUnique {
 
 sub testRandom {
 	my $self = shift;
+	my %spent; # Random numbers seen previously
 
 	plan tests => $self->trials;
 
 	for (my $i = 0; $i < $self->trials; $i++) {
+
+		my $result = $self->sut->unique('rand');
+
 		my $iter = sprintf(
 			'trial iteration %u/%u',
 			$i, $self->trials,
 		);
 
 		subtest $iter => sub {
-			plan tests => 1;
+			plan tests => 2;
 
 			cmp_ok(
-				$self->sut->unique('rand'),
+				$result,
 				'>', 0,
 				'unique rand > 0'
 			);
+
+			is(
+				$spent{$result},
+				undef, sprintf(
+					'result %d not seen previously',
+					$result
+				)
+			);
 		};
+
+		$spent{$result} = 1;
 	}
 
 	return EXIT_SUCCESS;
