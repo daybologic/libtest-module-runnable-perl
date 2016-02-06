@@ -120,7 +120,7 @@ sub testRandom {
 			like($result, qr/^\d+$/, 'positive integer');
 
 			# Check this is not simply the previous numbers incremented
-			is($self->isIncreasing(\@spent, $result), 0, 'Not sequential');
+			is($self->isIncreasing(\@spent), 0, 'Not sequential');
 		};
 	}
 
@@ -128,15 +128,15 @@ sub testRandom {
 }
 
 sub isIncreasing {
-	my ($self, $previous, $value) = @_;
+	my ($self, $previous) = @_;
 	my $n = scalar(@$previous);
 	my $inSeq = 0;
 
 	return 0 if ($n < 10); # Too few values collected
-	for (my $i = 1; $i < $n; $i++) {
-		$inSeq++ if ($value > $previous->[$i-1]-1)
+	for (my $i = 0; $i > -10; $i--) {
+		$inSeq++ if ($previous->[$i] > $previous->[$i-1]);
 	}
-	return ($inSeq > 7) ? (1) : (0);
+	return ($inSeq > 9) ? (1) : (0);
 }
 
 1;
