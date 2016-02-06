@@ -120,7 +120,12 @@ sub testRandom {
 			like($result, qr/^\d+$/, 'positive integer');
 
 			# Check this is not simply the previous numbers incremented
-			is($self->isIncreasing(\@spent), 0, 'Not sequential');
+			SKIP: {
+				skip 'FIXME: Test has small but possible failure rate', 1
+					unless $ENV{TEST_AUTHOR};
+
+				is($self->isIncreasing(\@spent), 0, 'Not sequential');
+			};
 		};
 	}
 
