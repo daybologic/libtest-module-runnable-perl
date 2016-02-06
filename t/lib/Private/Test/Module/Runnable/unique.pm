@@ -136,7 +136,7 @@ sub isIncreasing {
 	for (my $i = 0; $i > -10; $i--) {
 		$inSeq++ if ($previous->[$i] > $previous->[$i-1]);
 	}
-	return ($inSeq > 9) ? (1) : (0);
+	return ($inSeq > 8) ? (1) : (0);
 }
 
 1;
