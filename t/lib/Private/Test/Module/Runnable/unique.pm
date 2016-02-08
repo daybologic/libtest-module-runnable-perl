@@ -36,10 +36,23 @@ use lib 't/lib';
 use Moose;
 use Test::More 0.96;
 use POSIX qw/EXIT_SUCCESS EXIT_FAILURE/;
+use List::MoreUtils qw(any);
 use strict;
 use warnings;
 
 extends 'Test::Module::Runnable';
+
+=item C<trials>
+
+The number of iteration to stress the unique 'rand' domain
+
+=cut
+
+has 'trials' => (
+	isa     => 'Int',
+	is      => 'ro',
+	default => 10_000,
+);
 
 sub setUp {
 	my $self = shift;
@@ -66,6 +79,68 @@ sub testUnique {
 	is($self->sut->unique('5349b4de-c0e1-11e5-9912-ba0be0483c18'), ++$other2, 'Other domain UUID');
 
 	return EXIT_SUCCESS;
+}
+
+sub testRandom {
+	my $self = shift;
+	my @spent; # Random numbers seen previously
+
+	plan tests => $self->trials;
+
+	for (my $i = 0; $i < $self->trials; $i++) {
+
+		my $result = $self->sut->unique('rand');
+
+		my $iter = sprintf(
+			'trial iteration %u/%u',
+			$i + 1, $self->trials,
+		);
+
+		subtest $iter => sub {
+			my $match;
+			plan tests => 5;
+
+			cmp_ok($result, '>', 0, 'unique rand > 0');
+
+			$match = any { $result == $_ } @spent;
+			is($match, '', sprintf(
+				'result %d not seen previously',
+				$result
+			));
+
+			# Record result seen and do sanity check
+			push(@spent, $result);
+			is(scalar(@spent), $i + 1, sprintf(
+				'%u items in spent list',
+				$i + 1
+			));
+
+			# Check random result is an integer
+			like($result, qr/^\d+$/, 'positive integer');
+
+			# Check this is not simply the previous numbers incremented
+			SKIP: {
+				skip 'FIXME: Test has small but possible failure rate', 1
+					unless $ENV{TEST_AUTHOR};
+
+				is($self->isIncreasing(\@spent), 0, 'Not sequential');
+			};
+		};
+	}
+
+	return EXIT_SUCCESS;
+}
+
+sub isIncreasing {
+	my ($self, $previous) = @_;
+	my $n = scalar(@$previous);
+	my $inSeq = 0;
+
+	return 0 if ($n < 10); # Too few values collected
+	for (my $i = 0; $i > -10; $i--) {
+		$inSeq++ if ($previous->[$i] > $previous->[$i-1]);
+	}
+	return ($inSeq > 8) ? (1) : (0);
 }
 
 1;
