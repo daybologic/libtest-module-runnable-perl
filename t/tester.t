@@ -38,9 +38,6 @@ use Test::More 0.96;
 
 extends 'Test::Module::Runnable';
 
-use strict;
-use warnings;
-
 has 'dummyRunCount' => (isa => 'Int', is => 'rw', default => 0);
 has [qw(methodsSetUp methodsTornDown)] => (
 	isa => 'HashRef', is => 'ro', default => sub {{}}
@@ -105,8 +102,6 @@ use Test::More 0.96;
 use POSIX qw/EXIT_SUCCESS/;
 use Moose;
 use List::MoreUtils qw/all/;
-use strict;
-use warnings;
 
 sub main {
 	my $tester;

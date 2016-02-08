@@ -37,8 +37,6 @@ use Moose;
 use Test::More 0.96;
 use POSIX qw/EXIT_SUCCESS EXIT_FAILURE/;
 use List::MoreUtils qw(any);
-use strict;
-use warnings;
 
 extends 'Test::Module::Runnable';
 

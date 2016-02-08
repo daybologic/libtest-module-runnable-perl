@@ -39,7 +39,6 @@ Test::Module::Runnable - A runnable framework on Moose for running tests
 package YourTestSuite;
 use Moose;
 use Test::More 0.96;
-use strict;
 
 extends 'Test::Module::Runnable';
 
@@ -73,9 +72,6 @@ package Test::Module::Runnable;
 use Moose;
 use Test::More 0.96;
 use POSIX qw/EXIT_SUCCESS/;
-
-use strict;
-use warnings;
 
 our $VERSION = '0.1.0';
 
