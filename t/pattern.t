@@ -29,9 +29,7 @@
 # SUCH DAMAGE.
 #
 
-package DayboHoratioTester;
-use strict;
-use warnings;
+package DayboHoratioTester; # TODO: Move to private hierarchy
 use Moose;
 
 extends 'Test::Module::Runnable';
@@ -44,7 +42,7 @@ sub horatioDummy {
 	return;
 }
 
-package DayboSharedPatternTester;
+package DayboSharedPatternTester; # TODO: Move to private hierarchy
 use lib 't/lib';
 use Moose;
 use Test::More 0.96;
