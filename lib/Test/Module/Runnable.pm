@@ -43,6 +43,7 @@ use Test::More 0.96;
 extends 'Test::Module::Runnable';
 
 sub helper { } # Not called
+
 sub testExample { } # Automagically called due to 'test' prefix.
 
 package main;
