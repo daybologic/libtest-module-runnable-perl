@@ -46,7 +46,6 @@ package DayboSharedPatternTester; # TODO: Move to private hierarchy
 use lib 't/lib';
 use Moose;
 use Test::More 0.96;
-use Test::Exception;
 use POSIX qw/EXIT_SUCCESS EXIT_FAILURE/;
 use strict;
 use warnings;
