@@ -34,7 +34,7 @@ use strict;
 use warnings;
 use Moose;
 
-extends 'Daybo::Shared::Tester';
+extends 'Test::Module::Runnable';
 
 sub notHoratio {
 	return;
