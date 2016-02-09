@@ -50,7 +50,7 @@ use POSIX qw/EXIT_SUCCESS EXIT_FAILURE/;
 use strict;
 use warnings;
 
-extends 'Daybo::Shared::Tester';
+extends 'Test::Module::Runnable';
 
 has 'newPattern' => (
 	isa => 'Regexp',
