@@ -49,7 +49,7 @@ The number of iteration to stress the unique 'rand' domain
 has 'trials' => (
 	isa     => 'Int',
 	is      => 'ro',
-	default => 10_000,
+	default => ($ENV{TEST_AUTHOR}) ? (10_000) : (500),
 );
 
 sub setUp {
