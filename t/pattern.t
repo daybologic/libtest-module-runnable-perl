@@ -73,7 +73,7 @@ sub testSut {
 	plan tests => 2;
 
 	isa_ok($self->sut, 'DayboHoratioTester');
-	isa_ok($self->sut, 'Daybo::Shared::Tester');
+	isa_ok($self->sut, 'Test::Module::Runnable');
 
 	return EXIT_SUCCESS;
 }
