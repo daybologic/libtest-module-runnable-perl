@@ -47,8 +47,6 @@ sub horatioDummy {
 package DayboSharedPatternTester;
 use lib 't/lib';
 use Moose;
-use Daybo::Shared::Example;
-use Daybo::Shared::Regex;
 use Test::More 0.96;
 use Test::Exception;
 use POSIX qw/EXIT_SUCCESS EXIT_FAILURE/;
