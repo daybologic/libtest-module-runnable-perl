@@ -109,8 +109,6 @@ Tracks the counter returned by C<unique>.
 Always contains the previous value returned, or zero before any calls.
 A hash is used to support multiple domains.
 
-=back
-
 =cut
 
 has '__unique' => (
@@ -124,6 +122,8 @@ has '__unique' => (
 =item C<__random>
 
 Hash of random numbers already given out.
+
+=back
 
 =cut
 
