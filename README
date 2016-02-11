@@ -1,2 +1,2 @@
-Base class for runnable unit tests using Moose introspection
+Base class for runnable unit tests using introspection
 and a user-defined pattern for subtest routines.

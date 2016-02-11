@@ -40,13 +40,11 @@ WriteMakefile(
 	NAME         => 'Test::Module::Runnable',
 	VERSION_FROM => 'lib/Test/Module/Runnable.pm', # finds $VERSION
 	AUTHOR       => 'David Duncan Ross Palmer, 2E0EOL (palmer@overchat.org)',
-	ABSTRACT     => 'Base class for runnable unit tests using Moose introspection',
+	ABSTRACT     => 'Base class for runnable unit tests using introspection',
 
 	PREREQ_PM => {
-		'Moose'        => 0,
 		'Test::More'   => 0,
 	}, BUILD_REQUIRES => {
-		'Moose'        => 0,
 		'Test::More'   => 0,
 	},
 );
