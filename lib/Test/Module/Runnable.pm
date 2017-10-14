@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 #
 # Module test framework
-# Copyright (c) 2015-2016, David Duncan Ross Palmer (2E0EOL) and others,
+# Copyright (c) 2015-2017, Duncan Ross Palmer (2E0EOL) and others,
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -356,12 +356,12 @@ sub debug {
 
 =head1 AUTHOR
 
-David Duncan Ross Palmer, 2E0EOL L<mailto:palmer@overchat.org>
+Duncan Ross Palmer, 2E0EOL L<mailto:palmer@overchat.org>
 
 =head1 LICENCE
 
 Daybo Logic Shared Library
-Copyright (c) 2015, David Duncan Ross Palmer (2E0EOL), Daybo Logic
+Copyright (c) 2015-2017, David Duncan Ross Palmer (2E0EOL), Daybo Logic
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -392,7 +392,7 @@ POSSIBILITY OF SUCH DAMAGE.
 
 =head1 AVAILABILITY
 
-https://bitbucket.org/2E0EOL/libtest-module-runnable-perl
+L<https://bitbucket.org/2E0EOL/libtest-module-runnable-perl>
 
 =head1 CAVEATS
 
