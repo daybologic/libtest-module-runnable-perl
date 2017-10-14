@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 #
 # Module test framework
-# Copyright (c) 2015-2016, David Duncan Ross Palmer (2E0EOL) and others,
+# Copyright (c) 2015-2017, Duncan Ross Palmer (2E0EOL) and others,
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -34,15 +34,19 @@ package main;
 
 use POSIX qw(EXIT_SUCCESS);
 use Test::More 0.96;
+use Readonly;
 use strict;
 use warnings;
 
-plan tests => 1;
+Readonly my $TEST_COUNT => 2;
+
+plan tests => $TEST_COUNT;
 
 SKIP: {
-	skip 'TEST_AUTHOR only', 1 unless ($ENV{TEST_AUTHOR});
+	skip 'TEST_AUTHOR only', $TEST_COUNT unless ($ENV{TEST_AUTHOR});
 
-	is(system('podchecker lib/Test/Module/Runnable.pm'), EXIT_SUCCESS, 'podchecker');
+	is(system('podchecker lib/Test/Module/Runnable.pm'), EXIT_SUCCESS, 'podchecker Runnable.pm');
+	is(system('podchecker lib/Test/Module/Runnable/Base.pm'), EXIT_SUCCESS, 'podchecker Base.pm');
 };
 
 exit(EXIT_SUCCESS);
