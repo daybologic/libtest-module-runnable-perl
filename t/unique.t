@@ -1,4 +1,4 @@
-#!/usr/bin/make -f
+#!/usr/bin/perl
 #
 # Module test framework
 # Copyright (c) 2015-2017, Duncan Ross Palmer (2E0EOL) and others,
@@ -29,8 +29,19 @@
 # CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
+#
 
-export DH_VERBOSE=1
+package main;
+use lib 't/lib';
+use Private::Test::Module::Runnable::unique;
+use Test::More 0.96;
 
-%:
-	dh $@
+use strict;
+use warnings;
+
+sub main {
+	$SIG{__WARN__} = sub { BAIL_OUT("@_") } unless ($ENV{TEST_VERBOSE});
+	return Private::Test::Module::Runnable::unique->new()->run();
+}
+
+exit(main());

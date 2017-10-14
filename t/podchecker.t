@@ -1,4 +1,4 @@
-#!/usr/bin/make -f
+#!/usr/bin/perl -w
 #
 # Module test framework
 # Copyright (c) 2015-2017, Duncan Ross Palmer (2E0EOL) and others,
@@ -30,7 +30,23 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-export DH_VERBOSE=1
+package main;
 
-%:
-	dh $@
+use POSIX qw(EXIT_SUCCESS);
+use Test::More 0.96;
+use Readonly;
+use strict;
+use warnings;
+
+Readonly my $TEST_COUNT => 2;
+
+plan tests => $TEST_COUNT;
+
+SKIP: {
+	skip 'TEST_AUTHOR only', $TEST_COUNT unless ($ENV{TEST_AUTHOR});
+
+	is(system('podchecker lib/Test/Module/Runnable.pm'), EXIT_SUCCESS, 'podchecker Runnable.pm');
+	is(system('podchecker lib/Test/Module/Runnable/Base.pm'), EXIT_SUCCESS, 'podchecker Base.pm');
+};
+
+exit(EXIT_SUCCESS);
