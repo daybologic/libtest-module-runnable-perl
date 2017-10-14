@@ -1,3 +1,12 @@
+libtest-module-runnable-perl (0.1.1) stable; urgency=low
+
+  * TODO: Need to allow user-test suites to user getopts()
+
+  * Refactor so that user-overridable methods are in primary class and all backend
+    functionality is in Base.pm
+
+ -- Duncan Ross Palmer <palmer@overchat.org>  Sat, 14 Oct 2017 17:44:26 +0000
+
 libtest-module-runnable-perl (0.1.0) stable; urgency=low
 
   * Pre-release beta

@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 #
 # Module test framework
-# Copyright (c) 2015-2016, David Duncan Ross Palmer (2E0EOL) and others,
+# Copyright (c) 2015-2017, Duncan Ross Palmer (2E0EOL) and others,
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -31,17 +31,50 @@
 # POSSIBILITY OF SUCH DAMAGE.
 #
 
-package main;
-use lib 't/lib';
-use Private::Test::Module::Runnable::unique;
+package getoptsTester;
+use Getopt::Std;
+use Moose;
+use POSIX qw(EXIT_FAILURE EXIT_SUCCESS);
+use Readonly;
+use Test::Module::Runnable;
 use Test::More 0.96;
 
+extends 'Test::Module::Runnable';
+
+Readonly my $EXPECT_ARG => '6f499142-b11a-11e7-919e-a54e42df3661';
+
+has __seenArgument => (isa => 'Str', is => 'rw');
+
+sub setUpBeforeClass {
+	my ($self) = @_;
+	my %opts;
+
+	if (getopts('n:', \%opts)) {
+		$self->__seenArgument($opts{n});
+		return EXIT_SUCCESS;
+	}
+
+	return EXIT_FAILURE;
+}
+
+sub testOnlyThisTest {
+	my ($self) = @_;
+
+	plan tests => 1;
+
+	is($self->__seenArgument, $EXPECT_ARG, 'Expected argument seen in only test expected to run');
+
+	return EXIT_SUCCESS;
+}
+
+package main;
 use strict;
 use warnings;
 
 sub main {
-	$SIG{__WARN__} = sub { BAIL_OUT("@_") } unless ($ENV{TEST_VERBOSE});
-	return Private::Test::Module::Runnable::unique->new()->run();
+	# In Test::Module::Runner 0.1.0, specifying non-test name arguments would cause no test to run
+	local @ARGV = ('-n', $EXPECT_ARG);
+	return getoptsTester->new->run();
 }
 
 exit(main());

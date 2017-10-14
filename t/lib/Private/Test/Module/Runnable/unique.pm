@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 #
 # Module test framework
-# Copyright (c) 2015-2016, David Duncan Ross Palmer (2E0EOL) and others,
+# Copyright (c) 2015-2017, Duncan Ross Palmer (2E0EOL) and others,
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -49,7 +49,7 @@ The number of iteration to stress the unique 'rand' domain
 has 'trials' => (
 	isa     => 'Int',
 	is      => 'ro',
-	default => 10_000,
+	default => ($ENV{TEST_AUTHOR}) ? (10_000) : (500),
 );
 
 sub setUp {
