@@ -1,3 +1,8 @@
+2017-10-14
+----------
+  * Refactor user-overridable methods into main class
+  * Refactor all backend logic into Base class
+
 2016-01-05
 ----------
   * Initial release

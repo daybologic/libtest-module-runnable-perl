@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 #
 # Module test framework
-# Copyright (c) 2015-2016, David Duncan Ross Palmer (2E0EOL) and others,
+# Copyright (c) 2015-2017, Duncan Ross Palmer (2E0EOL) and others,
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -32,25 +32,29 @@
 #
 
 use Test::Module::Runnable;
-package main;
-use Test::More tests => 1;
+use Test::Module::Runnable::Base;
+use Test::More;
+use POSIX qw(EXIT_SUCCESS);
 use strict;
 use warnings;
 
-use constant CHECK_PKG => 'Test::Module::Runnable';
 use constant CHECK_VER => '0.1.0';
 
+sub check {
+	my ($module, $version) = @_;
+
+	is($version, CHECK_VER, '$'.$module.'::VERSION');
+
+	return;
+}
+
 sub main {
-	is(
-		$Test::Module::Runnable::VERSION,
-		CHECK_VER,
-		sprintf(
-			'%s::VERSION is \'%s\'',
-			CHECK_PKG,
-			CHECK_VER
-		)
-	);
-	return 0;
+	plan tests => 2;
+
+	check('Test::Module::Runnable::VERSION', $Test::Module::Runnable::VERSION);
+	check('Test::Module::Runnable::Base::VERSION', $Test::Module::Runnable::Base::VERSION);
+
+	return EXIT_SUCCESS;
 }
 
 exit(main());
