@@ -5,6 +5,54 @@ libtest-module-runnable-perl (0.1.1) stable; urgency=low
   * Refactor so that user-overridable methods are in primary class and all backend
     functionality is in Base.pm
 
+  * David Duncan Ross Palmer, Fri Feb 05 23:26:46 2016 +0000, 174:604a6559e22a (default): Merge rel/0
+  * David Duncan Ross Palmer, Fri Feb 05 23:28:31 2016 +0000, 175:92c8deb6ae4b (develop): Merged default down into develop
+  * David Duncan Ross Palmer, Fri Feb 05 23:29:39 2016 +0000, 176:6f39bdc0bc55 (stable): merge develop
+  * David Duncan Ross Palmer, Sat Feb 06 10:37:07 2016 +0000, 180:4c78d51802b0 (develop): Fix copyright notices
+  * David Duncan Ross Palmer, Sat Feb 06 10:46:05 2016 +0000, 181:995fdd7c968a (develop): Sack off self-inclusion in test
+  * David Duncan Ross Palmer, Sat Feb 06 11:01:44 2016 +0000, 182:215dbd1f69bc (f/201602-unique-random): Test that the random domain is always a positive integer
+  * David Duncan Ross Palmer, Sat Feb 06 11:11:45 2016 +0000, 183:680823610c9d (f/201602-unique-random): Reverse test logic; so each iteration runs a fix bunch of tests
+  * David Duncan Ross Palmer, Sat Feb 06 11:24:16 2016 +0000, 184:3aad41e78adb (f/201602-unique-random): Check random results not seen previously
+  * David Duncan Ross Palmer, Sat Feb 06 11:29:28 2016 +0000, 185:bdc85f139d28 (f/201602-unique-random): Reformat and add internal sanity check
+  * David Duncan Ross Palmer, Sat Feb 06 11:30:08 2016 +0000, 186:b73dfd783f79 (f/201602-unique-random): Fix user-visible iteration
+  * David Duncan Ross Palmer, Sat Feb 06 11:37:53 2016 +0000, 187:82f945197418 (f/201602-unique-random): Ensure random result is an integer
+  * David Duncan Ross Palmer, Sat Feb 06 12:16:31 2016 +0000, 188:f10afa87f3f8 (f/201602-unique-random): Write experimental sequence test
+  * David Duncan Ross Palmer, Sat Feb 06 12:43:51 2016 +0000, 189:d6794afd26f5 (f/201602-unique-random): Implement unique random code
+  * David Duncan Ross Palmer, Sat Feb 06 13:27:38 2016 +0000, 190:4e1282a74120 (f/201602-unique-random): Change random test logic
+  * David Duncan Ross Palmer, Sat Feb 06 13:31:07 2016 +0000, 191:9b761dc81ead (f/201602-unique-random): Tested against old code and adjusted threshold
+  * David Duncan Ross Palmer, Sat Feb 06 13:37:01 2016 +0000, 192:eed0ada4622d (f/201602-unique-random): Skip one of the random tests unless TEST_AUTHOR is defined
+  * David Duncan Ross Palmer, Sat Feb 06 13:56:32 2016 +0000, 193:d762bb2ab64d (f/201602-unique-random): Clarify confusing variable name
+  * DDR Palmer, Mon Feb 08 08:02:53 2016 +0000, 195:8e3a56f3c9df (f/201602-unique-random): Close branch f/201602-unique-random
+  * DDR Palmer, Mon Feb 08 08:02:53 2016 +0000, 196:84db9b4c42a8 (develop): Merged in f/201602-unique-random (pull request #1)
+  * David Duncan Ross Palmer, Mon Feb 08 20:17:32 2016 +0000, 197:6c9bc8c58244 (develop): use Moose automagically switches on strict and warnings.
+  * David Duncan Ross Palmer, Mon Feb 08 20:23:27 2016 +0000, 198:5f2aca1b4d00 (stable): Merged branch develop at revision 6c9bc8c58244 into stable
+  * David Duncan Ross Palmer, Tue Feb 09 21:15:26 2016 +0000, 207:55eadcb967ed (develop): Remove tester_ redundant prefix (tests only)
+  * David Duncan Ross Palmer, Tue Feb 09 21:19:02 2016 +0000, 208:4325d09ba622 (develop): Reduce trial iterations when on users' systems
+  * David Duncan Ross Palmer, Tue Feb 09 21:26:01 2016 +0000, 209:1997589ac85d (develop): Potential fix for PoD missing a newline
+  * David Duncan Ross Palmer, Thu Feb 11 18:33:41 2016 +0000, 213:0487b7d7a34c (f/201602-pod-check): Created branch to ensure PoD is sound
+  * David Duncan Ross Palmer, Thu Feb 11 18:45:53 2016 +0000, 214:b3cf6467cb06 (f/201602-pod-check): Check lib/Test/Module/Runnable.pm with podchecker
+  * David Duncan Ross Palmer, Thu Feb 11 18:46:42 2016 +0000, 215:02a8a7159d34 (develop): PoD syntax fix; =item without previous =over
+  * David Duncan Ross Palmer, Thu Feb 11 19:55:36 2016 +0000, 216:57a525961dd6 (f/201602-pod-check): Added missing license
+  * David Duncan Ross Palmer, Thu Feb 11 19:56:33 2016 +0000, 217:32ba63da665a (develop): License reformat (no content change)
+  * DDR Palmer, Thu Feb 11 21:59:00 2016 +0000, 218:d836c70e7daf (f/201602-pod-check): Close branch f/201602-pod-check
+  * DDR Palmer, Thu Feb 11 21:59:00 2016 +0000, 219:dd4911141a84 (develop): Merged in f/201602-pod-check (pull request #2)
+  * Duncan Ross Palmer, Sat Oct 14 17:30:34 2017 +0100, 223:3bedcfa27243 (f/201710-maint): Branch for maintenance -- preparing for next release
+  * Duncan Ross Palmer, Sat Oct 14 17:40:31 2017 +0100, 224:0ab913b843b3 (f/201710-maint): Fix indentation of examples (PoD)
+  * Duncan Ross Palmer, Sat Oct 14 17:41:20 2017 +0100, 225:6b22e843cd9e (f/201710-maint): Fix name and copyright years in main module
+  * Duncan Ross Palmer, Sat Oct 14 17:46:00 2017 +0100, 226:0c152f9ed512 (f/201710-maint): Fix more PoD and don't use can() on methods we plan to provide in future Runner.
+  * Duncan Ross Palmer, Sat Oct 14 18:20:51 2017 +0100, 227:76b0fba3de0e (f/201710-maint): Big refactor into Base and used defined methods
+  * Duncan Ross Palmer, Sat Oct 14 18:23:40 2017 +0100, 228:9bee3a19898d (f/201710-maint): Fix podchecker
+  * Duncan Ross Palmer, Sat Oct 14 18:24:32 2017 +0100, 229:f35644fdf152 (f/201710-maint): Added libreadonly-perl to debian/control
+  * Duncan Ross Palmer, Sat Oct 14 18:33:16 2017 +0100, 230:564e2a945d46 (f/201710-maint): Fix t/version.t
+  * Duncan Ross Palmer, Sat Oct 14 18:43:32 2017 +0100, 231:c0025a283342 (f/201710-maint): Mostly name and news, mostly
+  * Duncan Ross Palmer, Sat Oct 14 18:47:11 2017 +0100, 232:17e20147277e (f/201710-maint): More name changes and start preparing next release changelog
+  * Duncan Ross Palmer, Sat Oct 14 20:49:04 2017 +0100, 233:9a12ff8bee11 (f/201710-maint): Don't clobber runnable tests via command-line
+  * Duncan Ross Palmer, Sat Oct 14 21:14:51 2017 +0100, 234:434556766196 (f/201710-maint): Regression test for 9a12ff8bee11
+  * Duncan Ross Palmer, Sat Oct 14 21:17:52 2017 +0100, 235:62be24733cfa (f/201710-maint): More name and copyright year fixes
+  * Duncan Ross Palmer, Sat Oct 14 21:25:17 2017 +0100, 236:5df81e6757ed (f/201710-maint): Added Test::Module::Runnable
+  * Duncan Ross Palmer, Sat Oct 14 21:28:03 2017 +0100, 237:86ce69b17ecd (develop): Merged branch f/201710-maint at revision 5df81e6757ed into develop
+  * Duncan Ross Palmer, Sat Oct 14 21:31:29 2017 +0100, 238:b1cf67e01056 (stable): Merge develop into stable
+
  -- Duncan Ross Palmer <palmer@overchat.org>  Sat, 14 Oct 2017 17:44:26 +0000
 
 libtest-module-runnable-perl (0.1.0) stable; urgency=low
