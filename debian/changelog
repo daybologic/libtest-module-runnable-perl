@@ -19,7 +19,7 @@ libtest-module-runnable-perl (0.2.0) stable; urgency=low
   * f35644fdf152: Added libreadonly-perl to debian/control
   * 9a12ff8bee11: Don't clobber runnable tests via command-line (regression test at 434556766196)
 
- -- Duncan Ross Palmer <palmer@overchat.org>  Sat, 14 Oct 2017 17:44:26 +0000
+ -- Duncan Ross Palmer <palmer@overchat.org>  Sat, 14 Oct 2017 22:02:21 +0100
 
 libtest-module-runnable-perl (0.1.0) stable; urgency=low
 
