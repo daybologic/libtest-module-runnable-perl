@@ -32,15 +32,13 @@
 
 =head1 NAME
 
-Test::Module::Runnable - A runnable framework on Moose for running tests
+Test::Module::Runnable - A runnable class framework for running tests
 
 =head1 SYNOPSIS
 
 package YourTestSuite;
-use Moose;
+use base (Test::Module::Runnable);
 use Test::More 0.96;
-
-extends 'Test::Module::Runnable';
 
 sub helper { } # Not called
 
@@ -48,29 +46,26 @@ sub testExample { } # Automagically called due to 'test' prefix.
 
 package main;
 
-my $tester = new YourTestSuite;
+exit(YourTestSuite->new->run);
+
+# alternatively...
+
+my $tester = YourTestSuite->new;
 plan tests => $tester->testCount;
 foreach my $name ($tester->testMethods) {
 	subtest $name => $tester->$name;
 }
 
-alternatively...
-
-my $tester = new YourTestSuite;
-return $tester->run;
-
 =head1 DESCRIPTION
 
-A test framework based on Moose introspection to automagically
+A test framework based on introspection to automagically
 call all methods matching a user-defined pattern.  Supports per-test
-setup and tear-down routines and easy early C<BAIL_OUT> using
+C<setUp> and C<tearDown> routines and easy early C<BAIL_OUT> using
 C<Test::More>.
 
 =cut
 
 package Test::Module::Runnable;
-
-use Moose;
 use Test::More 0.96;
 use POSIX qw/EXIT_SUCCESS/;
 
@@ -88,7 +83,11 @@ ignored.
 
 =cut
 
-has 'sut' => (is => 'rw', required => 0);
+sub sut {
+	my ($self) = @_;
+	$self->{__sut} = $_[1] if (scalar(@_) > 1);
+	return $self->{__sut};
+}
 
 =item C<__unique_default_domain>
 
