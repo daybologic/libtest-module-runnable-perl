@@ -1,5 +1,3 @@
-#!/usr/bin/perl
-#
 # Module test framework
 # Copyright (c) 2015-2017, Duncan Ross Palmer (2E0EOL) and others,
 # All rights reserved.
@@ -68,7 +66,7 @@ L<Test::More>.
 
 =cut
 
-package Test::Module::Runnable;
+package Test::Module::Runnable::Base;
 
 use Moose;
 use Test::More 0.96;
