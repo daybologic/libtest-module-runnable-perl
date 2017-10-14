@@ -63,8 +63,8 @@ alternatively...
 
 A test framework based on Moose introspection to automagically
 call all methods matching a user-defined pattern.  Supports per-test
-setup and tear-down routines and easy early C<BAIL_OUT> using
-C<Test::More>.
+setup and tear-down routines and easy early L<Test::Builder/BAIL_OUT> using
+L<Test::More>.
 
 =cut
 
@@ -74,9 +74,11 @@ use Moose;
 use Test::More 0.96;
 use POSIX qw/EXIT_SUCCESS/;
 
-our $VERSION = '0.1.0';
+BEGIN {
+	our $VERSION = '0.1.0';
+}
 
-=head2 ATTRIBUTES
+=head1 ATTRIBUTES
 
 =over
 
@@ -86,9 +88,15 @@ System under test - a generic slot for an object you are testing, which
 could be re-initialized under the C<setUp> routine, but this entry may be
 ignored.
 
+=back
+
 =cut
 
 has 'sut' => (is => 'rw', required => 0);
+
+=head1 PRIVATE ATTRIBUTES
+
+=over
 
 =item C<__unique_default_domain>
 
@@ -135,18 +143,23 @@ has '__random' => (
 	},
 );
 
-=head2 METHODS
+=head1 METHODS
 
 =over
 
-=item <unique>
+=item C<setUpBeforeClass>
+
+Placeholder method called before any test method is called, in order
+for you to initialize your tests.
+
+=item C<unique>
 
 Returns a unique, integer ID, which is predictable.
 
-An optional C<domain> can be specified, which is a discrete sequence,
+An optional C<$domain> can be specified, which is a discrete sequence,
 isolated from anhy other domain.  If not specified, a default domain is used.
 The actual name for this domain is opaque, and is specified by
-C<__unique_default_domain>.
+L</__unique_default_domain>.
 
 A special domain; C<rand> can be used for random numbers which will not repeat.
 
@@ -179,7 +192,7 @@ sub unique {
 
 The pattern which defines which user-methods are considered tests.
 Defaults to ^test
-Methods matching this pattern will be returned from C<methodNames>
+Methods matching this pattern will be returned from L</methodNames>
 
 =cut
 
@@ -191,7 +204,7 @@ A generic slot for a loggger, to be initialized with your logging framework,
 or a mock logging system.
 
 This slot is not touched by this package, but might be passed on to
-your C<sut>, or you may wish to clear it between tests by sub-classing
+your L</sut>, or you may wish to clear it between tests by sub-classing
 this package.
 
 =cut
@@ -200,7 +213,7 @@ has 'logger' => (is => 'rw', required => 0);
 
 =item C<mocker>
 
-This slot can be used during C<setUpBeforeClass> to set up a C<Test::MockModule>
+This slot can be used during L</setUpBeforeClass> to set up a C<Test::MockModule>
 for the C<sut> class being tested.  If set, C<mocker->unmock_all()> will be
 called automagically, just after each test method is executed.
 This will allow different methods to to be mocked, which are not directly relevant
@@ -312,7 +325,7 @@ sub run {
 
 	plan tests => scalar(@tests) * $params{n};
 
-	$fail = $self->setUpBeforeClass() if ($self->can('setUpBeforeClass')); # Call any registered pre-suite routine
+	$fail = $self->setUpBeforeClass(); # Call any registered pre-suite routine
 	$self->__wrapFail('setUpBeforeClass', undef, $fail);
 	for (my $i = 0; $i < $params{n}; $i++) {
 		foreach my $method (@tests) {
@@ -322,17 +335,17 @@ sub run {
 			confess(sprintf('Test \'%s\' does not exist', $method))
 				unless $self->can($method);
 
-			$fail = $self->setUp(method => $method) if ($self->can('setUp')); # Call any registered pre-test routine
+			$fail = $self->setUp(method => $method); # Call any registered pre-test routine
 			$self->__wrapFail('setUp', $method, $fail);
 			subtest $method => sub { $fail = $self->$method(method => $method) }; # Correct test (or all)
 			$self->__wrapFail('method', $method, $fail);
 			$self->mocker->unmock_all() if ($self->mocker);
 			$fail = 0;
-			$fail = $self->tearDown(method => $method) if ($self->can('tearDown')); # Call any registered post-test routine
+			$fail = $self->tearDown(method => $method); # Call any registered post-test routine
 			$self->__wrapFail('tearDown', $method, $fail);
 		}
 	}
-	$fail = $self->tearDownAfterClass() if ($self->can('tearDownAfterClass')); # Call any registered post-suite routine
+	$fail = $self->tearDownAfterClass(); # Call any registered post-suite routine
 	$self->__wrapFail('tearDownAfterClass', undef, $fail);
 
 	return EXIT_SUCCESS;
