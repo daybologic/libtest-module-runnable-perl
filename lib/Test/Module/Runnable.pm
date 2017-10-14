@@ -36,28 +36,28 @@ Test::Module::Runnable - A runnable framework on Moose for running tests
 
 =head1 SYNOPSIS
 
-package YourTestSuite;
-use Moose;
-use Test::More 0.96;
+   package YourTestSuite;
+   use Moose;
+   use Test::More 0.96;
 
-extends 'Test::Module::Runnable';
+   extends 'Test::Module::Runnable';
 
-sub helper { } # Not called
+   sub helper { } # Not called
 
-sub testExample { } # Automagically called due to 'test' prefix.
+   sub testExample { } # Automagically called due to 'test' prefix.
 
-package main;
+   package main;
 
-my $tester = new YourTestSuite;
-plan tests => $tester->testCount;
-foreach my $name ($tester->testMethods) {
-	subtest $name => $tester->$name;
-}
+   my $tester = new YourTestSuite;
+   plan tests => $tester->testCount;
+   foreach my $name ($tester->testMethods) {
+     subtest $name => $tester->$name;
+   }
 
 alternatively...
 
-my $tester = new YourTestSuite;
-return $tester->run;
+   my $tester = new YourTestSuite;
+   return $tester->run;
 
 =head1 DESCRIPTION
 
