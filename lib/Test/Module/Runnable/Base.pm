@@ -317,7 +317,10 @@ sub run {
 					push(@userRunTests, $testName);
 				}
 			}
-			@tests = @userRunTests;
+
+			if (scalar(@userRunTests) > 0) {
+				@tests = @userRunTests;
+			}
 		}
 	}
 
