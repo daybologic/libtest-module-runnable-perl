@@ -1,3 +1,9 @@
+libtest-module-runnable-perl (0.2.3) stable; urgency=low
+
+  * Fix issue where not was directly tested against a blank string. (Unit tests only).
+
+ -- Duncan Ross Palmer <palmer@overchat.org>  Sun, 15 Oct 2017 16:06:07 +0100
+
 libtest-module-runnable-perl (0.2.2) stable; urgency=low
 
   * Added List::MoreUtils to BUILD_REQUIRES
