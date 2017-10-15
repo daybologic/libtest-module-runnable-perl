@@ -48,5 +48,6 @@ WriteMakefile(
 	}, BUILD_REQUIRES => {
 		'Moose'        => 0,
 		'Test::More'   => 0,
+		'Readonly'     => 0,
 	},
 );
