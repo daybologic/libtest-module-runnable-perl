@@ -1,2 +1,8 @@
-[???]
+[0.2.1]
+  * Fix missing dependency on Readonly
 
+[0.2.0]
+  * Added 'rand' domain to the unique() call.
+
+[0.1.0]
+  * Initial release
