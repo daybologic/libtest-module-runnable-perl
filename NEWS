@@ -1,7 +1,13 @@
+2017-10-15
+----------
+  * Fix missing dependency on Readonly (Slaven Rezic)
+  * Fix missing dependency on List::MoreUtils (Slaven Rezic)
+
 2017-10-14
 ----------
   * Refactor user-overridable methods into main class
   * Refactor all backend logic into Base class
+  * Added 'rand' domain within unique() call.
 
 2016-01-05
 ----------

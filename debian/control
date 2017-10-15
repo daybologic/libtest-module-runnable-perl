@@ -6,6 +6,7 @@ Build-Depends: debhelper (>= 9),
 Build-Depends-Indep:
  libmoose-perl,
  libreadonly-perl,
+ liblist-moreutils-perl,
 Standards-Version: 3.7.3
 Homepage: https://bitbucket.org/2E0EOL/libtest-module-runnable-perl
 
