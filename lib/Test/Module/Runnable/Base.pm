@@ -73,7 +73,7 @@ use Test::More 0.96;
 use POSIX qw/EXIT_SUCCESS/;
 
 BEGIN {
-	our $VERSION = '0.1.0';
+	our $VERSION = '0.2.2';
 }
 
 =head1 ATTRIBUTES
