@@ -1,6 +1,7 @@
 2017-10-15
 ----------
-  * Fix missing dependency on Readonly
+  * Fix missing dependency on Readonly (Slaven Rezic)
+  * Fix missing dependency on List::MoreUtils (Slaven Rezic)
 
 2017-10-14
 ----------
