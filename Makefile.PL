@@ -46,8 +46,9 @@ WriteMakefile(
 		'Moose'        => 0,
 		'Test::More'   => 0,
 	}, BUILD_REQUIRES => {
-		'Moose'        => 0,
-		'Test::More'   => 0,
-		'Readonly'     => 0,
+		'Moose'           => 0,
+		'Test::More'      => 0,
+		'Readonly'        => 0,
+		'List::MoreUtils' => 0,
 	},
 );
