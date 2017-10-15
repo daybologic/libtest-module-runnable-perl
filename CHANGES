@@ -1,3 +1,6 @@
+[0.2.3]
+  * Fix issue where not was directly tested against a blank string. (Unit tests only).
+
 [0.2.2]
   * Fix missing dependency on List::MoreUtils (Slaven Rezic)
 
