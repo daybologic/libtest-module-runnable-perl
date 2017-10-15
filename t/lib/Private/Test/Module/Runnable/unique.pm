@@ -101,7 +101,7 @@ sub testRandom {
 			cmp_ok($result, '>', 0, 'unique rand > 0');
 
 			$match = any { $result == $_ } @spent;
-			is($match, '', sprintf(
+			ok(!$match, sprintf(
 				'result %d not seen previously',
 				$result
 			));
