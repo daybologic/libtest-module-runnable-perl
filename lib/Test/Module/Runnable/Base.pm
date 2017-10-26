@@ -510,6 +510,75 @@ sub unmock {
 	return $self;
 }
 
+=item C<_mockdump>
+
+Helper method for dumping arguments and return values from C<mock> function.
+
+=cut
+
+sub _mockdump {
+	my $arg = shift;
+	my $dumper = Data::Dumper->new([$arg], ['arg']);
+	$dumper->Indent(1);
+	$dumper->Maxdepth(1);
+	my $str = $dumper->Dump();
+	$str =~ s/\n\s*/ /g;
+	$str =~ s/^\$arg = \[\s*//;
+	$str =~ s/\s*\];\s*$//s;
+	return $str;
+}
+
+=item C<mockCalls($class, $method)>
+
+Return a reference to an array of the calls made to the specified mocked function.  Each entry in the arrayref
+is an arrayref of the arguments to that call, B<excluding> the object reference itself (i.e. C<$self>).
+
+=cut
+
+sub mockCalls {
+	my ($self, $class, $method) = @_;
+	return $self->__mockCalls($class, $method);
+}
+
+=item C<mockCallsWithObject($class, $method)>
+
+Return a reference to an array of the calls made to the specified mocked function.  Each entry in the arrayref
+is an arrayref of the arguments to that call, B<including> the object reference itself (i.e. C<$self>).
+
+This method is strongly encouraged in preference to L</mockCalls($class,
+$method)> if your test constructs multiple instances of the same class,
+so that you know that the right method calls were actually made on the
+right object.
+
+Normal usage:
+
+  cmp_deeply($self->mockCallsWithObject($class, $method), [
+    [ shallow($instance1), $arg1, $arg2 ],
+    [ shallow($instance2), $otherArg1, $otherArg2 ],
+    ...
+  ], 'correct method calls');
+
+=cut
+
+sub mockCallsWithObject {
+	my ($self, $class, $method) = @_;
+	return $self->__mockCalls($class, $method, withObject => 1);
+}
+
+=item C<clearMocks>
+
+Forcibly clear all mock objects, if required e.g. in C<tearDown>.
+
+=cut
+
+sub clearMocks {
+	my ($self) = @_;
+
+	$self->{mock_module} = {};
+	$self->{mock_args} = {};
+	return;
+}
+
 =back
 
 =head1 AUTHOR
