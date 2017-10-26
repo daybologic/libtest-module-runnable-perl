@@ -1,0 +1,90 @@
+#!/usr/bin/perl
+
+package mockNonExistentMethodTests;
+use strict;
+use Moose;
+extends 'Test::Module::Runnable';
+
+use English qw(-no_match_vars);
+use Test::Module::Runnable;
+use IO::Pipe;
+use POSIX;
+use Test::Exception;
+use Test::More;
+use Test::Output;
+
+use lib 't/lib';
+use Dummy;
+use DummyWithAutoload;
+
+sub setUp {
+	my ($self) = @_;
+
+	$self->sut(FIXME::Tester->new);
+	$self->forcePlan();
+
+	return EXIT_SUCCESS;
+}
+
+sub tearDown {
+	my ($self) = @_;
+
+	$self->clearMocks();
+
+	return EXIT_SUCCESS;
+}
+
+sub testClassWithoutAutoload {
+	my ($self) = @_;
+	plan tests => 2;
+
+	my $pipe = IO::Pipe->new;
+	BAIL_OUT("pipe: $ERRNO") unless $pipe;
+
+	my $pid = fork;
+	BAIL_OUT("fork: $ERRNO") unless defined $pid;
+
+	# Easiest way to test BAIL_OUT is to fork a new process and execute it as
+	# a new perl process.
+	if ($pid == 0) {
+		$pipe->writer();
+		open STDOUT, '>&', $pipe;
+		open STDERR, '>&', $pipe;
+
+		my $code = <<EOF;
+use FIXME::Tester;
+use Dummy;
+FIXME::Tester->new->mock('Dummy', 'noSuchMethod');
+EOF
+
+		exec('perl', (map { "-I$_" } @INC), '-e', $code);
+		exit 127;
+	}
+
+	$pipe->reader();
+
+	my $line = <$pipe>;
+	is($line, "Bail out!  Cannot mock Dummy->noSuchMethod because it doesn't exist and Dummy has no AUTOLOAD\n",
+		'bailed out as expected when mocking nonexistent method on class without AUTOLOAD');
+
+	$pipe->close();
+	wait;
+	isnt($?, 0, 'process reported failure');
+
+	return;
+}
+
+sub testClassWithAutoload {
+	my ($self) = @_;
+	plan tests => 2;
+
+	lives_ok { $self->mock('DummyWithAutoload', 'noSuchMethod') } 'can mock nonexistent method when class has AUTOLOAD';
+
+	lives_ok { DummyWithAutoload->noSuchMethod } 'can call mocked method';
+
+	return;
+}
+
+package main;
+use strict;
+exit(mockNonExistentMethodTests->new->run);
