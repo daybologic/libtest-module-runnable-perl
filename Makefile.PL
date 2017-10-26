@@ -43,8 +43,9 @@ WriteMakefile(
 	ABSTRACT     => 'Base class for runnable unit tests using Moose introspection',
 
 	PREREQ_PM => {
-		'Moose'        => 0,
-		'Test::More'   => 0,
+		'Moose'            => 0,
+		'Test::MockModule' => 0,
+		'Test::More'       => 0,
 	}, BUILD_REQUIRES => {
 		'Moose'           => 0,
 		'Test::More'      => 0,

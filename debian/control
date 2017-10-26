@@ -14,6 +14,7 @@ Package: libtest-module-runnable-perl
 Architecture: all
 Depends: ${shlibs:Depends}, ${misc:Depends},
  libmoose-perl,
+ libtest-mockmodule-perl,
 Description: Test::Module::Runnable
  Base class for runnable unit tests using Moose introspection
  and a user-defined pattern for subtest routines.

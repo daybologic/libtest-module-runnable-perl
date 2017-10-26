@@ -69,6 +69,7 @@ L<Test::More>.
 package Test::Module::Runnable::Base;
 
 use Moose;
+use Test::MockModule;
 use Test::More 0.96;
 use POSIX qw/EXIT_SUCCESS/;
 
