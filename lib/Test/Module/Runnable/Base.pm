@@ -366,6 +366,112 @@ sub debug {
 	return;
 }
 
+=item C<mock($class, $method, $return)>
+
+This mocks the given method on the specified class, with the specified
+return value, described below.  Additionally, stores internally a log of all
+method calls, and their arguments.  Note that the first argument is not
+saved, i.e. the object on which the method was called, as this is rarely useful
+in a unit test comparison.
+
+The return value, C<$return>, may be specified in one of two ways:
+
+=over
+
+=item A C<CODE> reference
+
+In which case the code reference is simply called
+each time, with all arguments as passed to the mocked function, and the
+return value passed as-is to the caller.  Note that care is taken that
+if the mocked method is called in array context, the code reference is
+called in array context, and likewise for scalar context.
+
+=item An C<ARRAY> reference
+
+In which case, a value is shifted from the front
+of the array.  If the value removed is itself a C<CODE> ref the code
+reference is called, and its return value returned, as described above,
+otherwise the value is returned as-is.
+
+Note that you cannot return a list by adding it to an array, so if you need to
+use the array form, and also return a list, you will need to add a C<CODE> reference into the array:
+
+   $self->mock($class, $method, [
+     1,                       # first call returns scalar '1'
+     [2,3,4],                 # second call returns array reference
+     sub { return (5,6,7) },  # third call returns a list
+  ]);
+
+=back
+
+If no value is specified, or if the specified array is exhaused, then either
+C<undef> or an empty array is returned, depending on context.
+
+Calls including arguments and return values are passed to the C<debug()>
+method.
+
+=cut
+
+sub mock {
+	my ($self, $class, $method, $return) = @_;
+
+	unless ($class->can($method) || $class->can('AUTOLOAD')) {
+		BAIL_OUT("Cannot mock $class->$method because it doesn't exist and $class has no AUTOLOAD")
+	}
+
+	die('$return must be CODE or ARRAY ref') if defined($return) && ref($return) ne 'CODE' && ref($return) ne 'ARRAY';
+
+	unless ($self->{mock_module}->{$class}) {
+		$self->{mock_module}->{$class} = Test::MockModule->new($class);
+	}
+
+	$self->{mock_module}->{$class}->mock($method, sub {
+		my @ret;
+		my @args = @_;
+
+		push @{$self->{mock_args}->{$class}->{$method}}, [@args];
+
+		if ($return) {
+			my ($val, $empty);
+			if (ref($return) eq 'ARRAY') {
+				# $return is an array ref, so shift the next value
+				if (@$return) {
+					$val = shift @$return;
+				} else {
+					$empty = 1;
+				}
+			} else {
+				# here $return must be a CODE ref, so just set $val
+				# and carry on.
+				$val = $return;
+			}
+
+			if (ref($val) eq 'CODE') {
+				if (wantarray) {
+					@ret = $val->(@_);
+				} else {
+					$ret[0] = scalar $val->(@_);
+				}
+			} else {
+				# just return this value, unless we're in the case
+				# where we exhausted the array, in which case we
+				# don't set this - it would make us return (undef)
+				# rather than empty list in list context.
+				$ret[0] = $val unless $empty;
+			}
+		}
+
+		# TODO: When running the CODE ref above, we should catch any fatal error,
+		# log them here, and then re-throw the error.
+		shift @args;
+		$self->debug(sprintf('%s::%s(%s) returning (%s)',
+				$class, $method, _mockdump(\@args), _mockdump(\@ret)));
+		return (wantarray ? @ret : $ret[0]);
+	});
+
+	return;
+}
+
 =back
 
 =head1 AUTHOR
