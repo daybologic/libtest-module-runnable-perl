@@ -18,7 +18,7 @@ sub setUp {
 }
 
 sub tearDown {
-	my ($self) = @_;
+	my ($self, %params) = @_;
 	$self->sut->clearMocks();
 	return $self->SUPER::setUp(%params);
 }

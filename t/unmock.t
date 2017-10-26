@@ -3,14 +3,14 @@ package unmockTests;
 use strict;
 use warnings;
 use Moose;
-extends 'FIXME::Tester';
+extends 'Test::Module::Runnable';
 
 use Test::More 0.96;
 
 use Readonly;
 use Test::MockModule;
 use Test::Exception;
-use FIXME::Tester;
+use Test::Module::Runnable;
 use FIXME::Log::Mock 1.4.0;
 
 has __controlClass => (isa => 'Str', is => 'ro', default => 'Alpha::Beta::Gamma');
@@ -25,7 +25,7 @@ sub setUp {
 	my $dummy;
 	my $methodActive = $self->__mockingMethodActive;
 
-	$self->sut(FIXME::Tester->new);
+	$self->sut(Test::Module::Runnable->new);
 	$self->forcePlan();
 
 	$self->sut->mock($self->__mockingClass, $methodActive, ['Lenny','Horatio']);

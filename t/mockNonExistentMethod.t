@@ -20,7 +20,7 @@ use DummyWithAutoload;
 sub setUp {
 	my ($self) = @_;
 
-	$self->sut(FIXME::Tester->new);
+	$self->sut(Test::Module::Runnable->new);
 	$self->forcePlan();
 
 	return EXIT_SUCCESS;
@@ -52,9 +52,9 @@ sub testClassWithoutAutoload {
 		open STDERR, '>&', $pipe;
 
 		my $code = <<EOF;
-use FIXME::Tester;
+use Test::Module::Runnable;
 use Dummy;
-FIXME::Tester->new->mock('Dummy', 'noSuchMethod');
+Test::Module::Runnable->new->mock('Dummy', 'noSuchMethod');
 EOF
 
 		exec('perl', (map { "-I$_" } @INC), '-e', $code);
