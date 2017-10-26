@@ -473,6 +473,43 @@ sub mock {
 	return;
 }
 
+=item unmock([class], [$method])
+
+Clears all mock objects.
+
+If no arguments are specified clearMocks is called.
+
+Is a class is specified, only that class is cleared.
+
+If a method is specified too, only that method of that mocked class is cleared
+(not methods by the same name under other classes).
+
+It is not legal to unmock a method in many or unspecified classes,
+doing so will invoke C<die()>.
+
+The reference to the the tester is returned.
+
+=cut
+
+sub unmock {
+	my ($self, $class, $method) = @_;
+
+	if (!$class) {
+		die('It is not legal to unmock a method in many or unspecified classes') if ($method);
+		$self->clearMocks;
+	} elsif (!$method) {
+		delete($self->{mock_module}->{$class});
+		delete($self->{mock_args}->{$class});
+	} else {
+		if ($self->{mock_module}->{$class}) {
+			$self->{mock_module}->{$class}->unmock($method);
+		}
+		delete($self->{mock_args}->{$class}->{$method});
+	}
+
+	return $self;
+}
+
 =back
 
 =head1 AUTHOR
