@@ -67,11 +67,12 @@ L<Test::More>.
 =cut
 
 package Test::Module::Runnable::Base;
-
 use Moose;
+
+use Data::Dumper;
+use POSIX qw/EXIT_SUCCESS/;
 use Test::MockModule;
 use Test::More 0.96;
-use POSIX qw/EXIT_SUCCESS/;
 
 BEGIN {
 	our $VERSION = '0.2.3';
