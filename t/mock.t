@@ -167,7 +167,7 @@ sub testArray {
 sub testArrayMixed {
 	my ($self) = @_;
 
-	$self->sut->mock('FIXME::Object', 'log', [
+	$self->sut->mock('Private::Test::Module::Runnable::Dummy2', 'realMethod', [
 		'first call',
 		['second', 'call'],
 		{ third => 'call' },
@@ -175,16 +175,15 @@ sub testArrayMixed {
 		sub { return ('fifth', 'call') },
 	]);
 
+	my $dummy = Private::Test::Module::Runnable::Dummy2->new;
+	is($dummy->realMethod, 'first call');
+	is_deeply($dummy->realMethod, ['second', 'call']);
+	is_deeply($dummy->realMethod, { third => 'call' });
+	is($dummy->realMethod, undef, 'fourth call undef');
+	is_deeply([$dummy->realMethod], ['fifth', 'call']); # note [] on left, so realMethod() returns list, not array ref
+	is($dummy->realMethod, undef);
 
-	my $obj = FIXME::Object->new;
-	is($obj->log, 'first call');
-	is_deeply($obj->log, ['second', 'call']);
-	is_deeply($obj->log, { third => 'call' });
-	is($obj->log, undef, 'fourth call undef');
-	is_deeply([$obj->log], ['fifth', 'call']); # note [] on left, so log() returns list, not array ref
-	is($obj->log, undef);
-
-	return;
+	return EXIT_SUCCESS;
 }
 
 sub testBadReturn {
