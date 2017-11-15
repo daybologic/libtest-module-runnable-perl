@@ -1,22 +1,22 @@
 #!/usr/bin/perl
 package unmockTests;
-use strict;
-use warnings;
 use Moose;
+use lib 't/lib';
+
 extends 'Test::Module::Runnable';
 
+use POSIX qw(EXIT_SUCCESS);
+use Private::Test::Module::Runnable::dummy;
+use Readonly;
+use Test::Exception;
+use Test::MockModule;
+use Test::Module::Runnable;
 use Test::More 0.96;
 
-use Readonly;
-use Test::MockModule;
-use Test::Exception;
-use Test::Module::Runnable;
-use FIXME::Log::Mock 1.4.0;
-
 has __controlClass => (isa => 'Str', is => 'ro', default => 'Alpha::Beta::Gamma');
-has __mockingClass => (isa => 'Str', is => 'ro', default => 'FIXME::Log::Mock'); # Must be a real module
-has __mockingMethodActive => (isa => 'Str', is => 'ro', default => 'trace'); # This is the method we're mocking
-has __mockingMethodControl => (isa => 'Str', is => 'ro', default => 'debug'); # This is just to test we're not kidding ourselves
+has __mockingClass => (isa => 'Str', is => 'ro', default => 'Private::Test::Module::Runnable::dummy'); # Must be a real module
+has __mockingMethodActive => (isa => 'Str', is => 'ro', default => 'publicMethod'); # This is the method we're mocking
+has __mockingMethodControl => (isa => 'Str', is => 'ro', default => 'methodDoesNotExist'); # This is just to test we're not kidding ourselves
 
 has __mockCallResult => (isa => 'Str', is => 'rw', default => '');
 
@@ -26,7 +26,7 @@ sub setUp {
 	my $methodActive = $self->__mockingMethodActive;
 
 	$self->sut(Test::Module::Runnable->new);
-	$self->forcePlan();
+	#$self->forcePlan(); # TODO: Not yet available
 
 	$self->sut->mock($self->__mockingClass, $methodActive, ['Lenny','Horatio']);
 	$dummy = $self->__mockingClass->new;
@@ -57,7 +57,7 @@ sub testSanity {
 	isa_ok($self->sut->{mock_args}->{$class}, 'HASH', 'mock_args for method');
 	isa_ok($self->sut->{mock_args}->{$class}->{$self->__mockingMethodActive}, 'ARRAY', 'mock_args for method') or diag(explain($self->sut->{mock_args}));
 
-	return;
+	return EXIT_SUCCESS;
 }
 
 sub testWithClassAndMethod {
@@ -82,7 +82,7 @@ sub testWithClassAndMethod {
 	is($self->sut->unmock($self->__controlClass, $self->__mockingMethodControl), $self->sut, 'unmock return value');
 	is($self->sut->unmock($self->__mockingClass, $self->__mockingMethodControl), $self->sut, 'unmock return value');
 
-	return;
+	return EXIT_SUCCESS;
 }
 
 sub testWithClassOnly {
@@ -100,7 +100,7 @@ sub testWithClassOnly {
 		is(exists($self->sut->{mock_args}->{$class}), '', 'mock_args for class') or diag(explain($self->sut->{mock_args}));
 	};
 
-	return;
+	return EXIT_SUCCESS;
 }
 
 
@@ -122,7 +122,7 @@ sub testNoArgs {
 		is($called, 1, 'clearMocks was called');
 	};
 
-	return;
+	return EXIT_SUCCESS;
 }
 
 sub testWithNoClassButMethod {
@@ -132,7 +132,7 @@ sub testWithNoClassButMethod {
 
 	throws_ok(sub { $self->sut->unmock(undef, 'x') }, qr/^It is not legal to unmock a method in many or unspecified classes/);
 
-	return;
+	return EXIT_SUCCESS;
 }
 
 package main;
