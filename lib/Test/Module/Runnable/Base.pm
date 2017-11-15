@@ -580,6 +580,36 @@ sub clearMocks {
 	return;
 }
 
+=item C<__mockCalls>
+
+Helper method used by L</mockCalls($class, $method)> and L</mockCallsWithObject($class, $method)>.
+
+=cut
+
+sub __mockCalls {
+	my ($self, $class, $method, %args) = @_;
+
+	my $calls = $self->{mock_args}->{$class}->{$method} || [];
+	unless ($args{withObject}) {
+		# This ugly code takes $calls, which is a an arrayref
+		# of arrayrefs, and maps it into a new arrayref, where
+		# each inner arrayref is a copy of the original, with the
+		# first element removed (i.e. the object reference).
+		#
+		# i.e. given $calls = [
+		#    [ $obj, $arg1, $arg2 ],
+		#    [ $obj, $arg3, $arg4 ],
+		# ]
+		# this will set $calls = [
+		#    [ $arg1, $arg2 ],
+		#    [ $arg3, $arg4 ],
+		# ]
+		$calls = [ map { [ @{$_}[1..$#$_] ] } @$calls ];
+	}
+
+	return $calls;
+}
+
 =back
 
 =head1 AUTHOR
