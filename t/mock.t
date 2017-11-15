@@ -1,12 +1,16 @@
 #!/usr/bin/perl
 package mockTests;
 use strict;
+use lib 't/lib';
 use Moose;
+
 extends 'Test::Module::Runnable';
 
-use Test::Module::Runnable;
+use POSIX qw(EXIT_SUCCESS);
+use Private::Test::Module::Runnable::Dummy2;
 use Test::Deep qw(cmp_deeply shallow);
 use Test::Exception;
+use Test::Module::Runnable;
 use Test::More;
 
 sub setUp {
@@ -29,36 +33,36 @@ sub testVerbose {
 	my $v = $ENV{TEST_VERBOSE};
 	$ENV{TEST_VERBOSE} = 1;
 
-	$self->_testVerbose([], [], 'FIXME::Object::log() returning ()');
-	$self->_testVerbose([1], [2], 'FIXME::Object::log(1) returning (2)');
-	$self->_testVerbose([1, 2], ['a', 'b'], "FIXME::Object::log(1, 2) returning ('a', 'b')");
+	$self->_testVerbose([], [], 'Private::Test::Module::Runnable::Dummy2::realMethod() returning ()');
+	$self->_testVerbose([1], [2], 'Private::Test::Module::Runnable::Dummy2::realMethod(1) returning (2)');
+	$self->_testVerbose([1, 2], ['a', 'b'], "Private::Test::Module::Runnable::Dummy2::realMethod(1, 2) returning ('a', 'b')");
 
-	$self->_testVerbose([{}, []], [FIXME::Object->new], qr/^
-		FIXME::Object::log
+	$self->_testVerbose([{}, []], [Private::Test::Module::Runnable::Dummy2->new], qr/^
+		Private::Test::Module::Runnable::Dummy2::realMethod
 		\(
 		'HASH\(\w+\)', \s 'ARRAY\(\w+\)'
 		\)
 		\s returning \s
 		\(
-		'FIXME::Object=HASH\(\w+\)'
+		'Private::Test::Module::Runnable::Dummy2=HASH\(\w+\)'
 		\)$/x);
 
 	$ENV{TEST_VERBOSE} = $v;
 
-	return;
+	return EXIT_SUCCESS;
 }
 
 sub _testVerbose {
 	my ($self, $in, $out, $expectedMessage) = @_;
 
-	$self->sut->mock('FIXME::Object', 'log', sub { return @$out });
+	$self->sut->mock('Private::Test::Module::Runnable::Dummy2', 'realMethod', sub { return @$out });
 
 	my $lastdiag;
 	my $mock = Test::MockModule->new('Test::Builder');
 	$mock->mock('diag', sub { $lastdiag = $_[1] });
 
-	my $obj = FIXME::Object->new;
-	(undef) = $obj->log(@$in);
+	my $obj = Private::Test::Module::Runnable::Dummy2->new;
+	(undef) = $obj->realMethod(@$in);
 
 	$mock = undef;
 
@@ -97,8 +101,8 @@ sub test {
 
 	# we should have 'one' and 'four' logged for real
 	is_deeply($self->sut->logger->get_entries, [
-		[FIXME::Log::DEBUG, 'one'],
-		[FIXME::Log::DEBUG, 'four'],
+		[123, 'one'],
+		[123, 'four'],
 	], 'correct log entries (real)');
 
 	return;
