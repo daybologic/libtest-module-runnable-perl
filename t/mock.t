@@ -192,7 +192,7 @@ sub testBadReturn {
 
 	throws_ok { $self->sut->mock('Test::Module::Runnable', 'unique', 1) } qr/^\$return must be CODE or ARRAY ref /;
 
-	return;
+	return EXIT_SUCCESS;
 }
 
 sub testCodeReturn {
