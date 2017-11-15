@@ -14,14 +14,14 @@ use Test::More;
 use Test::Output;
 
 use lib 't/lib';
-use Dummy;
-use DummyWithAutoload;
+use Private::Test::Module::Runnable::Dummy2; # FIXME: Merge classes dummy and Dummy2
+use Private::Test::Module::Runnable::DummyWithAutoload;
 
 sub setUp {
 	my ($self) = @_;
 
 	$self->sut(Test::Module::Runnable->new);
-	$self->forcePlan();
+	#$self->forcePlan(); # TODO: Not yet available
 
 	return EXIT_SUCCESS;
 }
@@ -53,8 +53,8 @@ sub testClassWithoutAutoload {
 
 		my $code = <<EOF;
 use Test::Module::Runnable;
-use Dummy;
-Test::Module::Runnable->new->mock('Dummy', 'noSuchMethod');
+use Private::Test::Module::Runnable::Dummy;
+Test::Module::Runnable->new->mock('Private::Test::Module::Runnable::Dummy', 'noSuchMethod');
 EOF
 
 		exec('perl', (map { "-I$_" } @INC), '-e', $code);
@@ -64,25 +64,25 @@ EOF
 	$pipe->reader();
 
 	my $line = <$pipe>;
-	is($line, "Bail out!  Cannot mock Dummy->noSuchMethod because it doesn't exist and Dummy has no AUTOLOAD\n",
+	is($line, "Bail out!  Cannot mock Private::Test::Module::Runnable::Dummy->noSuchMethod because it doesn't exist and Private::Test::Module::Runnable::Dummy has no AUTOLOAD\n",
 		'bailed out as expected when mocking nonexistent method on class without AUTOLOAD');
 
 	$pipe->close();
 	wait;
 	isnt($?, 0, 'process reported failure');
 
-	return;
+	return EXIT_SUCCESS;
 }
 
 sub testClassWithAutoload {
 	my ($self) = @_;
 	plan tests => 2;
 
-	lives_ok { $self->mock('DummyWithAutoload', 'noSuchMethod') } 'can mock nonexistent method when class has AUTOLOAD';
+	lives_ok { $self->mock('Private::Test::Module::Runnable::DummyWithAutoload', 'noSuchMethod') } 'can mock nonexistent method when class has AUTOLOAD';
 
-	lives_ok { DummyWithAutoload->noSuchMethod } 'can call mocked method';
+	lives_ok { Private::Test::Module::Runnable::DummyWithAutoload->noSuchMethod } 'can call mocked method';
 
-	return;
+	return EXIT_SUCCESS;
 }
 
 package main;
