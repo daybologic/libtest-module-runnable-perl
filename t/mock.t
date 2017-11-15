@@ -112,12 +112,15 @@ sub testCode {
 	my ($self) = @_;
 
 	my $counter = 0;
-	$self->sut->mock('FIXME::Log::Mock', 'debug', sub { $counter++ });
-	$self->sut->logger->debug("first");
-	$self->sut->logger->debug("second");
+	my $dummy = Private::Test::Module::Runnable::Dummy2->new();
+
+	$self->sut->mock('Private::Test::Module::Runnable::Dummy2', 'realMethod', sub { $counter++ });
+	$dummy->realMethod("first");
+	$dummy->realMethod("second");
+
 	is($counter, 2, 'mocked code block was called');
 
-	return;
+	return EXIT_SUCCESS;
 }
 
 sub testDie {
