@@ -149,17 +149,19 @@ sub testDie {
 sub testArray {
 	my ($self) = @_;
 
-	$self->sut->mock('FIXME::Object', 'log', [1,2,3]);
+	$self->sut->mock('Private::Test::Module::Runnable::Dummy2', 'realMethod', [1,2,3]);
 
-	my $obj = FIXME::Object->new;
-	is($obj->log, 1);
-	is($obj->log, 2);
-	is($obj->log, 3);
-	is($obj->log, undef, 'undef (list exhausted)');
-	is($obj->log, undef, 'undef again (just checking)');
-	is_deeply([$obj->log], [], 'empty array in list context');
+	my $dummy = Private::Test::Module::Runnable::Dummy2->new();
 
-	return;
+	is($dummy->realMethod, 1);
+	is($dummy->realMethod, 2);
+	is($dummy->realMethod, 3);
+	is($dummy->realMethod, undef, 'undef (list exhausted)');
+	is($dummy->realMethod, undef, 'undef again (just checking)');
+
+	is_deeply([$dummy->realMethod], [], 'empty array in list context');
+
+	return EXIT_SUCCESS;
 }
 
 sub testArrayMixed {
