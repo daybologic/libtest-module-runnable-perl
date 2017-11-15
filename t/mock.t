@@ -143,7 +143,7 @@ sub testDie {
 		['third'],
 	], 'correct calls recorded');
 
-	return;
+	return EXIT_SUCCESS;
 }
 
 sub testArray {
