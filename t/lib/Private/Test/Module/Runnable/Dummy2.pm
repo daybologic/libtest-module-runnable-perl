@@ -5,4 +5,7 @@ use strict;
 sub realMethod {
 }
 
+sub realMethod2 {
+}
+
 1;

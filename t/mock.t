@@ -207,20 +207,23 @@ sub testCodeReturn {
 
 sub testMultipleFunctions {
 	my ($self) = @_;
-	$self->sut->mock('FIXME::Log::Mock', 'debug');
-	$self->sut->mock('FIXME::Log::Mock', 'trace');
 
-	$self->sut->logger->debug("this is a debug");
-	$self->sut->logger->trace("this is a trace");
+	my $dummy = Private::Test::Module::Runnable::Dummy2->new;
 
-	is_deeply($self->sut->mockCalls('FIXME::Log::Mock', 'debug'), [
-		['this is a debug'],
+	$self->sut->mock('Private::Test::Module::Runnable::Dummy2', 'realMethod');
+	$self->sut->mock('Private::Test::Module::Runnable::Dummy2', 'realMethod2');
+
+	$dummy->realMethod("this is a realMethod");
+	$dummy->realMethod2("this is a realMethod2");
+
+	is_deeply($self->sut->mockCalls('Private::Test::Module::Runnable::Dummy2', 'realMethod'), [
+		['this is a realMethod'],
 	]);
-	is_deeply($self->sut->mockCalls('FIXME::Log::Mock', 'trace'), [
-		['this is a trace'],
+	is_deeply($self->sut->mockCalls('Private::Test::Module::Runnable::Dummy2', 'realMethod2'), [
+		['this is a realMethod2'],
 	]);
 
-	return;
+	return EXIT_SUCCESS;
 }
 
 sub testMockCallsWithObject {
