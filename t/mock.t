@@ -196,13 +196,15 @@ sub testBadReturn {
 sub testCodeReturn {
 	my ($self) = @_;
 
-	$self->sut->mock('FIXME::Log::Mock', 'debug', sub { return 'business' });
-	is($self->sut->logger->debug(), 'business');
+	my $dummy = Private::Test::Module::Runnable::Dummy2->new;
 
-	$self->sut->mock('FIXME::Log::Mock', 'debug', sub { return ('list', 'of', 'things') });
-	is_deeply([$self->sut->logger->debug()], ['list', 'of', 'things']);
+	$self->sut->mock('Private::Test::Module::Runnable::Dummy2', 'realMethod', sub { return 'business' });
+	is($dummy->realMethod(), 'business');
 
-	return;
+	$self->sut->mock('Private::Test::Module::Runnable::Dummy2', 'realMethod', sub { return ('list', 'of', 'things') });
+	is_deeply([$dummy->realMethod()], ['list', 'of', 'things']);
+
+	return EXIT_SUCCESS;
 }
 
 sub testMultipleFunctions {
