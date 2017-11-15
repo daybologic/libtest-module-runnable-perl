@@ -227,22 +227,23 @@ sub testMockCallsWithObject {
 	my ($self) = @_;
 	plan tests => 1;
 
-	my $logger1 = FIXME::Log::Mock->new;
-	my $logger2 = FIXME::Log::Mock->new;
+	my $dummy1 = Private::Test::Module::Runnable::Dummy2->new;
+	my $dummy2 = Private::Test::Module::Runnable::Dummy2->new;
 
-	$self->sut->mock('FIXME::Log::Mock', 'debug');
+	$self->sut->mock('Private::Test::Module::Runnable::Dummy2', 'realMethod');
 
-	my $msg = $self->uniqueStr;
+	#my $msg = $self->uniqueStr; # TODO: Not yet available
+	my $msg = $self->unique;
 
-	$logger1->debug();
-	$logger2->debug($msg);
+	$dummy1->realMethod();
+	$dummy2->realMethod($msg);
 
-	cmp_deeply($self->sut->mockCallsWithObject('FIXME::Log::Mock', 'debug'), [
-		[ shallow($logger1) ],
-		[ shallow($logger2), $msg ],
-	], 'correct log calls with object refs');
+	cmp_deeply($self->sut->mockCallsWithObject('Private::Test::Module::Runnable::Dummy2', 'realMethod'), [
+		[ shallow($dummy1) ],
+		[ shallow($dummy2), $msg ],
+	], 'correct calls with object refs');
 
-	return;
+	return EXIT_SUCCESS;
 }
 
 package main;
