@@ -7,6 +7,7 @@ use Moose;
 extends 'Test::Module::Runnable';
 
 use POSIX qw(EXIT_SUCCESS);
+use Private::Test::Module::Runnable::Appender;
 use Private::Test::Module::Runnable::Dummy;
 use Test::Deep qw(cmp_deeply shallow);
 use Test::Exception;
@@ -77,35 +78,34 @@ sub _testVerbose {
 
 sub test {
 	my ($self) = @_;
+	my @list;
 
-	my $dummy = Private::Test::Module::Runnable::Dummy->new();
+	my $appender = Private::Test::Module::Runnable::Appender->new(appendTo => \@list);
 
-	$dummy->realMethod("one");
+	$appender->append("one");
 
-	$self->sut->mock('Private::Test::Module::Runnable::Dummy', 'realMethod');
+	$self->sut->mock('Private::Test::Module::Runnable::Appender', 'append');
 
-	$dummy->realMethod("two");
-	$dummy->realMethod();
+	$appender->append("two");
+	$appender->append();
 
 	# 'two' and <no-args> mocked
-	is_deeply($self->sut->mockCalls('Private::Test::Module::Runnable::Dummy', 'realMethod'), [
+	is_deeply($self->sut->mockCalls('Private::Test::Module::Runnable::Appender', 'append'), [
 		['two'],
 		[],
 	], 'correct mocked logger calls');
 
 	$self->sut->clearMocks();
 
-	is_deeply($self->sut->mockCalls('Private::Test::Module::Runnable::Dummy', 'realMethod'), [], 'mock calls cleared');
+	is_deeply($self->sut->mockCalls('Private::Test::Module::Runnable::Appender', 'append'), [], 'mock calls cleared');
 
-	$dummy->realMethod("four");
+	$appender->append("four");
 
-	# we should have 'one' and 'four' logged for real
-	if (0) { #FIXME
-		is_deeply($dummy->get_entries, [
-			[123, 'one'],
-			[123, 'four'],
-		], 'correct log entries (real)');
-	}
+	# we should have 'one' and 'four' appended for real
+	is_deeply(\@list, [
+		['one'],
+		['four'],
+	], 'correct appended entries (real)');
 
 	return EXIT_SUCCESS;
 }
