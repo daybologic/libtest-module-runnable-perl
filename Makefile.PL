@@ -51,5 +51,7 @@ WriteMakefile(
 		'Test::More'      => 0,
 		'Readonly'        => 0,
 		'List::MoreUtils' => 0,
+		'Test::Deep'      => 0,
+		'Test::Exception' => 0,
 	},
 );

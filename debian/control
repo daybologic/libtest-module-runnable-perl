@@ -7,6 +7,9 @@ Build-Depends-Indep:
  libmoose-perl,
  libreadonly-perl,
  liblist-moreutils-perl,
+ libtest-deep-perl,
+ libtest-exception-perl,
+ libtest-mockmodule-perl,
 Standards-Version: 3.7.3
 Homepage: https://bitbucket.org/2E0EOL/libtest-module-runnable-perl
 
@@ -14,6 +17,8 @@ Package: libtest-module-runnable-perl
 Architecture: all
 Depends: ${shlibs:Depends}, ${misc:Depends},
  libmoose-perl,
+ libtest-deep-perl,
+ libtest-exception-perl,
  libtest-mockmodule-perl,
 Description: Test::Module::Runnable
  Base class for runnable unit tests using Moose introspection
