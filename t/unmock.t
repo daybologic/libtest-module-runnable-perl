@@ -6,7 +6,7 @@ use lib 't/lib';
 extends 'Test::Module::Runnable';
 
 use POSIX qw(EXIT_SUCCESS);
-use Private::Test::Module::Runnable::dummy;
+use Private::Test::Module::Runnable::Dummy;
 use Readonly;
 use Test::Exception;
 use Test::MockModule;
@@ -14,8 +14,8 @@ use Test::Module::Runnable;
 use Test::More 0.96;
 
 has __controlClass => (isa => 'Str', is => 'ro', default => 'Alpha::Beta::Gamma');
-has __mockingClass => (isa => 'Str', is => 'ro', default => 'Private::Test::Module::Runnable::dummy'); # Must be a real module
-has __mockingMethodActive => (isa => 'Str', is => 'ro', default => 'publicMethod'); # This is the method we're mocking
+has __mockingClass => (isa => 'Str', is => 'ro', default => 'Private::Test::Module::Runnable::Dummy'); # Must be a real module
+has __mockingMethodActive => (isa => 'Str', is => 'ro', default => 'realMethod'); # This is the method we're mocking
 has __mockingMethodControl => (isa => 'Str', is => 'ro', default => 'methodDoesNotExist'); # This is just to test we're not kidding ourselves
 
 has __mockCallResult => (isa => 'Str', is => 'rw', default => '');

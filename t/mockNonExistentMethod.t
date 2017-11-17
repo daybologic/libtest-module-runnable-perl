@@ -14,7 +14,7 @@ use Test::More;
 use Test::Output;
 
 use lib 't/lib';
-use Private::Test::Module::Runnable::Dummy2; # FIXME: Merge classes dummy and Dummy2
+use Private::Test::Module::Runnable::Dummy;
 use Private::Test::Module::Runnable::DummyWithAutoload;
 
 sub setUp {

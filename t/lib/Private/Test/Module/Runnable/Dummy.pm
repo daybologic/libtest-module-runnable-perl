@@ -31,12 +31,18 @@
 # POSSIBILITY OF SUCH DAMAGE.
 #
 
-package Private::Test::Module::Runnable::dummy;
+package Private::Test::Module::Runnable::Dummy;
 use lib 't/lib';
 use Moose;
 
-sub publicMethod {
-	return 1;
+sub realMethod {
 }
+
+sub realMethod2 {
+}
+
+#sub methodDoesNotExist {
+#	This method does not exist!
+#}
 
 1;

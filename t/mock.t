@@ -7,7 +7,7 @@ use Moose;
 extends 'Test::Module::Runnable';
 
 use POSIX qw(EXIT_SUCCESS);
-use Private::Test::Module::Runnable::Dummy2;
+use Private::Test::Module::Runnable::Dummy;
 use Test::Deep qw(cmp_deeply shallow);
 use Test::Exception;
 use Test::Module::Runnable;
@@ -33,18 +33,18 @@ sub testVerbose {
 	my $v = $ENV{TEST_VERBOSE};
 	$ENV{TEST_VERBOSE} = 1;
 
-	$self->_testVerbose([], [], 'Private::Test::Module::Runnable::Dummy2::realMethod() returning ()');
-	$self->_testVerbose([1], [2], 'Private::Test::Module::Runnable::Dummy2::realMethod(1) returning (2)');
-	$self->_testVerbose([1, 2], ['a', 'b'], "Private::Test::Module::Runnable::Dummy2::realMethod(1, 2) returning ('a', 'b')");
+	$self->_testVerbose([], [], 'Private::Test::Module::Runnable::Dummy::realMethod() returning ()');
+	$self->_testVerbose([1], [2], 'Private::Test::Module::Runnable::Dummy::realMethod(1) returning (2)');
+	$self->_testVerbose([1, 2], ['a', 'b'], "Private::Test::Module::Runnable::Dummy::realMethod(1, 2) returning ('a', 'b')");
 
-	$self->_testVerbose([{}, []], [Private::Test::Module::Runnable::Dummy2->new], qr/^
-		Private::Test::Module::Runnable::Dummy2::realMethod
+	$self->_testVerbose([{}, []], [Private::Test::Module::Runnable::Dummy->new], qr/^
+		Private::Test::Module::Runnable::Dummy::realMethod
 		\(
 		'HASH\(\w+\)', \s 'ARRAY\(\w+\)'
 		\)
 		\s returning \s
 		\(
-		'Private::Test::Module::Runnable::Dummy2=HASH\(\w+\)'
+		'Private::Test::Module::Runnable::Dummy=HASH\(\w+\)'
 		\)$/x);
 
 	$ENV{TEST_VERBOSE} = $v;
@@ -55,13 +55,13 @@ sub testVerbose {
 sub _testVerbose {
 	my ($self, $in, $out, $expectedMessage) = @_;
 
-	$self->sut->mock('Private::Test::Module::Runnable::Dummy2', 'realMethod', sub { return @$out });
+	$self->sut->mock('Private::Test::Module::Runnable::Dummy', 'realMethod', sub { return @$out });
 
 	my $lastdiag;
 	my $mock = Test::MockModule->new('Test::Builder');
 	$mock->mock('diag', sub { $lastdiag = $_[1] });
 
-	my $obj = Private::Test::Module::Runnable::Dummy2->new;
+	my $obj = Private::Test::Module::Runnable::Dummy->new;
 	(undef) = $obj->realMethod(@$in);
 
 	$mock = undef;
@@ -78,24 +78,24 @@ sub _testVerbose {
 sub test {
 	my ($self) = @_;
 
-	my $dummy = Private::Test::Module::Runnable::Dummy2->new();
+	my $dummy = Private::Test::Module::Runnable::Dummy->new();
 
 	$dummy->realMethod("one");
 
-	$self->sut->mock('Private::Test::Module::Runnable::Dummy2', 'realMethod');
+	$self->sut->mock('Private::Test::Module::Runnable::Dummy', 'realMethod');
 
 	$dummy->realMethod("two");
 	$dummy->realMethod();
 
 	# 'two' and <no-args> mocked
-	is_deeply($self->sut->mockCalls('Private::Test::Module::Runnable::Dummy2', 'realMethod'), [
+	is_deeply($self->sut->mockCalls('Private::Test::Module::Runnable::Dummy', 'realMethod'), [
 		['two'],
 		[],
 	], 'correct mocked logger calls');
 
 	$self->sut->clearMocks();
 
-	is_deeply($self->sut->mockCalls('Private::Test::Module::Runnable::Dummy2', 'realMethod'), [], 'mock calls cleared');
+	is_deeply($self->sut->mockCalls('Private::Test::Module::Runnable::Dummy', 'realMethod'), [], 'mock calls cleared');
 
 	$dummy->realMethod("four");
 
@@ -114,9 +114,9 @@ sub testCode {
 	my ($self) = @_;
 
 	my $counter = 0;
-	my $dummy = Private::Test::Module::Runnable::Dummy2->new();
+	my $dummy = Private::Test::Module::Runnable::Dummy->new();
 
-	$self->sut->mock('Private::Test::Module::Runnable::Dummy2', 'realMethod', sub { $counter++ });
+	$self->sut->mock('Private::Test::Module::Runnable::Dummy', 'realMethod', sub { $counter++ });
 	$dummy->realMethod("first");
 	$dummy->realMethod("second");
 
@@ -151,9 +151,9 @@ sub testDie {
 sub testArray {
 	my ($self) = @_;
 
-	$self->sut->mock('Private::Test::Module::Runnable::Dummy2', 'realMethod', [1,2,3]);
+	$self->sut->mock('Private::Test::Module::Runnable::Dummy', 'realMethod', [1,2,3]);
 
-	my $dummy = Private::Test::Module::Runnable::Dummy2->new();
+	my $dummy = Private::Test::Module::Runnable::Dummy->new();
 
 	is($dummy->realMethod, 1);
 	is($dummy->realMethod, 2);
@@ -169,7 +169,7 @@ sub testArray {
 sub testArrayMixed {
 	my ($self) = @_;
 
-	$self->sut->mock('Private::Test::Module::Runnable::Dummy2', 'realMethod', [
+	$self->sut->mock('Private::Test::Module::Runnable::Dummy', 'realMethod', [
 		'first call',
 		['second', 'call'],
 		{ third => 'call' },
@@ -177,7 +177,7 @@ sub testArrayMixed {
 		sub { return ('fifth', 'call') },
 	]);
 
-	my $dummy = Private::Test::Module::Runnable::Dummy2->new;
+	my $dummy = Private::Test::Module::Runnable::Dummy->new;
 	is($dummy->realMethod, 'first call');
 	is_deeply($dummy->realMethod, ['second', 'call']);
 	is_deeply($dummy->realMethod, { third => 'call' });
@@ -199,12 +199,12 @@ sub testBadReturn {
 sub testCodeReturn {
 	my ($self) = @_;
 
-	my $dummy = Private::Test::Module::Runnable::Dummy2->new;
+	my $dummy = Private::Test::Module::Runnable::Dummy->new;
 
-	$self->sut->mock('Private::Test::Module::Runnable::Dummy2', 'realMethod', sub { return 'business' });
+	$self->sut->mock('Private::Test::Module::Runnable::Dummy', 'realMethod', sub { return 'business' });
 	is($dummy->realMethod(), 'business');
 
-	$self->sut->mock('Private::Test::Module::Runnable::Dummy2', 'realMethod', sub { return ('list', 'of', 'things') });
+	$self->sut->mock('Private::Test::Module::Runnable::Dummy', 'realMethod', sub { return ('list', 'of', 'things') });
 	is_deeply([$dummy->realMethod()], ['list', 'of', 'things']);
 
 	return EXIT_SUCCESS;
@@ -213,18 +213,18 @@ sub testCodeReturn {
 sub testMultipleFunctions {
 	my ($self) = @_;
 
-	my $dummy = Private::Test::Module::Runnable::Dummy2->new;
+	my $dummy = Private::Test::Module::Runnable::Dummy->new;
 
-	$self->sut->mock('Private::Test::Module::Runnable::Dummy2', 'realMethod');
-	$self->sut->mock('Private::Test::Module::Runnable::Dummy2', 'realMethod2');
+	$self->sut->mock('Private::Test::Module::Runnable::Dummy', 'realMethod');
+	$self->sut->mock('Private::Test::Module::Runnable::Dummy', 'realMethod2');
 
 	$dummy->realMethod("this is a realMethod");
 	$dummy->realMethod2("this is a realMethod2");
 
-	is_deeply($self->sut->mockCalls('Private::Test::Module::Runnable::Dummy2', 'realMethod'), [
+	is_deeply($self->sut->mockCalls('Private::Test::Module::Runnable::Dummy', 'realMethod'), [
 		['this is a realMethod'],
 	]);
-	is_deeply($self->sut->mockCalls('Private::Test::Module::Runnable::Dummy2', 'realMethod2'), [
+	is_deeply($self->sut->mockCalls('Private::Test::Module::Runnable::Dummy', 'realMethod2'), [
 		['this is a realMethod2'],
 	]);
 
@@ -235,10 +235,10 @@ sub testMockCallsWithObject {
 	my ($self) = @_;
 	plan tests => 1;
 
-	my $dummy1 = Private::Test::Module::Runnable::Dummy2->new;
-	my $dummy2 = Private::Test::Module::Runnable::Dummy2->new;
+	my $dummy1 = Private::Test::Module::Runnable::Dummy->new;
+	my $dummy2 = Private::Test::Module::Runnable::Dummy->new;
 
-	$self->sut->mock('Private::Test::Module::Runnable::Dummy2', 'realMethod');
+	$self->sut->mock('Private::Test::Module::Runnable::Dummy', 'realMethod');
 
 	#my $msg = $self->uniqueStr; # TODO: Not yet available
 	my $msg = $self->unique;
@@ -246,7 +246,7 @@ sub testMockCallsWithObject {
 	$dummy1->realMethod();
 	$dummy2->realMethod($msg);
 
-	cmp_deeply($self->sut->mockCallsWithObject('Private::Test::Module::Runnable::Dummy2', 'realMethod'), [
+	cmp_deeply($self->sut->mockCallsWithObject('Private::Test::Module::Runnable::Dummy', 'realMethod'), [
 		[ shallow($dummy1) ],
 		[ shallow($dummy2), $msg ],
 	], 'correct calls with object refs');
