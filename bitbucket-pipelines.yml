@@ -1,0 +1,16 @@
+# This is a sample build configuration for Other.
+# Check our guides at https://confluence.atlassian.com/x/5Q4SMw for more examples.
+# Only use spaces to indent your .yml configuration.
+# -----
+# You can specify a custom docker image from Docker Hub as your build environment.
+# image: atlassian/perl
+
+pipelines:
+  default:
+    - step:
+        script:
+          - hg clone -r dlscripts-0.4.0 https://bitbucket.org/2E0EOL/dlscripts
+          - apt-get update
+          - apt-get install -y `dlscripts/build-deps.sh debian/control`
+          - perl Makefile.PL
+          - make test
