@@ -9,7 +9,7 @@ pipelines:
   default:
     - step:
         script:
-          - hg clone -r dlscripts-0.4.0 https://2E0EOL@bitbucket.org/2E0EOL/dlscripts
+          - hg clone -r dlscripts-0.4.0 https://bitbucket.org/2E0EOL/dlscripts
           - apt-get update
           - apt-get install -y `dlscripts/build-deps.sh debian/control`
           - perl Makefile.PL
