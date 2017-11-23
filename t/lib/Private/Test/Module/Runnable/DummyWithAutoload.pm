@@ -1,4 +1,3 @@
-#!/usr/bin/perl
 #
 # Module test framework
 # Copyright (c) 2015-2017, Duncan Ross Palmer (2E0EOL) and others,
@@ -29,28 +28,11 @@
 # CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
+#
 
-use inc::Module::Install;
-use strict;
-use warnings;
+package Private::Test::Module::Runnable::DummyWithAutoload;
 
-name         'Test-Module-Runnable';
-abstract     'Base class for runnable unit tests using Moose introspection';
-author       'Duncan Ross Palmer, 2E0EOL <palmer@overchat.org>';
-include      'Module::AutoInstall';
-version_from 'lib/Test/Module/Runnable.pm';
+sub AUTOLOAD {
+}
 
-requires    'Moose';
-requires    'Test::More';
-requires    'Readonly';
-requires    'List::MoreUtils';
-requires    'Test::Deep';
-requires    'Test::Exception';
-requires    'Test::Output';
-requires    'Test::MockModule';
-
-auto_install(
-	force       => 1,    # pseudo-option to force install
-);
-
-WriteAll;
+1;

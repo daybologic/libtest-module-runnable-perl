@@ -29,28 +29,20 @@
 # CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
+#
 
-use inc::Module::Install;
-use strict;
-use warnings;
+package Private::Test::Module::Runnable::Dummy;
+use lib 't/lib';
+use Moose;
 
-name         'Test-Module-Runnable';
-abstract     'Base class for runnable unit tests using Moose introspection';
-author       'Duncan Ross Palmer, 2E0EOL <palmer@overchat.org>';
-include      'Module::AutoInstall';
-version_from 'lib/Test/Module/Runnable.pm';
+sub realMethod {
+}
 
-requires    'Moose';
-requires    'Test::More';
-requires    'Readonly';
-requires    'List::MoreUtils';
-requires    'Test::Deep';
-requires    'Test::Exception';
-requires    'Test::Output';
-requires    'Test::MockModule';
+sub realMethod2 {
+}
 
-auto_install(
-	force       => 1,    # pseudo-option to force install
-);
+#sub methodDoesNotExist {
+#	This method does not exist!
+#}
 
-WriteAll;
+1;
