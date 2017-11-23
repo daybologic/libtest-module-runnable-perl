@@ -9,7 +9,7 @@ pipelines:
   default:
     - step:
         script:
-          - cpan inc::Module::Install
+          - cpanm inc::Module::Install
           - perl Makefile.PL
           - make installdeps
           - make test
