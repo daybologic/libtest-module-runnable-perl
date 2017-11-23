@@ -9,7 +9,6 @@ pipelines:
   default:
     - step:
         script:
-          - apt-get install libcpanplus-perl
           - cpan inc::Module::Install
           - perl Makefile.PL
           - make installdeps

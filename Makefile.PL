@@ -46,7 +46,6 @@ requires    'Readonly';
 requires    'List::MoreUtils';
 
 auto_install(
-	make_args   => '',   # option(s) for CPAN::Config
 	force       => 1,    # pseudo-option to force install
 	do_once     => 1,    # skip previously failed modules
 );
