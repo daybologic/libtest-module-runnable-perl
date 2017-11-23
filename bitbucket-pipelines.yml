@@ -10,4 +10,5 @@ pipelines:
     - step:
         script:
           - perl Makefile.PL
+          - make installdeps
           - make test
