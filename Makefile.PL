@@ -47,7 +47,6 @@ requires    'List::MoreUtils';
 
 auto_install(
 	force       => 1,    # pseudo-option to force install
-	do_once     => 1,    # skip previously failed modules
 );
 
 WriteAll;
