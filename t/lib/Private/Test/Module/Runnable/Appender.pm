@@ -29,30 +29,18 @@
 # CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
+#
 
-package main;
+package Private::Test::Module::Runnable::Appender;
+use lib 't/lib';
+use Moose;
 
-use ExtUtils::MakeMaker;
-use strict;
-use warnings;
+has appendTo => (isa => 'ArrayRef', is => 'ro', required => 1);
 
-WriteMakefile(
-	NAME         => 'Test::Module::Runnable',
-	VERSION_FROM => 'lib/Test/Module/Runnable.pm', # finds $VERSION
-	AUTHOR       => 'Duncan Ross Palmer, 2E0EOL (palmer@overchat.org)',
-	ABSTRACT     => 'Base class for runnable unit tests using Moose introspection',
+sub append {
+	my ($self, $string) = @_;
+	push(@{ $self->appendTo }, [$string]);
+	return;
+}
 
-	PREREQ_PM => {
-		'Moose'            => 0,
-		'Test::MockModule' => 0,
-		'Test::More'       => 0,
-	}, BUILD_REQUIRES => {
-		'Moose'           => 0,
-		'Test::More'      => 0,
-		'Readonly'        => 0,
-		'List::MoreUtils' => 0,
-		'Test::Deep'      => 0,
-		'Test::Exception' => 0,
-		'Test::Output'    => 0,
-	},
-);
+1;
