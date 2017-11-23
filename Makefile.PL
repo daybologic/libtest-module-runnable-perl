@@ -30,27 +30,29 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-use inc::Module::Install;
+package main;
+
+use ExtUtils::MakeMaker;
 use strict;
 use warnings;
 
-name         'Test-Module-Runnable';
-abstract     'Base class for runnable unit tests using Moose introspection';
-author       'Duncan Ross Palmer, 2E0EOL <palmer@overchat.org>';
-include      'Module::AutoInstall';
-version_from 'lib/Test/Module/Runnable.pm';
+WriteMakefile(
+	NAME         => 'Test::Module::Runnable',
+	VERSION_FROM => 'lib/Test/Module/Runnable.pm', # finds $VERSION
+	AUTHOR       => 'Duncan Ross Palmer, 2E0EOL (palmer@overchat.org)',
+	ABSTRACT     => 'Base class for runnable unit tests using Moose introspection',
 
-requires    'Moose';
-requires    'Test::More';
-requires    'Readonly';
-requires    'List::MoreUtils';
-requires    'Test::Deep';
-requires    'Test::Exception';
-requires    'Test::Output';
-requires    'Test::MockModule';
-
-auto_install(
-	force       => 1,    # pseudo-option to force install
+	PREREQ_PM => {
+		'Moose'            => 0,
+		'Test::MockModule' => 0,
+		'Test::More'       => 0,
+	}, BUILD_REQUIRES => {
+		'Moose'           => 0,
+		'Test::More'      => 0,
+		'Readonly'        => 0,
+		'List::MoreUtils' => 0,
+		'Test::Deep'      => 0,
+		'Test::Exception' => 0,
+		'Test::Output'    => 0,
+	},
 );
-
-WriteAll;
