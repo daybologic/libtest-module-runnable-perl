@@ -7,7 +7,6 @@ Build-Depends-Indep:
  libmoose-perl,
  libreadonly-perl,
  liblist-moreutils-perl,
- libmodule-install-perl,
  libtest-deep-perl,
  libtest-exception-perl,
  libtest-mockmodule-perl,
