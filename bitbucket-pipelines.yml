@@ -9,6 +9,7 @@ pipelines:
   default:
     - step:
         script:
+          - curl -L https://cpanmin.us | perl - --sudo App::cpanminus
           - cpanm inc::Module::Install
           - perl Makefile.PL
           - make installdeps
