@@ -4,11 +4,6 @@ ChangeLog
 CHANGES
 contributors.txt
 COPYING
-debian/changelog
-debian/compat
-debian/control
-debian/copyright
-debian/rules
 inc/Module/Install/Makefile.pm
 lib/Test/Module/Runnable.pm
 lib/Test/Module/Runnable/Base.pm
@@ -18,7 +13,6 @@ Makefile.old
 Makefile.PL
 MANIFEST			This list of files
 MANIFEST.SKIP
-MYMETA.yml
 NEWS
 README
 t/getopts.t
@@ -33,5 +27,4 @@ t/tester.t
 t/unique.t
 t/unmock.t
 t/version.t
-Test-Module-Runnable-0.3.0.tar.gz
 TODO
