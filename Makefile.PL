@@ -43,6 +43,7 @@ WriteMakefile(
 	ABSTRACT     => 'Base class for runnable unit tests using Moose introspection',
 
 	PREREQ_PM => {
+		'CPAN::Meta'       => 0, # For META.json
 		'Moose'            => 0,
 		'Test::MockModule' => 0,
 		'Test::More'       => 0,
