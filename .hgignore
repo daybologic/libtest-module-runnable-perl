@@ -2,3 +2,7 @@ MANIFEST.bak
 MYMETA.yml
 Makefile
 Makefile.old
+blib
+.hg
+.orig
+.tar.gz
