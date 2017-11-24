@@ -6,3 +6,4 @@
 .tar.gz$
 META.yml$
 ^debian
+^Makefile$
