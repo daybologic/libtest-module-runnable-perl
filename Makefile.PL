@@ -56,5 +56,15 @@ WriteMakefile(
 		'Test::Deep'      => 0,
 		'Test::Exception' => 0,
 		'Test::Output'    => 0,
+	}, META_MERGE        => {
+		"meta-spec" => {
+			version => 2
+		}, resources => {
+			repository => {
+				type => 'hg',
+				url => 'ssh://hg@bitbucket.org/2E0EOL/libtest-module-runnable-perl',
+				web => 'https://bitbucket.org/2E0EOL/libtest-module-runnable-perl',
+			},
+		},
 	},
 );
