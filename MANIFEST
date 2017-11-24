@@ -4,7 +4,6 @@ ChangeLog
 CHANGES
 contributors.txt
 COPYING
-inc/Module/Install/Makefile.pm
 lib/Test/Module/Runnable.pm
 lib/Test/Module/Runnable/Base.pm
 LICENCE
