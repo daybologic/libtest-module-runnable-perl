@@ -1,6 +1,7 @@
 .bak$
 .orig$
 .rej$
+.old$
 ^.hg
 .tar.gz$
 META.yml$
