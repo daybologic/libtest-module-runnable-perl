@@ -32,7 +32,7 @@
 
 package main;
 
-use ExtUtils::MakeMaker;
+use ExtUtils::MakeMaker 6.48;
 use strict;
 use warnings;
 
@@ -41,6 +41,7 @@ WriteMakefile(
 	VERSION_FROM => 'lib/Test/Module/Runnable.pm', # finds $VERSION
 	AUTHOR       => 'Duncan Ross Palmer, 2E0EOL (palmer@overchat.org)',
 	ABSTRACT     => 'Base class for runnable unit tests using Moose introspection',
+	MIN_PERL_VERSION => '5.006',
 
 	PREREQ_PM => {
 		'CPAN::Meta'       => 0, # For META.json
