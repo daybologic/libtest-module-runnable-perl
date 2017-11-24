@@ -9,10 +9,12 @@ debian/compat
 debian/control
 debian/copyright
 debian/rules
+inc/Module/Install/Makefile.pm
 lib/Test/Module/Runnable.pm
 lib/Test/Module/Runnable/Base.pm
 LICENCE
 Makefile
+Makefile.old
 Makefile.PL
 MANIFEST			This list of files
 MANIFEST.SKIP
@@ -20,9 +22,16 @@ MYMETA.yml
 NEWS
 README
 t/getopts.t
+t/lib/Private/Test/Module/Runnable/Appender.pm
+t/lib/Private/Test/Module/Runnable/Dummy.pm
+t/lib/Private/Test/Module/Runnable/DummyWithAutoload.pm
 t/lib/Private/Test/Module/Runnable/unique.pm
+t/mock.t
+t/mockNonExistentMethod.t
 t/podchecker.t
 t/tester.t
 t/unique.t
+t/unmock.t
 t/version.t
+Test-Module-Runnable-0.3.0.tar.gz
 TODO
