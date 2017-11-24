@@ -41,6 +41,7 @@ WriteMakefile(
 	VERSION_FROM => 'lib/Test/Module/Runnable.pm', # finds $VERSION
 	AUTHOR       => 'Duncan Ross Palmer, 2E0EOL (palmer@overchat.org)',
 	ABSTRACT     => 'Base class for runnable unit tests using Moose introspection',
+	($ExtUtils::MakeMaker::VERSION >= 6.3002 ? ('LICENSE'  => 'bsd', ) : ()),
 
 	PREREQ_PM => {
 		'Moose'            => 0,
