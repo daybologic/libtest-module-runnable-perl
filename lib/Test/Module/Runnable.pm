@@ -67,6 +67,7 @@ L<Test::More>.
 =cut
 
 package Test::Module::Runnable;
+use 5.006;
 use Moose;
 use Test::More 0.96;
 use POSIX qw/EXIT_SUCCESS/;
