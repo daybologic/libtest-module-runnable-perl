@@ -35,8 +35,6 @@ sources:
   - https://hg.sr.ht/~m6kvm/libtest-module-runnable-perl
 environment:
   deploy: palmer@overchat.org
-secrets:
-  - f9b2e4e8-c72d-11e9-889c-f23c9173fe51
 tasks:
   - setup: |
       cd libtest-module-runnable-perl
