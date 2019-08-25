@@ -38,7 +38,7 @@ environment:
 tasks:
   - setup: |
       cd libtest-module-runnable-perl
-      hg clone -r dlscripts-0.4.0 https://bitbucket.org/2E0EOL/dlscripts
+      hg clone -r dlscripts-0.4.0 https://hg.sr.ht/~m6kvm/dlscripts
       apt-get install -y `dlscripts/build-deps.sh debian/control`
   - build: |
       cd libtest-module-runnable-perl
