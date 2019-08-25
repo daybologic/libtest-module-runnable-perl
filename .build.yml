@@ -43,6 +43,4 @@ tasks:
   - build: |
       cd libtest-module-runnable-perl
       perl Makefile.PL
-      make test
-  - deploy: |
-      echo Success
+      make && make test
