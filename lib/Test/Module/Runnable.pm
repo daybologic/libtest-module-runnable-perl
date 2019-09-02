@@ -151,7 +151,7 @@ sub tearDown {
 
 =item C<modeSwitch>
 
-If set, this routine will be called been test runs.
+If set, this routine will be called between test runs.
 This is typically used by setting an C<n> value of at least C<2>.
 Every time the test suite finishes, this routine is called, and
 you can replace a C<sut> or set a flag so that all tests can then
