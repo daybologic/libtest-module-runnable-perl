@@ -12,7 +12,7 @@ Build-Depends-Indep:
  libtest-mockmodule-perl,
  libtest-output-perl,
 Standards-Version: 3.7.3
-Homepage: https://bitbucket.org/2E0EOL/libtest-module-runnable-perl
+Homepage: https://hg.sr.ht/~m6kvm/libtest-module-runnable-perl
 
 Package: libtest-module-runnable-perl
 Architecture: all
