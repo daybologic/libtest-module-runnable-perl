@@ -1,5 +1,5 @@
 # Module test framework
-# Copyright (c) 2015-2017, Duncan Ross Palmer (2E0EOL) and others,
+# Copyright (c) 2015-2019, Duncan Ross Palmer (2E0EOL) and others,
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -34,28 +34,21 @@ Test::Module::Runnable - A runnable framework on Moose for running tests
 
 =head1 SYNOPSIS
 
-   package YourTestSuite;
-   use Moose;
-   use Test::More 0.96;
 
-   extends 'Test::Module::Runnable';
+	package YourTestSuite;
+	use Moose;
+	use Test::More 0.96;
 
-   sub helper { } # Not called
+	extends 'Test::Module::Runnable';
 
-   sub testExample { } # Automagically called due to 'test' prefix.
+	sub helper { } # Not called
 
-   package main;
+	sub testExample { } # Automagically called due to 'test' prefix.
 
-   my $tester = new YourTestSuite;
-   plan tests => $tester->testCount;
-   foreach my $name ($tester->testMethods) {
-     subtest $name => $tester->$name;
-   }
+	package main;
 
-alternatively...
-
-   my $tester = new YourTestSuite;
-   return $tester->run;
+	my $tester = YourTestSuite->new;
+	return $tester->run;
 
 =head1 DESCRIPTION
 
@@ -619,7 +612,7 @@ Duncan Ross Palmer, 2E0EOL L<mailto:palmer@overchat.org>
 =head1 LICENCE
 
 Daybo Logic Shared Library
-Copyright (c) 2015-2017, Duncan Ross Palmer (2E0EOL), Daybo Logic
+Copyright (c) 2015-2019, Duncan Ross Palmer (2E0EOL), Daybo Logic
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -650,7 +643,7 @@ POSSIBILITY OF SUCH DAMAGE.
 
 =head1 AVAILABILITY
 
-L<https://bitbucket.org/2E0EOL/libtest-module-runnable-perl>
+L<https://hg.sr.ht/~m6kvm/libtest-module-runnable-perl>
 
 =head1 CAVEATS
 
