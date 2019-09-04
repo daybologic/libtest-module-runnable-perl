@@ -325,6 +325,11 @@ sub run {
 	$self->__wrapFail('setUpBeforeClass', undef, $fail);
 	for (my $i = 0; $i < $params{n}; $i++) {
 		foreach my $method (@tests) {
+			my $printableMethodName;
+
+			# Run correct test (or all)
+			$printableMethodName = $self->__generateMethodName($method);
+
 			$fail = 0;
 
 			# Check if user specified just one test, and this isn't it
@@ -333,7 +338,14 @@ sub run {
 
 			$fail = $self->setUp(method => $method); # Call any registered pre-test routine
 			$self->__wrapFail('setUp', $method, $fail);
-			subtest $method => sub { $fail = $self->$method(method => $method) }; # Correct test (or all)
+
+			subtest $printableMethodName => sub {
+				$fail = $self->$method(
+					method => $method,
+					printableMethodName => $printableMethodName,
+				);
+			};
+
 			$self->__wrapFail('method', $method, $fail);
 			$self->mocker->unmock_all() if ($self->mocker);
 			$fail = 0;
@@ -603,6 +615,33 @@ sub __mockCalls {
 	}
 
 	return $calls;
+}
+
+=item __generateMethodName
+
+This method returns the current mode of testing the C<sut> as defined
+in a class derived from L<Test::Module::Runnable>, as a string including the
+current test method, given to this function.
+
+If the subclass has not defined C<modeName> as a method or attribute,
+or it is C<undef>, we return the C<methodName> passed, unmodified.
+
+=over
+
+=item C<methodName>
+
+The name of the method about to be executed.  Must be a valid string.
+
+=back
+
+=cut
+
+sub __generateMethodName {
+	my ($self, $methodName) = @_;
+	my $modeName = $self->modeName;
+
+	return $methodName unless (defined($modeName) && length($modeName)); # Simples
+	return sprintf('[%s] %s', $self->modeName, $methodName);
 }
 
 =back

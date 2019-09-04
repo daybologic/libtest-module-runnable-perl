@@ -8,7 +8,6 @@ use POSIX qw(EXIT_SUCCESS);
 use Test::More 0.96;
 
 has [qw(modeTracker mode)] => (isa => 'Int', is => 'rw', default => 0);
-has modeName => (isa => 'Str', default => 'dummy mode name', is => 'ro');
 
 sub modeSwitch {
 	my ($self, $n) = @_;
@@ -19,6 +18,15 @@ sub modeSwitch {
 	$self->mode(1 + $n);
 
 	return EXIT_SUCCESS;
+}
+
+sub modeName {
+	my ($self) = @_;
+	if ($self->mode % 2 == 0) {
+		return 'second';
+	}
+
+	return 'first'
 }
 
 sub testBlah {
