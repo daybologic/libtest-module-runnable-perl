@@ -167,7 +167,7 @@ User test classes can override this.
 =cut
 
 sub modeName {
-	return undef;
+	return;
 }
 
 =item C<modeSwitch>

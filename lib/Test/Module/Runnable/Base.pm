@@ -268,7 +268,7 @@ sub __wrapFail {
 
 		$method = 'N/A';
 	}
-	BAIL_OUT($type . ' returned non-zero for ' . $method);
+	return BAIL_OUT($type . ' returned non-zero for ' . $method);
 }
 
 =item C<run>
