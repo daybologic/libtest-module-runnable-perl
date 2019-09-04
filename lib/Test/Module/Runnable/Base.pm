@@ -340,6 +340,8 @@ sub run {
 			$fail = $self->tearDown(method => $method); # Call any registered post-test routine
 			$self->__wrapFail('tearDown', $method, $fail);
 		}
+		$fail = $self->modeSwitch($i);
+		$self->__wrapFail('modeSwitch', $self->sut, $fail);
 	}
 	$fail = $self->tearDownAfterClass(); # Call any registered post-suite routine
 	$self->__wrapFail('tearDownAfterClass', undef, $fail);
