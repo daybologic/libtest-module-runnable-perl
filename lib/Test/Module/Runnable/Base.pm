@@ -30,7 +30,7 @@
 
 =head1 NAME
 
-Test::Module::Runnable - A runnable framework on Moose for running tests
+Test::Module::Runnable::Base - See L<Test::Module::Runnable>
 
 =head1 SYNOPSIS
 
