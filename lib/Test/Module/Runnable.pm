@@ -149,6 +149,27 @@ sub tearDown {
 	return EXIT_SUCCESS;
 }
 
+=item C<modeName>
+
+If set, this routine will be called from the internal C<__generateMethodName>
+method, which is used to generate the method name displyed to the user.  This
+name should represent the mode of testing currently in use, for example.
+you may be re-running all the tests to test a different database driver.
+
+If C<undef> or an empty string is returned, the result is ignored, as if you
+had not defined this method.
+
+SEE ALSO L</modeSwitch>
+
+This is a dummy method which just returns C<undef>.
+User test classes can override this.
+
+=cut
+
+sub modeName {
+	return undef;
+}
+
 =item C<modeSwitch>
 
 If set, this routine will be called between test runs.
@@ -162,17 +183,15 @@ The return value from your registered C<modeSwitch CODE> reference
 should be zero to indicate success.  Your routine will be passed the
 current C<n> iteration, starting with zero.
 
-=item C<modeName>
+This is the default action for switching the mode of the test between
+iterations is to report success but do nothing.
+Testers which are subclasses may override this method.
 
-If set, this routine will be called from the internal C<__generateMethodName>
-method, which is used to generate the method name displyed to the user.  This
-name should represent the mode of testing currently in use, for example.
-you may be re-running all the tests to test a different database driver.
+=cut
 
-If C<undef> or an empty string is returned, the result is ignored, as if you
-had not defined this method.
-
-SEE ALSO C<modeSwitch>
+sub modeSwitch {
+	return EXIT_SUCCESS;
+}
 
 =back
 
