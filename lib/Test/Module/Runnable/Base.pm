@@ -520,7 +520,29 @@ sub __generateMethodName {
 
 =item C<__wrapFail>
 
-TODO
+Called within L</run> in order to call L<Test::Builder/BAIL_OUT> with an appropriate message -
+it essentially a way to wrap failures from user-defined methods.
+
+As soon as the user-defined method is called, call this method with the following arguments:
+
+=over
+
+=item C<$type>
+
+The name of the user-defined method, for example, 'setUp'
+
+=item C<$method>
+
+The name of the user test method, for example, 'testMyTestMethod'
+
+=item C<$fail>
+
+The exit code from the user-defined method.  Not a boolean.  If not C<EXIT_SUCCESS>,
+C<BAIL_OUT> will be called.
+
+=back
+
+There is no return value.
 
 =cut
 
