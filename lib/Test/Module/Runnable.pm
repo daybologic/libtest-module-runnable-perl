@@ -47,15 +47,15 @@ Test::Module::Runnable - A runnable framework on Moose for running tests
    package main;
 
    my $tester = new YourTestSuite;
+   return $tester->run;
+
+B<Deprecated> alternative:
+
+   my $tester = new YourTestSuite;
    plan tests => $tester->testCount;
    foreach my $name ($tester->testMethods) {
      subtest $name => $tester->$name;
    }
-
-alternatively...
-
-   my $tester = new YourTestSuite;
-   return $tester->run;
 
 =head1 DESCRIPTION
 
