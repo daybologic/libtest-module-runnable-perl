@@ -100,7 +100,7 @@ By default, this slot is C<undef>
 =item C<pattern>
 
 The pattern which defines which user-methods are considered tests.
-Defaults to ^test
+Defaults to C<^test>.
 Methods matching this pattern will be returned from L</methodNames>
 
 =item C<logger>
