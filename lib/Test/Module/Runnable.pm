@@ -1,5 +1,5 @@
 # Module test framework
-# Copyright (c) 2015-2017, Duncan Ross Palmer (2E0EOL) and others,
+# Copyright (c) 2015-2019, Duncan Ross Palmer (2E0EOL) and others,
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -146,6 +146,50 @@ The default action is to do nothing.
 =cut
 
 sub tearDown {
+	return EXIT_SUCCESS;
+}
+
+=item C<modeName>
+
+If set, this routine will be called from the internal C<__generateMethodName>
+method, which is used to generate the method name displyed to the user.  This
+name should represent the mode of testing currently in use, for example.
+you may be re-running all the tests to test a different database driver.
+
+If C<undef> or an empty string is returned, the result is ignored, as if you
+had not defined this method.
+
+SEE ALSO L</modeSwitch>
+
+This is a dummy method which just returns C<undef>.
+User test classes can override this.
+
+=cut
+
+sub modeName {
+	return;
+}
+
+=item C<modeSwitch>
+
+If set, this routine will be called between test runs.
+This is typically used by setting an C<n> value of at least C<2>.
+Every time the test suite finishes, this routine is called, and
+you can replace a C<sut> or set a flag so that all tests can then
+run with an underlying assumption shared between the tests inverted,
+for example, with a different database driver.
+
+The return value from your registered C<modeSwitch CODE> reference
+should be zero to indicate success.  Your routine will be passed the
+current C<n> iteration, starting with zero.
+
+This is the default action for switching the mode of the test between
+iterations is to report success but do nothing.
+Testers which are subclasses may override this method.
+
+=cut
+
+sub modeSwitch {
 	return EXIT_SUCCESS;
 }
 
