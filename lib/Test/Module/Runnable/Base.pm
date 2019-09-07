@@ -61,11 +61,40 @@ BEGIN {
 
 See L<Test::Module::Runnable/sut>
 
-=back
-
 =cut
 
 has 'sut' => (is => 'rw', required => 0);
+
+=item C<pattern>
+
+See L<Test::Module::Runnable/pattern>
+
+=cut
+
+has 'pattern' => (is => 'ro', isa => 'Regexp', default => sub { qr/^test/ });
+
+=item C<logger>
+
+See L<Test::Module::Runnable/logger>
+
+=cut
+
+has 'logger' => (is => 'rw', required => 0);
+
+=item C<mocker>
+
+See L<Test::Module::Runnable/mocker>
+
+=cut
+
+has 'mocker' => (
+	is => 'rw',
+	isa => 'Maybe[Test::MockModule]',
+	required => 0,
+	default => undef,
+);
+
+=back
 
 =head1 PRIVATE ATTRIBUTES
 
@@ -156,35 +185,6 @@ sub unique {
 
 	return $result;
 }
-
-=item C<pattern>
-
-See L<Test::Module::Runnable/pattern>
-
-=cut
-
-has 'pattern' => (is => 'ro', isa => 'Regexp', default => sub { qr/^test/ });
-
-=item C<logger>
-
-See L<Test::Module::Runnable/logger>
-
-=cut
-
-has 'logger' => (is => 'rw', required => 0);
-
-=item C<mocker>
-
-See L<Test::Module::Runnable/mocker>
-
-=cut
-
-has 'mocker' => (
-	is => 'rw',
-	isa => 'Maybe[Test::MockModule]',
-	required => 0,
-	default => undef,
-);
 
 =item C<methodNames>
 
