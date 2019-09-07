@@ -104,8 +104,6 @@ has '__unique' => (
 
 Hash of random numbers already given out.
 
-=back
-
 =cut
 
 has '__random' => (
@@ -115,28 +113,6 @@ has '__random' => (
 		{ }
 	},
 );
-
-=head1 PRIVATE METHODS
-
-=over
-
-=item C<__wrapFail>
-
-TODO
-
-=cut
-
-sub __wrapFail {
-	my ($self, $type, $method, $returnValue) = @_;
-	return if (defined($returnValue) && $returnValue eq '0');
-	if (!defined($method)) { # Not method-specific
-		BAIL_OUT('Must specify type when evaluating result from method hooks')
-			if ('setUpBeforeClass' ne $type && 'tearDownAfterClass' ne $type);
-
-		$method = 'N/A';
-	}
-	return BAIL_OUT($type . ' returned non-zero for ' . $method);
-}
 
 =back
 
@@ -540,6 +516,24 @@ sub __generateMethodName {
 
 	return $methodName unless (defined($modeName) && length($modeName)); # Simples
 	return sprintf('[%s] %s', $self->modeName, $methodName);
+}
+
+=item C<__wrapFail>
+
+TODO
+
+=cut
+
+sub __wrapFail {
+	my ($self, $type, $method, $returnValue) = @_;
+	return if (defined($returnValue) && $returnValue eq '0');
+	if (!defined($method)) { # Not method-specific
+		BAIL_OUT('Must specify type when evaluating result from method hooks')
+			if ('setUpBeforeClass' ne $type && 'tearDownAfterClass' ne $type);
+
+		$method = 'N/A';
+	}
+	return BAIL_OUT($type . ' returned non-zero for ' . $method);
 }
 
 =back
