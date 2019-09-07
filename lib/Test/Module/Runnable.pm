@@ -34,28 +34,28 @@ Test::Module::Runnable - A runnable framework on Moose for running tests
 
 =head1 SYNOPSIS
 
-   package YourTestSuite;
-   use Moose;
-   use Test::More 0.96;
+	package YourTestSuite;
+	use Moose;
+	use Test::More 0.96;
 
-   extends 'Test::Module::Runnable';
+	extends 'Test::Module::Runnable';
 
-   sub helper { } # Not called
+	sub helper { } # Not called
 
-   sub testExample { } # Automagically called due to 'test' prefix.
+	sub testExample { } # Automagically called due to 'test' prefix.
 
-   package main;
+	package main;
 
-   my $tester = new YourTestSuite;
-   return $tester->run;
+	my $tester = new YourTestSuite;
+	return $tester->run;
 
 B<Deprecated> alternative:
 
-   my $tester = new YourTestSuite;
-   plan tests => $tester->testCount;
-   foreach my $name ($tester->testMethods) {
-     subtest $name => $tester->$name;
-   }
+	my $tester = new YourTestSuite;
+	plan tests => $tester->testCount;
+	foreach my $name ($tester->testMethods) {
+		subtest $name => $tester->$name;
+	}
 
 =head1 DESCRIPTION
 
@@ -90,7 +90,7 @@ ignored.
 =item C<mocker>
 
 This slot can be used during L</setUpBeforeClass> to set up a C<Test::MockModule>
-for the C<sut> class being tested.  If set, C<mocker->unmock_all()> will be
+for the L</sut> class being tested.  If set, C<< mocker->unmock_all() >> will be
 called automagically, just after each test method is executed.
 This will allow different methods to to be mocked, which are not directly relevant
 to the test method being executed.
@@ -160,25 +160,25 @@ otherwise the value is returned as-is.
 Note that you cannot return a list by adding it to an array, so if you need to
 use the array form, and also return a list, you will need to add a C<CODE> reference into the array:
 
-   $self->mock($class, $method, [
-     1,                       # first call returns scalar '1'
-     [2,3,4],                 # second call returns array reference
-     sub { return (5,6,7) },  # third call returns a list
-  ]);
+	$self->mock($class, $method, [
+		1,                       # first call returns scalar '1'
+		[2,3,4],                 # second call returns array reference
+		sub { return (5,6,7) },  # third call returns a list
+	]);
 
 =back
 
 If no value is specified, or if the specified array is exhaused, then either
 C<undef> or an empty array is returned, depending on context.
 
-Calls including arguments and return values are passed to the C<debug()>
+Calls including arguments and return values are passed to the L</debug>
 method.
 
 =item unmock([class], [$method])
 
 Clears all mock objects.
 
-If no arguments are specified clearMocks is called.
+If no arguments are specified L<Test::Module::Runnable::Base/clearMocks> is called.
 
 Is a class is specified, only that class is cleared.
 
@@ -207,11 +207,41 @@ right object.
 
 Normal usage:
 
-  cmp_deeply($self->mockCallsWithObject($class, $method), [
-    [ shallow($instance1), $arg1, $arg2 ],
-    [ shallow($instance2), $otherArg1, $otherArg2 ],
-    ...
-  ], 'correct method calls');
+	cmp_deeply($self->mockCallsWithObject($class, $method), [
+		[ shallow($instance1), $arg1, $arg2 ],
+		[ shallow($instance2), $otherArg1, $otherArg2 ],
+		...
+	], 'correct method calls');
+
+=item C<unique>
+
+Returns a unique, integer ID, which is predictable.
+
+An optional C<$domain> can be specified, which is a discrete sequence,
+isolated from anhy other domain.  If not specified, a default domain is used.
+The actual name for this domain is opaque, and is specified by
+L<Test::Module::Runnable::Base/__unique_default_domain>.
+
+A special domain; C<rand> can be used for random numbers which will not repeat.
+
+=item C<methodCount>
+
+Returns the number of tests to pass to C<plan>
+If you use L</run>, this is handled automagically.
+
+=item C<clearMocks>
+
+Forcibly clear all mock objects, if required e.g. in C<tearDown>.
+
+=back
+
+=head2 PROTECTED METHODS
+
+=over
+
+=item C<_mockdump>
+
+Helper method for dumping arguments and return values from C<mock> function.
 
 =back
 
@@ -289,7 +319,8 @@ sub tearDown {
 
 =item C<modeName>
 
-If set, this routine will be called from the internal C<__generateMethodName>
+If set, this routine will be called from the internal
+L<Test::Module::Runnable::Base/__generateMethodName>
 method, which is used to generate the method name displyed to the user.  This
 name should represent the mode of testing currently in use, for example.
 you may be re-running all the tests to test a different database driver.
@@ -313,7 +344,7 @@ sub modeName {
 If set, this routine will be called between test runs.
 This is typically used by setting an C<n> value of at least C<2>.
 Every time the test suite finishes, this routine is called, and
-you can replace a C<sut> or set a flag so that all tests can then
+you can replace a L</sut> or set a flag so that all tests can then
 run with an underlying assumption shared between the tests inverted,
 for example, with a different database driver.
 

@@ -37,6 +37,8 @@ Test::Module::Runnable::Base - See L<Test::Module::Runnable>
 This is the base class for L<Test::Module::Runnable>, and all user-documentation
 must be sought there.
 
+A few internal-only methods are documented here for project maintainers.
+
 =cut
 
 package Test::Module::Runnable::Base;
@@ -114,6 +116,30 @@ has '__random' => (
 	},
 );
 
+=head1 PRIVATE METHODS
+
+=over
+
+=item C<__wrapFail>
+
+TODO
+
+=cut
+
+sub __wrapFail {
+	my ($self, $type, $method, $returnValue) = @_;
+	return if (defined($returnValue) && $returnValue eq '0');
+	if (!defined($method)) { # Not method-specific
+		BAIL_OUT('Must specify type when evaluating result from method hooks')
+			if ('setUpBeforeClass' ne $type && 'tearDownAfterClass' ne $type);
+
+		$method = 'N/A';
+	}
+	return BAIL_OUT($type . ' returned non-zero for ' . $method);
+}
+
+=back
+
 =head1 METHODS
 
 =over
@@ -128,14 +154,7 @@ See L<Test::Module::Runnable/tearDownAfterClass>
 
 =item C<unique>
 
-Returns a unique, integer ID, which is predictable.
-
-An optional C<$domain> can be specified, which is a discrete sequence,
-isolated from anhy other domain.  If not specified, a default domain is used.
-The actual name for this domain is opaque, and is specified by
-L</__unique_default_domain>.
-
-A special domain; C<rand> can be used for random numbers which will not repeat.
+See L<Test::Module::Runnable/unique>
 
 =cut
 
@@ -214,26 +233,13 @@ sub methodNames {
 
 =item C<methodCount>
 
-Returns the number of tests to pass to C<plan>
-If you use C<run>, this is handled automagically.
+See L<Test::Module::Runnable/methodCount>
 
 =cut
 
 sub methodCount {
         my $self = shift;
         return scalar($self->methodNames());
-}
-
-sub __wrapFail {
-	my ($self, $type, $method, $returnValue) = @_;
-	return if (defined($returnValue) && $returnValue eq '0');
-	if (!defined($method)) { # Not method-specific
-		BAIL_OUT('Must specify type when evaluating result from method hooks')
-			if ('setUpBeforeClass' ne $type && 'tearDownAfterClass' ne $type);
-
-		$method = 'N/A';
-	}
-	return BAIL_OUT($type . ' returned non-zero for ' . $method);
 }
 
 =item C<run>
@@ -321,7 +327,6 @@ sub debug {
 	diag(sprintf($format, @params));
 	return;
 }
-
 
 =item C<mock($class, $method, $return)>
 
@@ -414,24 +419,6 @@ sub unmock {
 	return $self;
 }
 
-=item C<_mockdump>
-
-Helper method for dumping arguments and return values from C<mock> function.
-
-=cut
-
-sub _mockdump {
-	my $arg = shift;
-	my $dumper = Data::Dumper->new([$arg], ['arg']);
-	$dumper->Indent(1);
-	$dumper->Maxdepth(1);
-	my $str = $dumper->Dump();
-	$str =~ s/\n\s*/ /g;
-	$str =~ s/^\$arg = \[\s*//;
-	$str =~ s/\s*\];\s*$//s;
-	return $str;
-}
-
 =item C<mockCalls($class, $method)>
 
 See L<Test::Module::Runnable/mockCalls($class, $method)>
@@ -456,7 +443,7 @@ sub mockCallsWithObject {
 
 =item C<clearMocks>
 
-Forcibly clear all mock objects, if required e.g. in C<tearDown>.
+See L<Test::Module::Runnable/clearMocks>
 
 =cut
 
@@ -467,6 +454,36 @@ sub clearMocks {
 	$self->{mock_args} = {};
 	return;
 }
+
+=back
+
+=head2 PROTECTED METHODS
+
+=over
+
+=item C<_mockdump>
+
+See L<Test::Module::Runnable/_mockdump>
+
+=cut
+
+sub _mockdump {
+	my $arg = shift;
+	my $dumper = Data::Dumper->new([$arg], ['arg']);
+	$dumper->Indent(1);
+	$dumper->Maxdepth(1);
+	my $str = $dumper->Dump();
+	$str =~ s/\n\s*/ /g;
+	$str =~ s/^\$arg = \[\s*//;
+	$str =~ s/\s*\];\s*$//s;
+	return $str;
+}
+
+=back
+
+=head2 PRIVATE METHODS
+
+=over
 
 =item C<__mockCalls>
 
