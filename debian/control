@@ -1,5 +1,5 @@
 Source: libtest-module-runnable-perl
-Section: devel
+Section: perl
 Priority: extra
 Maintainer: Duncan Ross Palmer <palmer@overchat.org>
 Build-Depends: debhelper (>= 9),
