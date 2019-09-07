@@ -1,3 +1,12 @@
+libtest-module-runnable-perl (0.4.0) stable; urgency=medium
+
+  * Removed Bitbucket pipeline support (YAML)
+  * Added Sourcehut pipeline support (YAML) -- https://builds.sr.ht
+  * Added modeSwitch() and modeName() user hooks
+  * Update links because of project migration from bitbucket
+
+ -- Duncan Ross Palmer <palmer@overchat.org>  Sat, 07 Sep 2019 00:29:43 +0000
+
 libtest-module-runnable-perl (0.3.0) stable; urgency=low
 
   * Added clearMocks()

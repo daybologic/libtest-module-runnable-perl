@@ -1,3 +1,10 @@
+0.4.0
+-----
+  * Removed Bitbucket pipeline support (YAML)
+  * Added Sourcehut pipeline support (YAML) -- https://builds.sr.ht
+  * Added modeSwitch() and modeName() user hooks
+  * Update links because of project migration from bitbucket
+
 0.2.0
 -----
   * 'rand' domain in unique() call.
