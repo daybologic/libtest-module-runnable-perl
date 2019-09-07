@@ -149,14 +149,6 @@ has '__random' => (
 
 =over
 
-=item C<setUpBeforeClass>
-
-See L<Test::Module::Runnable/setUpBeforeClass>
-
-=item C<tearDownAfterClass>
-
-See L<Test::Module::Runnable/tearDownAfterClass>
-
 =item C<unique>
 
 See L<Test::Module::Runnable/unique>
@@ -433,7 +425,21 @@ sub clearMocks {
 
 =back
 
-=head2 PROTECTED METHODS
+=head1 USER DEFINED METHODS
+
+=over
+
+=item C<setUpBeforeClass>
+
+See L<Test::Module::Runnable/setUpBeforeClass>
+
+=item C<tearDownAfterClass>
+
+See L<Test::Module::Runnable/tearDownAfterClass>
+
+=back
+
+=head1 PROTECTED METHODS
 
 =over
 
@@ -457,7 +463,7 @@ sub _mockdump {
 
 =back
 
-=head2 PRIVATE METHODS
+=head1 PRIVATE METHODS
 
 =over
 

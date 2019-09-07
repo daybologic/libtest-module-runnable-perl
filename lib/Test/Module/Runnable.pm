@@ -235,7 +235,7 @@ Forcibly clear all mock objects, if required e.g. in C<tearDown>.
 
 =back
 
-=head2 PROTECTED METHODS
+=head1 PROTECTED METHODS
 
 =over
 
