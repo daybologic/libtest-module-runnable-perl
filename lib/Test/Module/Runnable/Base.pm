@@ -50,7 +50,7 @@ use Test::MockModule;
 use Test::More 0.96;
 
 BEGIN {
-	our $VERSION = '0.4.1';
+	our $VERSION = '0.4.2';
 }
 
 =head1 ATTRIBUTES
