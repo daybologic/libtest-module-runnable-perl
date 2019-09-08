@@ -1,3 +1,9 @@
+libtest-module-runnable-perl (0.4.2) stable; urgency=medium
+
+  * Debian packaging warning fixes only
+
+ -- Duncan Ross Palmer <palmer@overchat.org>  Sun, 08 Sep 2019 13:00:36 +0000
+
 libtest-module-runnable-perl (0.4.1) stable; urgency=medium
 
   * PoD and documentation improvements
