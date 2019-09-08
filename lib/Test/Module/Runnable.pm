@@ -72,7 +72,7 @@ use Test::More 0.96;
 use POSIX qw/EXIT_SUCCESS/;
 
 BEGIN {
-	our $VERSION = '0.4.0';
+	our $VERSION = '0.4.1';
 }
 
 extends 'Test::Module::Runnable::Base';
