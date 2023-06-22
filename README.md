@@ -46,8 +46,8 @@ is [Sourcehut](https://git.sr.ht/~m6kvm/libtest-module-runnable-perl) (not self-
 
 The project is available for download from the following sites:
 * [Sourcehut](https://git.sr.ht/~m6kvm/libtest-module-runnable-perl)
-* [GitHub](https://github.com/daybologic/libtest-module-runnable-perl/pulls)
-* [BitBucket](https://bitbucket.org/2E0EOL/libtest-module-runnable-perl/pull-requests/)
+* [GitHub](https://github.com/daybologic/libtest-module-runnable-perl)
+* [BitBucket](https://bitbucket.org/2E0EOL/libtest-module-runnable-perl)
 * [Daybo Logic](http://www.daybologic.co.uk/software.php?content=libtest-module-runnable-perl)
 * [CPAN](https://metacpan.org/pod/Test::Module::Runnable)
 
