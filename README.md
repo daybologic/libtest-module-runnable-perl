@@ -27,9 +27,12 @@ unless testing the pattern code itself.
 
 ### Code review ###
 
-There is presently no pull request system on Sourcehut, so all patches must be submitted
-via the <a ref="https://lists.sr.ht/~m6kvm/libtest-module-runnable-perl-discuss">discuss</a> mailing list,
-or using pull requests via GitHub or Atlassian BitBucket.
+* SourceHut [discuss](https://lists.sr.ht/~m6kvm/libtest-module-runnable-perl-discuss) mailing list
+
+or using pull requests via the following sites:
+
+* [GitHub](https://github.com/daybologic/libtest-module-runnable-perl/pulls)
+* [BitBucket](https://bitbucket.org/2E0EOL/libtest-module-runnable-perl/pull-requests/)
 
 ## Other guidelines ##
 
