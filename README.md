@@ -36,8 +36,13 @@ or using pull requests via the following sites:
 
 ## Other guidelines ##
 
-We use the [Mercurial](https://www.mercurial-scm.org/) source control system and our primary hosting location
-is [Sourcehut](https://git.sr.ht/~m6kvm/libtest-module-runnable-perl) (not self-hosted).
+We use the [Git](https://git-scm.com) source control system and the following mirrors are known to
+be under the control of the official maintainer and can therefore be trusted to be legitimate and
+may be used for first strata contributions:
+
+* [BitBucket](https://bitbucket.org/2E0EOL/libtest-module-runnable-perl)
+* [GitHub](https://github.com/daybologic/libtest-module-runnable-perl)
+* [Sourcehut](https://git.sr.ht/~m6kvm/libtest-module-runnable-perl)
 
 ## Contacting us ##
 
