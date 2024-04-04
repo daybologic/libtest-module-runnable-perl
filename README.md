@@ -44,6 +44,10 @@ may be used for first strata contributions:
 * [GitHub](https://github.com/daybologic/libtest-module-runnable-perl)
 * [Sourcehut](https://git.sr.ht/~m6kvm/libtest-module-runnable-perl)
 
+nb. although the project formerly used the [Mercurial](https://www.mercurial-scm.org/) version control system,
+this is no longer supported.  If you have contributions in that format, please generate a diff and apply it to
+the new Git tree before submitting a pull request.
+
 ## Contacting us ##
 
 * [Duncan Ross Palmer](http://www.daybologic.co.uk/contact.php)
