@@ -31,8 +31,8 @@ unless testing the pattern code itself.
 
 or using pull requests via the following sites:
 
-* [GitHub](https://github.com/daybologic/libtest-module-runnable-perl/pulls)
 * [BitBucket](https://bitbucket.org/2E0EOL/libtest-module-runnable-perl/pull-requests/)
+* [GitHub](https://github.com/daybologic/libtest-module-runnable-perl/pulls)
 
 ## Other guidelines ##
 
