@@ -424,7 +424,7 @@ POSSIBILITY OF SUCH DAMAGE.
 =head1 AVAILABILITY
 
 L<https://metacpan.org/release/Test-Module-Runnable>
-L<https://hg.sr.ht/~m6kvm/libtest-module-runnable-perl>
+L<https://git.sr.ht/~m6kvm/libtest-module-runnable-perl>
 L<http://www.daybologic.co.uk/software.php?content=libtest-module-runnable-perl>
 
 =head1 CAVEATS
