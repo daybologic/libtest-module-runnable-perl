@@ -46,12 +46,16 @@ use Moose;
 
 use Data::Dumper;
 use POSIX qw/EXIT_SUCCESS/;
+use Readonly;
 use Test::MockModule;
 use Test::More 0.96;
 
 BEGIN {
 	our $VERSION = '0.4.2';
 }
+
+Readonly my @UNIQUE_STR_CHARS => ('a'..'z', 'A'..'Z', '0'..'9');
+Readonly my @UNIQUE_STR_CI_CHARS => ('a'..'z', '0'..'9');
 
 =head1 ATTRIBUTES
 
@@ -176,6 +180,29 @@ sub unique {
 	}
 
 	return $result;
+}
+
+=item C<uniqueStr([$length])>
+
+Return a unique alphanumeric string which shall not be shorter than the specified C<$length>,
+which is 1 by default.  The string is guaranteed to evaluate true in a boolean context.
+
+The numerical value of each character is obtained from L</unique>.
+
+Note that the strings returned from this function are B<only> guaranteed to
+be in monotonically increasing lexicographical order if they are all of
+the same length.  Therefore if this is a concern, specify a length which
+will be long enough to include all the strings you wish to generate,
+for example C<uniqueStr(4)> would produce C<62**4> (over 14 million)
+strings in increasing order.
+
+Can be called statically and exported in the same way as L</unique>.
+
+=cut
+
+sub uniqueStr {
+	my (@args) = @_;
+	return __uniqueStrHelper(\@UNIQUE_STR_CHARS, @args);
 }
 
 =item C<methodNames>
@@ -562,6 +589,50 @@ sub __wrapFail {
 		$method = 'N/A';
 	}
 	return BAIL_OUT($type . ' returned non-zero for ' . $method);
+}
+
+=item C<__uniqueStrHelper(@args)>
+
+Helper method for L</uniqueStr([$length])>.
+
+=cut
+
+sub __uniqueStrHelper {
+	my (@args) = @_;
+	my $chars = shift(@args);
+	my $len = scalar(@$chars);
+
+	my $func = (caller(1))[3];
+	$func =~ s/.*:://;
+	confess("Suspected incorrect call: Test::Module::Runnable->$func") if ($args[0] && $args[0] eq __PACKAGE__);
+
+	shift(@args) if ref($args[0]);
+	my $length = $args[0];
+	my $str = '';
+
+	# default length 1
+	$length = 1 unless(defined($length));
+
+	my $num = unique();
+	my $oddOrEven = ($num % 2);
+	while ($num > 0 || length($str) < $length) {
+		# This character will be the current number modulo the character set length
+		my $modulo = $num % $len;
+
+		# use any remainder next time through
+		$num = int($num / $len);
+
+		my $char = $chars->[$modulo];
+		if ($chars == \@UNIQUE_STR_CI_CHARS && length($str) % 2 == $oddOrEven) {
+			$char = uc($char);
+		}
+
+		$str = $char . $str;
+	}
+
+	$str = __uniqueStrHelper($chars, $length) if ($str eq '0'); # unacceptable
+
+	return $str;
 }
 
 =back
