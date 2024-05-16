@@ -67,11 +67,6 @@ my $__domainCounter; # TODO: Unused?
 # nb. don't add any more static globals here; Construct the object where needed, on the fly, even if you
 # have not subclassed it, in legacy tests
 
-# Record of deprecated calls used at run-time.
-# This is specific for the C<Test::Module::Runnable>, and not the C<sut>.
-
-my %__seenDeprecated;
-
 =head1 ATTRIBUTES
 
 =over
@@ -489,41 +484,6 @@ sub _mockdump {
 	$str =~ s/^\$arg = \[\s*//;
 	$str =~ s/\s*\];\s*$//s;
 	return $str;
-}
-
-=item C<_deprecated(@parameters)>
-
-Logs 'method is Deprecated' as a warning.
-
-=cut
-
-sub _deprecated {
-	my ($self, @parameters) =  @_;
-
-	if (0 && $self && !blessed($self)) { # FIXME: Can we sack this off?
-		# We need to work around a problem where $self could be the first parameter,
-		# but not an object reference here.
-		unshift(@parameters, $self); # Restore as first argument
-		$self = undef; # Clear self-reference to avoid logger call.
-	}
-
-	my $deprecatedSub = (caller(1))[3];
-	my $callingSub = (caller(2))[3];
-
-	return if ($__seenDeprecated{$deprecatedSub}); # warned previously
-
-	my $deprecationMsg;
-	if (scalar(@parameters)) {
-		$deprecationMsg = sprintf('Method arguments (%s) in call to %s, are deprecated, from %s',
-		    join(', ', @parameters), $deprecatedSub, $callingSub);
-	} else {
-		$deprecationMsg = "Call to deprecated method $deprecatedSub from $callingSub";
-	}
-	#warn($deprecationMsg);
-	diag($deprecationMsg);
-	$__seenDeprecated{$deprecatedSub} = 1;
-
-	return;
 }
 
 =back
