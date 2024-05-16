@@ -218,9 +218,8 @@ Normal usage:
 Returns a unique, integer ID, which is predictable.
 
 An optional C<$domain> can be specified, which is a discrete sequence,
-isolated from anhy other domain.  If not specified, a default domain is used.
-The actual name for this domain is opaque, and is specified by
-L<Test::Module::Runnable::Base/__unique_default_domain>.
+isolated from any other domain.  If not specified, a default domain is used.
+The actual name for this domain is opaque.
 
 A special domain; C<rand> can be used for random numbers which will not repeat.
 

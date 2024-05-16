@@ -18,6 +18,7 @@ Package: libtest-module-runnable-perl
 Architecture: all
 Depends: ${shlibs:Depends}, ${misc:Depends},
  libmoose-perl,
+ libreadonly-perl,
  libtest-deep-perl,
  libtest-exception-perl,
  libtest-mockmodule-perl,

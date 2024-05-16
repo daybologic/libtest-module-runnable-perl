@@ -46,12 +46,23 @@ use Moose;
 
 use Data::Dumper;
 use POSIX qw/EXIT_SUCCESS/;
+use Readonly;
 use Test::MockModule;
 use Test::More 0.96;
 
 BEGIN {
 	our $VERSION = '0.4.2';
 }
+
+Readonly my @UNIQUE_STR_CHARS => ('a'..'z', 'A'..'Z', '0'..'9');
+Readonly my @UNIQUE_STR_CI_CHARS => ('a'..'z', '0'..'9');
+Readonly my $DOMAIN_DEFAULT => 'db3eb5cf-a597-4038-aea8-fd06faea6eed';
+
+# This hash tracks the numbers returned from C<unique>.
+my %__unique;
+
+# nb. don't add any more static globals here; Construct the object where needed, on the fly, even if you
+# have not subclassed it, in legacy tests
 
 =head1 ATTRIBUTES
 
@@ -100,19 +111,6 @@ has 'mocker' => (
 
 =over
 
-=item C<__unique_default_domain>
-
-The internal default domain value.  This is used when C<unique>
-is called without a domain, because a key cannot be C<undef> in Perl.
-
-=cut
-
-has '__unique_default_domain' => (
-	isa => 'Str',
-	is => 'ro',
-	default => 'db3eb5cf-a597-4038-aea8-fd06faea6eed'
-);
-
 =item C<__unique>
 
 Tracks the counter returned by C<unique>.
@@ -156,26 +154,50 @@ See L<Test::Module::Runnable/unique>
 =cut
 
 sub unique {
-	my ($self, $domain) = @_;
-	my $useRandomDomain = 0;
-	my $result;
+	my (@args) = @_;
+	confess('Suspected incorrect call: Test::Module::Runnable->unique(...)') if ($args[0] && $args[0] eq __PACKAGE__);
 
-	if (defined($domain) && length($domain)) {
-		$useRandomDomain++ if ('rand' eq $domain);
-	} else {
-		$domain = $self->__unique_default_domain;
+	shift(@args) if ref($args[0]);
+	my $domain = $args[0];
+
+	if (!defined($domain) || length($domain) == 0) {
+		$domain = $DOMAIN_DEFAULT;
 	}
 
-	if ($useRandomDomain) {
-		do {
-			$result = int(rand(999_999_999));
-		} while ($self->__random->{$result});
-		$self->__random->{$result}++;
-	} else {
-		$result = ++($self->__unique->{$domain});
+	if (!defined $__unique{$domain}) {
+		if (1) {
+			#no-op FIXME: generateNonZeroDigits is missing
+		} elsif ($ENV{TEST_UNIQUE}) {
+			$__unique{$domain} = int($ENV{TEST_UNIQUE}) - 1; # we add 1 to first return value below
+		} else {
+			$__unique{$domain} = generateNonZeroDigits(1, 9);
+		}
 	}
 
-	return $result;
+	return ++$__unique{$domain};
+}
+
+=item C<uniqueStr([$length])>
+
+Return a unique alphanumeric string which shall not be shorter than the specified C<$length>,
+which is 1 by default.  The string is guaranteed to evaluate true in a boolean context.
+
+The numerical value of each character is obtained from L</unique>.
+
+Note that the strings returned from this function are B<only> guaranteed to
+be in monotonically increasing lexicographical order if they are all of
+the same length.  Therefore if this is a concern, specify a length which
+will be long enough to include all the strings you wish to generate,
+for example C<uniqueStr(4)> would produce C<62**4> (over 14 million)
+strings in increasing order.
+
+Can be called statically and exported in the same way as L</unique>.
+
+=cut
+
+sub uniqueStr {
+	my (@args) = @_;
+	return __uniqueStrHelper(\@UNIQUE_STR_CHARS, @args);
 }
 
 =item C<methodNames>
@@ -562,6 +584,50 @@ sub __wrapFail {
 		$method = 'N/A';
 	}
 	return BAIL_OUT($type . ' returned non-zero for ' . $method);
+}
+
+=item C<__uniqueStrHelper(@args)>
+
+Helper method for L</uniqueStr([$length])>.
+
+=cut
+
+sub __uniqueStrHelper {
+	my (@args) = @_;
+	my $chars = shift(@args);
+	my $len = scalar(@$chars);
+
+	my $func = (caller(1))[3];
+	$func =~ s/.*:://;
+	confess("Suspected incorrect call: Test::Module::Runnable->$func") if ($args[0] && $args[0] eq __PACKAGE__);
+
+	shift(@args) if ref($args[0]);
+	my $length = $args[0];
+	my $str = '';
+
+	# default length 1
+	$length = 1 unless(defined($length));
+
+	my $num = unique();
+	my $oddOrEven = ($num % 2);
+	while ($num > 0 || length($str) < $length) {
+		# This character will be the current number modulo the character set length
+		my $modulo = $num % $len;
+
+		# use any remainder next time through
+		$num = int($num / $len);
+
+		my $char = $chars->[$modulo];
+		if ($chars == \@UNIQUE_STR_CI_CHARS && length($str) % 2 == $oddOrEven) {
+			$char = uc($char);
+		}
+
+		$str = $char . $str;
+	}
+
+	$str = __uniqueStrHelper($chars, $length) if ($str eq '0'); # unacceptable
+
+	return $str;
 }
 
 =back
