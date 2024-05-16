@@ -61,9 +61,6 @@ Readonly my $DOMAIN_DEFAULT => 'db3eb5cf-a597-4038-aea8-fd06faea6eed';
 # This hash tracks the numbers returned from C<unique>.
 my %__unique;
 
-# This counter used by the uniqueDomain() function
-my $__domainCounter; # TODO: Unused?
-
 # nb. don't add any more static globals here; Construct the object where needed, on the fly, even if you
 # have not subclassed it, in legacy tests
 
