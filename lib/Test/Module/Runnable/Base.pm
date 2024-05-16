@@ -56,6 +56,21 @@ BEGIN {
 
 Readonly my @UNIQUE_STR_CHARS => ('a'..'z', 'A'..'Z', '0'..'9');
 Readonly my @UNIQUE_STR_CI_CHARS => ('a'..'z', '0'..'9');
+Readonly my $DOMAIN_DEFAULT => 'db3eb5cf-a597-4038-aea8-fd06faea6eed';
+
+# This hash tracks the numbers returned from C<unique>.
+my %__unique;
+
+# This counter used by the uniqueDomain() function
+my $__domainCounter; # TODO: Unused?
+
+# nb. don't add any more static globals here; Construct the object where needed, on the fly, even if you
+# have not subclassed it, in legacy tests
+
+# Record of deprecated calls used at run-time.
+# This is specific for the C<Test::Module::Runnable>, and not the C<sut>.
+
+my %__seenDeprecated;
 
 =head1 ATTRIBUTES
 
@@ -104,19 +119,6 @@ has 'mocker' => (
 
 =over
 
-=item C<__unique_default_domain>
-
-The internal default domain value.  This is used when C<unique>
-is called without a domain, because a key cannot be C<undef> in Perl.
-
-=cut
-
-has '__unique_default_domain' => (
-	isa => 'Str',
-	is => 'ro',
-	default => 'db3eb5cf-a597-4038-aea8-fd06faea6eed'
-);
-
 =item C<__unique>
 
 Tracks the counter returned by C<unique>.
@@ -160,26 +162,27 @@ See L<Test::Module::Runnable/unique>
 =cut
 
 sub unique {
-	my ($self, $domain) = @_;
-	my $useRandomDomain = 0;
-	my $result;
+	my (@args) = @_;
+	confess('Suspected incorrect call: Test::Module::Runnable->unique(...)') if ($args[0] && $args[0] eq __PACKAGE__);
 
-	if (defined($domain) && length($domain)) {
-		$useRandomDomain++ if ('rand' eq $domain);
-	} else {
-		$domain = $self->__unique_default_domain;
+	shift(@args) if ref($args[0]);
+	my $domain = $args[0];
+
+	if (!defined($domain) || length($domain) == 0) {
+		$domain = $DOMAIN_DEFAULT;
 	}
 
-	if ($useRandomDomain) {
-		do {
-			$result = int(rand(999_999_999));
-		} while ($self->__random->{$result});
-		$self->__random->{$result}++;
-	} else {
-		$result = ++($self->__unique->{$domain});
+	if (!defined $__unique{$domain}) {
+		if (1) {
+			#no-op FIXME: generateNonZeroDigits is missing
+		} elsif ($ENV{TEST_UNIQUE}) {
+			$__unique{$domain} = int($ENV{TEST_UNIQUE}) - 1; # we add 1 to first return value below
+		} else {
+			$__unique{$domain} = generateNonZeroDigits(1, 9);
+		}
 	}
 
-	return $result;
+	return ++$__unique{$domain};
 }
 
 =item C<uniqueStr([$length])>
@@ -486,6 +489,41 @@ sub _mockdump {
 	$str =~ s/^\$arg = \[\s*//;
 	$str =~ s/\s*\];\s*$//s;
 	return $str;
+}
+
+=item C<_deprecated(@parameters)>
+
+Logs 'method is Deprecated' as a warning.
+
+=cut
+
+sub _deprecated {
+	my ($self, @parameters) =  @_;
+
+	if (0 && $self && !blessed($self)) { # FIXME: Can we sack this off?
+		# We need to work around a problem where $self could be the first parameter,
+		# but not an object reference here.
+		unshift(@parameters, $self); # Restore as first argument
+		$self = undef; # Clear self-reference to avoid logger call.
+	}
+
+	my $deprecatedSub = (caller(1))[3];
+	my $callingSub = (caller(2))[3];
+
+	return if ($__seenDeprecated{$deprecatedSub}); # warned previously
+
+	my $deprecationMsg;
+	if (scalar(@parameters)) {
+		$deprecationMsg = sprintf('Method arguments (%s) in call to %s, are deprecated, from %s',
+		    join(', ', @parameters), $deprecatedSub, $callingSub);
+	} else {
+		$deprecationMsg = "Call to deprecated method $deprecatedSub from $callingSub";
+	}
+	#warn($deprecationMsg);
+	diag($deprecationMsg);
+	$__seenDeprecated{$deprecatedSub} = 1;
+
+	return;
 }
 
 =back
