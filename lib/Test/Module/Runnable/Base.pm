@@ -1,3 +1,4 @@
+package Test::Module::Runnable::Base;
 # Module test framework
 # Copyright (c) 2015-2024, Duncan Ross Palmer (2E0EOL) and others,
 # All rights reserved.
@@ -41,18 +42,17 @@ A few internal-only methods are documented here for project maintainers.
 
 =cut
 
-package Test::Module::Runnable::Base;
-use Moose;
-
 use Data::Dumper;
-use POSIX qw/EXIT_SUCCESS/;
-use Readonly;
-use Test::MockModule;
-use Test::More 0.96;
+use Moose;
 
 BEGIN {
 	our $VERSION = '0.5.0';
 }
+
+use POSIX qw/EXIT_SUCCESS/;
+use Readonly;
+use Test::MockModule;
+use Test::More 0.96;
 
 Readonly my @UNIQUE_STR_CHARS => ('a'..'z', 'A'..'Z', '0'..'9');
 Readonly my @UNIQUE_STR_CI_CHARS => ('a'..'z', '0'..'9');

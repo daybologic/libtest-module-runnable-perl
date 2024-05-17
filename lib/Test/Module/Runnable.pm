@@ -1,3 +1,4 @@
+package Test::Module::Runnable;
 # Module test framework
 # Copyright (c) 2015-2024, Duncan Ross Palmer (2E0EOL) and others,
 # All rights reserved.
@@ -66,16 +67,16 @@ L<Test::More>.
 
 =cut
 
-package Test::Module::Runnable;
 use Moose;
-use Test::More 0.96;
-use POSIX qw/EXIT_SUCCESS/;
 
 BEGIN {
 	our $VERSION = '0.5.0';
 }
 
 extends 'Test::Module::Runnable::Base';
+
+use POSIX qw/EXIT_SUCCESS/;
+use Test::More 0.96;
 
 =head1 ATTRIBUTES
 
@@ -366,21 +367,21 @@ sub modeSwitch {
 Executes all of the tests, in a random order
 An optional override may be passed with the tests parameter.
 
-  * tests
-    An ARRAY ref which contains the inclusive list of all tests
-    to run.  If not passed, all tests are run. If an empty list
-    is passed, no tests are run.  If a test does not exist, C<confess>
-    is called.
+	* tests
+	  An ARRAY ref which contains the inclusive list of all tests
+	  to run.  If not passed, all tests are run. If an empty list
+	  is passed, no tests are run.  If a test does not exist, C<confess>
+	  is called.
 
-  * n
-    Number of times to iterate through the tests.
-    Defaults to 1.  Setting to a higher level is useful if you want to
-    prove that the random ordering of tests does not break, but you do
-    not want to type 'make test' many times.
+	* n
+	  Number of times to iterate through the tests.
+	  Defaults to 1.  Setting to a higher level is useful if you want to
+	  prove that the random ordering of tests does not break, but you do
+	  not want to type 'make test' many times.
 
 Returns:
-    The return value is always C<EXIT_SUCCESS>, which you can pass straight
-    to C<exit>
+	The return value is always C<EXIT_SUCCESS>, which you can pass straight
+	to C<exit>
 
 =back
 
@@ -397,16 +398,16 @@ All rights reserved.
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
 
-    * Redistributions of source code must retain the above copyright notice,
-      this list of conditions and the following disclaimer.
+	* Redistributions of source code must retain the above copyright notice,
+	  this list of conditions and the following disclaimer.
 
-    * Redistributions in binary form must reproduce the above copyright
-      notice, this list of conditions and the following disclaimer in the
-      documentation and/or other materials provided with the distribution.
+	* Redistributions in binary form must reproduce the above copyright
+	  notice, this list of conditions and the following disclaimer in the
+	  documentation and/or other materials provided with the distribution.
 
-    * Neither the name of the Daybo Logic nor the names of its contributors
-      may be used to endorse or promote products derived from this software
-      without specific prior written permission.
+	* Neither the name of the Daybo Logic nor the names of its contributors
+	  may be used to endorse or promote products derived from this software
+	  without specific prior written permission.
 
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
 AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
