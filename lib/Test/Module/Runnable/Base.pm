@@ -162,6 +162,8 @@ sub unique {
 
 	if (!defined($domain) || length($domain) == 0) {
 		$domain = $DOMAIN_DEFAULT;
+	} elsif ($domain eq 'rand') {
+		return $__unique{$domain} = int(rand(999_999_999));
 	}
 
 	if (!defined $__unique{$domain}) {
