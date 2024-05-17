@@ -1,3 +1,6 @@
+[0.5.0]
+  * uniqueStr method introduced
+
 [0.4.2]
   * Debian packaging warning fixes only
 
