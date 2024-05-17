@@ -38,7 +38,7 @@ use POSIX qw(EXIT_SUCCESS);
 use strict;
 use warnings;
 
-use constant CHECK_VER => '0.4.2';
+use constant CHECK_VER => '0.5.0';
 
 sub check {
 	my ($module, $version) = @_;
