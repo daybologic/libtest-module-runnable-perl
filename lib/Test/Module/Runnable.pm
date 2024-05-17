@@ -75,8 +75,12 @@ BEGIN {
 
 extends 'Test::Module::Runnable::Base';
 
+use Exporter qw(import);
 use POSIX qw/EXIT_SUCCESS/;
+use Test::Module::Runnable::Base;
 use Test::More 0.96;
+
+our @EXPORT_OK = qw(unique uniqueDomain uniqueStr uniqueStrCI);
 
 =head1 ATTRIBUTES
 
@@ -315,6 +319,26 @@ The default action is to do nothing.
 
 sub tearDown {
 	return EXIT_SUCCESS;
+}
+
+sub unique {
+	my (@args) = @_;
+	return Test::Module::Runnable::Base::unique(@args);
+}
+
+sub uniqueStr {
+	my (@args) = @_;
+	return Test::Module::Runnable::Base::uniqueStr(@args);
+}
+
+sub uniqueStrCI {
+	my (@args) = @_;
+	return Test::Module::Runnable::Base::uniqueStrCI(@args);
+}
+
+sub uniqueDomain {
+	my (@args) = @_;
+	return Test::Module::Runnable::Base::uniqueDomain(@args);
 }
 
 =item C<modeName>
