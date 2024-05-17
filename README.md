@@ -27,13 +27,26 @@ unless testing the pattern code itself.
 
 ### Code review ###
 
-There is presently no pull request system on Sourcehut, so all patches must be submitted
-via the 'discuss' mailing list, using the hg bundle feature.
+* SourceHut [discuss](https://lists.sr.ht/~m6kvm/libtest-module-runnable-perl-discuss) mailing list
+
+or using pull requests via the following sites:
+
+* [BitBucket](https://bitbucket.org/2E0EOL/libtest-module-runnable-perl/pull-requests/)
+* [GitHub](https://github.com/daybologic/libtest-module-runnable-perl/pulls)
 
 ## Other guidelines ##
 
-We use the [Mercurial](https://www.mercurial-scm.org/) source control system and our primary hosting location
-is the primary [Sourcehut](https://hg.sr.ht/~m6kvm/libtest-module-runnable-perl) (not self-hosted).
+We use the [Git](https://git-scm.com) source control system and the following mirrors are known to
+be under the control of the official maintainer and can therefore be trusted to be legitimate and
+may be used for first strata contributions:
+
+* [BitBucket](https://bitbucket.org/2E0EOL/libtest-module-runnable-perl)
+* [GitHub](https://github.com/daybologic/libtest-module-runnable-perl)
+* [Sourcehut](https://git.sr.ht/~m6kvm/libtest-module-runnable-perl)
+
+nb. although the project formerly used the [Mercurial](https://www.mercurial-scm.org/) version control system,
+this is no longer supported.  If you have contributions in that format, please generate a diff and apply it to
+the new Git tree before submitting a pull request.
 
 ## Contacting us ##
 
@@ -44,13 +57,15 @@ is the primary [Sourcehut](https://hg.sr.ht/~m6kvm/libtest-module-runnable-perl)
 ### Availability ###
 
 The project is available for download from the following sites:
-* [Sourcehut](https://hg.sr.ht/~m6kvm/libtest-module-runnable-perl)
-* [Daybo Logic](http://www.daybologic.co.uk/software.php?content=libtest-module-runnable-perl)
+* [BitBucket](https://bitbucket.org/2E0EOL/libtest-module-runnable-perl)
 * [CPAN](https://metacpan.org/pod/Test::Module::Runnable)
+* [Daybo Logic](http://www.daybologic.co.uk/software.php?content=libtest-module-runnable-perl)
+* [GitHub](https://github.com/daybologic/libtest-module-runnable-perl)
+* [Sourcehut](https://git.sr.ht/~m6kvm/libtest-module-runnable-perl)
 
 #### Direct download links ####
 
-* [Sourcehut (.tar.gz)](https://hg.sr.ht/~m6kvm/libtest-module-runnable-perl/archive/libtest-module-runnable-perl-0.4.2.tar.gz)
-* [CPAN (.tar.gz)](https://cpan.metacpan.org/authors/id/D/DD/DDRP/Test-Module-Runnable-0.4.2.tar.gz)
-* [Daybo Logic (.tar.gz)](http://downloads.daybologic.co.uk/libtest-module-runnable-perl-0.4.2.tar.gz)
-* [Daybo Logic (Debian package)](http://downloads.daybologic.co.uk/libtest-module-runnable-perl_0.4.2_all.deb)
+* [CPAN (.tar.gz)](https://cpan.metacpan.org/authors/id/D/DD/DDRP/Test-Module-Runnable-0.5.0.tar.gz)
+* [Daybo Logic (.tar.gz)](http://downloads.daybologic.co.uk/Test-Module-Runnable-0.5.0.tar.gz)
+* [Daybo Logic (Debian package)](http://downloads.daybologic.co.uk/libtest-module-runnable-perl_0.5.0_all.deb)
+* [Sourcehut (.tar.gz)](https://git.sr.ht/~m6kvm/libtest-module-runnable-perl/archive/libtest-module-runnable-perl-0.5.0.tar.gz)
