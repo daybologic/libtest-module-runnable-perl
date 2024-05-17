@@ -51,7 +51,7 @@ use Test::MockModule;
 use Test::More 0.96;
 
 BEGIN {
-	our $VERSION = '0.4.2';
+	our $VERSION = '0.5.0';
 }
 
 Readonly my @UNIQUE_STR_CHARS => ('a'..'z', 'A'..'Z', '0'..'9');

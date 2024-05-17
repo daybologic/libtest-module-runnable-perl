@@ -1,8 +1,8 @@
 Source: libtest-module-runnable-perl
 Section: perl
 Priority: optional
-Maintainer: Duncan Ross Palmer <palmer@overchat.org>
-Build-Depends: debhelper (>= 9),
+Maintainer: Rev. Duncan Ross Palmer <2e0eol@gmail.com>
+Build-Depends: debhelper (>= 13),
 Build-Depends-Indep:
  libmoose-perl,
  libreadonly-perl,
