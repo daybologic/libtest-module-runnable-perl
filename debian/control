@@ -12,12 +12,13 @@ Build-Depends-Indep:
  libtest-mockmodule-perl,
  libtest-output-perl,
 Standards-Version: 4.3.0
-Homepage: https://hg.sr.ht/~m6kvm/libtest-module-runnable-perl
+Homepage: http://www.daybologic.co.uk/software.php?content=libtest-module-runnable-perl
 
 Package: libtest-module-runnable-perl
 Architecture: all
 Depends: ${shlibs:Depends}, ${misc:Depends},
  libmoose-perl,
+ libreadonly-perl,
  libtest-deep-perl,
  libtest-exception-perl,
  libtest-mockmodule-perl,

@@ -1,5 +1,5 @@
 # Module test framework
-# Copyright (c) 2015-2019, Duncan Ross Palmer (2E0EOL) and others,
+# Copyright (c) 2015-2024, Duncan Ross Palmer (2E0EOL) and others,
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -218,9 +218,8 @@ Normal usage:
 Returns a unique, integer ID, which is predictable.
 
 An optional C<$domain> can be specified, which is a discrete sequence,
-isolated from anhy other domain.  If not specified, a default domain is used.
-The actual name for this domain is opaque, and is specified by
-L<Test::Module::Runnable::Base/__unique_default_domain>.
+isolated from any other domain.  If not specified, a default domain is used.
+The actual name for this domain is opaque.
 
 A special domain; C<rand> can be used for random numbers which will not repeat.
 
@@ -392,7 +391,7 @@ Duncan Ross Palmer, 2E0EOL L<mailto:palmer@overchat.org>
 =head1 LICENCE
 
 Daybo Logic Shared Library
-Copyright (c) 2015-2019, Duncan Ross Palmer (2E0EOL), Daybo Logic
+Copyright (c) 2015-2024, Duncan Ross Palmer (2E0EOL), Daybo Logic
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -424,7 +423,7 @@ POSSIBILITY OF SUCH DAMAGE.
 =head1 AVAILABILITY
 
 L<https://metacpan.org/release/Test-Module-Runnable>
-L<https://hg.sr.ht/~m6kvm/libtest-module-runnable-perl>
+L<https://git.sr.ht/~m6kvm/libtest-module-runnable-perl>
 L<http://www.daybologic.co.uk/software.php?content=libtest-module-runnable-perl>
 
 =head1 CAVEATS
