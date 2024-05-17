@@ -65,7 +65,7 @@ The project is available for download from the following sites:
 
 #### Direct download links ####
 
-* [CPAN (.tar.gz)](https://cpan.metacpan.org/authors/id/D/DD/DDRP/Test-Module-Runnable-0.4.2.tar.gz)
-* [Daybo Logic (.tar.gz)](http://downloads.daybologic.co.uk/Test-Module-Runnable-0.4.2.tar.gz)
-* [Daybo Logic (Debian package)](http://downloads.daybologic.co.uk/libtest-module-runnable-perl_0.4.2_all.deb)
-* [Sourcehut (.tar.gz)](https://git.sr.ht/~m6kvm/libtest-module-runnable-perl/archive/libtest-module-runnable-perl-0.4.2.tar.gz)
+* [CPAN (.tar.gz)](https://cpan.metacpan.org/authors/id/D/DD/DDRP/Test-Module-Runnable-0.5.0.tar.gz)
+* [Daybo Logic (.tar.gz)](http://downloads.daybologic.co.uk/Test-Module-Runnable-0.5.0.tar.gz)
+* [Daybo Logic (Debian package)](http://downloads.daybologic.co.uk/libtest-module-runnable-perl_0.5.0_all.deb)
+* [Sourcehut (.tar.gz)](https://git.sr.ht/~m6kvm/libtest-module-runnable-perl/archive/libtest-module-runnable-perl-0.5.0.tar.gz)
