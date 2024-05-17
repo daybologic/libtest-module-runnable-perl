@@ -108,9 +108,11 @@ sub testRandom {
 
 			# Record result seen and do sanity check
 			push(@spent, $result);
-			is(scalar(@spent), $i + 1, sprintf(
-				'%u items in spent list',
-				$i + 1
+			my $expectCount = $i + 1;
+			is(scalar(@spent), $expectCount, sprintf(
+				'%u item%s in spent list',
+				$expectCount,
+				($expectCount == 1) ? '' : 's',
 			));
 
 			# Check random result is an integer
