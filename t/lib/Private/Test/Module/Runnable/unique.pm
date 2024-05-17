@@ -53,7 +53,7 @@ has 'trials' => (
 );
 
 sub setUp {
-	my $self = shift;
+	my ($self) = @_;
 
 	$self->sut(Private::Test::Module::Runnable::unique->new());
 	return EXIT_SUCCESS if ($self->sut);
@@ -61,7 +61,7 @@ sub setUp {
 }
 
 sub testUnique {
-	my $self = shift;
+	my ($self) = @_;
 	my ($default, $other1, $other2) = (0, 0, 0);
 
 	plan tests => 8;
@@ -80,7 +80,7 @@ sub testUnique {
 }
 
 sub testRandom {
-	my $self = shift;
+	my ($self) = @_;
 	my @spent; # Random numbers seen previously
 
 	plan tests => $self->trials;

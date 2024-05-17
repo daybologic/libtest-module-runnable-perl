@@ -209,18 +209,18 @@ See L<Test::Module::Runnable/methodNames>
 =cut
 
 sub methodNames {
-        my @ret = ( );
-        my $self = shift;
-        my @methodList = $self->meta->get_all_methods();
+	my ($self) = @_;
+	my @ret = ( );
+	my @methodList = $self->meta->get_all_methods();
 
-        foreach my $method (@methodList) {
+	foreach my $method (@methodList) {
 		$method = $method->name;
-                next unless ($self->can($method)); # Skip stuff we cannot do
-                next if ($method !~ $self->pattern); # Skip our own helpers
-                push(@ret, $method);
-        }
+		next unless ($self->can($method)); # Skip stuff we cannot do
+		next if ($method !~ $self->pattern); # Skip our own helpers
+		push(@ret, $method);
+	}
 
-        return @ret;
+	return @ret;
 }
 
 =item C<methodCount>
@@ -230,8 +230,8 @@ See L<Test::Module::Runnable/methodCount>
 =cut
 
 sub methodCount {
-        my $self = shift;
-        return scalar($self->methodNames());
+	my ($self) = @_;
+	return scalar($self->methodNames());
 }
 
 =item C<run>
@@ -474,7 +474,7 @@ See L<Test::Module::Runnable/_mockdump>
 =cut
 
 sub _mockdump {
-	my $arg = shift;
+	my ($arg) = @_;
 	my $dumper = Data::Dumper->new([$arg], ['arg']);
 	$dumper->Indent(1);
 	$dumper->Maxdepth(1);

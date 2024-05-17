@@ -64,12 +64,12 @@ sub tearDown {
 }
 
 sub increment {
-	my $self = shift;
+	my ($self) = @_;
 	$self->dummyRunCount(1 + $self->dummyRunCount);
 }
 
 sub funcNeverCalled {
-	my $self = shift;
+	my ($self) = @_;
 	plan tests => 1;
 
 	$self->increment();
@@ -78,7 +78,7 @@ sub funcNeverCalled {
 }
 
 sub testFuncIsCalled {
-	my $self = shift;
+	my ($self) = @_;
 	plan tests => 1;
 
 	$self->increment();
@@ -88,7 +88,7 @@ sub testFuncIsCalled {
 }
 
 sub testFuncAnotherIsCalled {
-	my $self = shift;
+	my ($self) = @_;
 	plan tests => 1;
 
 	$self->increment();
