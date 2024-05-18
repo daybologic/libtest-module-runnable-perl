@@ -1,3 +1,4 @@
+package Test::Module::Runnable::Base;
 # Module test framework
 # Copyright (c) 2015-2024, Duncan Ross Palmer (2E0EOL) and others,
 # All rights reserved.
@@ -41,25 +42,29 @@ A few internal-only methods are documented here for project maintainers.
 
 =cut
 
-package Test::Module::Runnable::Base;
+use Data::Dumper;
 use Moose;
 
-use Data::Dumper;
+BEGIN {
+	our $VERSION = '0.6.0';
+}
+
 use POSIX qw/EXIT_SUCCESS/;
 use Readonly;
 use Test::MockModule;
 use Test::More 0.96;
 
-BEGIN {
-	our $VERSION = '0.5.0';
-}
-
 Readonly my @UNIQUE_STR_CHARS => ('a'..'z', 'A'..'Z', '0'..'9');
 Readonly my @UNIQUE_STR_CI_CHARS => ('a'..'z', '0'..'9');
+Readonly my @UNIQUE_LETTERS_CHARS => ('a'..'z');
+
 Readonly my $DOMAIN_DEFAULT => 'db3eb5cf-a597-4038-aea8-fd06faea6eed';
 
 # This hash tracks the numbers returned from C<unique>.
 my %__unique;
+
+# This counter used by the uniqueDomain() function
+my $__domainCounter;
 
 # nb. don't add any more static globals here; Construct the object where needed, on the fly, even if you
 # have not subclassed it, in legacy tests
@@ -181,25 +186,54 @@ sub unique {
 
 =item C<uniqueStr([$length])>
 
-Return a unique alphanumeric string which shall not be shorter than the specified C<$length>,
-which is 1 by default.  The string is guaranteed to evaluate true in a boolean context.
-
-The numerical value of each character is obtained from L</unique>.
-
-Note that the strings returned from this function are B<only> guaranteed to
-be in monotonically increasing lexicographical order if they are all of
-the same length.  Therefore if this is a concern, specify a length which
-will be long enough to include all the strings you wish to generate,
-for example C<uniqueStr(4)> would produce C<62**4> (over 14 million)
-strings in increasing order.
-
-Can be called statically and exported in the same way as L</unique>.
+See L<Test::Module::Runnable/uniqueStr($length)>
 
 =cut
 
 sub uniqueStr {
 	my (@args) = @_;
 	return __uniqueStrHelper(\@UNIQUE_STR_CHARS, @args);
+}
+
+=item C<uniqueStrCI($length)>
+
+See L<Test::Module::Runnable/uniqueStrCI($length)>
+
+=cut
+
+sub uniqueStrCI {
+	my (@args) = @_;
+	return __uniqueStrHelper(\@UNIQUE_STR_CI_CHARS, @args);
+}
+
+=item C<uniqueDomain([$options])>
+
+See L<Test::Module::Runnable/uniqueDomain([$options])>
+
+=cut
+
+sub uniqueDomain {
+	my (@args) = @_;
+
+	shift @args if ref($args[0]); # Remove $self
+	my ($options) = (@args);
+
+	my $counter = ++$__domainCounter;
+	my $extraParts = ($counter % 4);
+
+	my $firstPart = __domainPart($counter, -1, $options);
+	return lc join('.', $firstPart, (map { __domainPart($counter, $_, $options) } 0..$extraParts), 'test');
+}
+
+=item C<uniqueLetters($length)>
+
+See L<Test::Module::Runnable/uniqueLetters($length)>
+
+=cut
+
+sub uniqueLetters {
+	my (@args) = @_;
+	return __uniqueStrHelper(\@UNIQUE_LETTERS_CHARS, @args);
 }
 
 =item C<methodNames>
@@ -628,6 +662,34 @@ sub __uniqueStrHelper {
 	}
 
 	$str = __uniqueStrHelper($chars, $length) if ($str eq '0'); # unacceptable
+
+	return $str;
+}
+
+=item C<__domainPart>
+
+Helper method used by L</uniqueDomain([$options])> to construct a single part of a domain name.
+
+Returns a string.
+
+=cut
+
+sub __domainPart {
+	my ($counter, $pos, $options) = @_;
+
+	my $length;
+	if ($pos < 0 && $options->{length}) {
+		# Use specified length, if there is one, for the first part only.
+		$length = $options->{length};
+	}
+
+	# arbitrary calculation to come up with varying but
+	# predictable lengths for a given counter (n-th domain created)
+	# and position $pos within the domain
+	$length = 1 + (($counter * 7 ^ $pos) % 5) unless $length;
+
+	my $str = $options->{lettersOnly} ? uniqueLetters($length) : uniqueStrCI($length);
+	$str = uniqueLetters(1).$str unless $str =~ /^[a-z]/i;
 
 	return $str;
 }

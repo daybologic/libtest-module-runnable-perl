@@ -1,3 +1,11 @@
+libtest-module-runnable-perl (0.6.0) stable; urgency=medium
+
+  * Added uniqueDomain()
+  * Added uniqueLetters()
+  * Added uniqueStrCI()
+
+ -- Rev. Duncan Ross Palmer <2e0eol@gmail.com>  Sat, 18 May 2024 00:48:46 +0100
+
 libtest-module-runnable-perl (0.5.0) stable; urgency=medium
 
   * uniqueStr() support
