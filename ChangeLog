@@ -1,3 +1,7 @@
+0.6.1
+-----
+  * dd447e5: Fixed bug where TEST_UNIQUE was ignored
+
 0.6.0
 -----
   * 16f5ace: Added uniqueDomain(), uniqueLetters(), uniqueStrCI()
