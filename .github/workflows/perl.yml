@@ -12,6 +12,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - name: ExtUtils::MakeMaker
+      run: perl Makefile.PL
     - name: make
       run: make
     - name: make test
