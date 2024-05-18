@@ -52,7 +52,6 @@ sub setUp {
 	my ($self) = @_;
 
 	$self->sut(Test::Module::Runnable->new);
-	#$self->forcePlan(); # TODO: Not yet available
 
 	return EXIT_SUCCESS;
 }

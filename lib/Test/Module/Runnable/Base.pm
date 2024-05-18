@@ -46,7 +46,7 @@ use Data::Dumper;
 use Moose;
 
 BEGIN {
-	our $VERSION = '0.6.0';
+	our $VERSION = '0.6.1';
 }
 
 use POSIX qw/EXIT_SUCCESS/;
@@ -171,14 +171,8 @@ sub unique {
 		return $__unique{$domain} = int(rand(999_999_999));
 	}
 
-	if (!defined $__unique{$domain}) {
-		if (1) {
-			#no-op FIXME: generateNonZeroDigits is missing
-		} elsif ($ENV{TEST_UNIQUE}) {
-			$__unique{$domain} = int($ENV{TEST_UNIQUE}) - 1; # we add 1 to first return value below
-		} else {
-			$__unique{$domain} = generateNonZeroDigits(1, 9);
-		}
+	if (!defined($__unique{$domain}) && $ENV{TEST_UNIQUE}) {
+		$__unique{$domain} = int($ENV{TEST_UNIQUE}) - 1; # we add 1 to first return value below
 	}
 
 	return ++$__unique{$domain};

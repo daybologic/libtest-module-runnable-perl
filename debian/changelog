@@ -1,3 +1,9 @@
+libtest-module-runnable-perl (0.6.1) stable; urgency=high
+
+  * dd447e5: Fixed bug where TEST_UNIQUE was ignored
+
+ -- Rev. Duncan Ross Palmer <2e0eol@gmail.com>  Sat, 18 May 2024 21:30:38 +0100
+
 libtest-module-runnable-perl (0.6.0) stable; urgency=medium
 
   * Added uniqueDomain()
