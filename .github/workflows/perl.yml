@@ -12,6 +12,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - uses: actions/checkout@v4
     - name: chdir
       run: cd libtest-module-runnable-perl/
     - name: ExtUtils::MakeMaker
