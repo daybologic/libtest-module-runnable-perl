@@ -70,7 +70,7 @@ L<Test::More>.
 use Moose;
 
 BEGIN {
-	our $VERSION = '0.5.0';
+	our $VERSION = '0.6.0';
 }
 
 extends 'Test::Module::Runnable::Base';
