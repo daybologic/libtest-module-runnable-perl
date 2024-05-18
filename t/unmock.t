@@ -58,7 +58,6 @@ sub setUp {
 	my $methodActive = $self->__mockingMethodActive;
 
 	$self->sut(Test::Module::Runnable->new);
-	#$self->forcePlan(); # TODO: Not yet available
 
 	$self->sut->mock($self->__mockingClass, $methodActive, ['Lenny','Horatio']);
 	$dummy = $self->__mockingClass->new;

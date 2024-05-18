@@ -272,8 +272,7 @@ sub testMockCallsWithObject {
 
 	$self->sut->mock('Private::Test::Module::Runnable::Dummy', 'realMethod');
 
-	#my $msg = $self->uniqueStr; # TODO: Not yet available
-	my $msg = $self->unique;
+	my $msg = $self->uniqueStr();
 
 	$dummy1->realMethod();
 	$dummy2->realMethod($msg);

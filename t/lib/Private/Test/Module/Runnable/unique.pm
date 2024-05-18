@@ -52,6 +52,14 @@ has 'trials' => (
 	default => ($ENV{TEST_AUTHOR}) ? (10_000) : (500),
 );
 
+sub setUpBeforeClass {
+	my ($self) = @_;
+
+	$ENV{TEST_UNIQUE} = 1; # Tests rely on fixed, determinate nature of unique() or uniqueStr()
+
+	return EXIT_SUCCESS;
+}
+
 sub setUp {
 	my ($self) = @_;
 
