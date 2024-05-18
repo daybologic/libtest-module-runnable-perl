@@ -12,6 +12,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - name: chdir
+      run: cd libtest-module-runnable-perl/
     - name: ExtUtils::MakeMaker
       run: perl Makefile.PL
     - name: make
